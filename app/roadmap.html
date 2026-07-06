@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roadmap — RorkParity</title>
+  <meta name="description" content="RorkParity roadmap aligned to research and current stack.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *{box-sizing:border-box} body{margin:0;font-family:'Space Grotesk',sans-serif;background:#0f0f0f;color:#fff;line-height:1.6}
+    a{color:#5d9eff;text-decoration:none} .wrap{max-width:1100px;margin:0 auto;padding:32px 20px 80px}
+    nav{display:flex;justify-content:space-between;align-items:center;padding:18px 0;border-bottom:1px solid #222;position:sticky;top:0;background:rgba(15,15,15,.95);backdrop-filter:blur(10px);z-index:10}
+    .brand{display:flex;gap:10px;align-items:center;color:#fff;font-weight:700}.brand svg{width:22px;height:22px}
+    .links{display:flex;gap:18px;flex-wrap:wrap;justify-content:flex-end}
+    .hero{padding:64px 0 24px}.kicker{font-family:'JetBrains Mono',monospace;color:#5d9eff;text-transform:uppercase;font-size:.82rem;letter-spacing:.08em}
+    h1{font-size:clamp(2.3rem,5vw,4rem);margin:10px 0 16px;line-height:1.05}.sub{max-width:760px;color:#aaa;font-size:1.15rem}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;margin-top:28px}
+    .card{background:#151515;border:1px solid #262626;border-radius:14px;padding:22px}.card h2{margin:0 0 8px;font-size:1.2rem}
+    .tag{display:inline-block;font-family:'JetBrains Mono',monospace;color:#8fb3ff;border:1px solid #2a3e66;border-radius:999px;padding:4px 10px;font-size:.75rem;margin-bottom:12px}
+    ul{margin:12px 0 0 20px;padding:0} li{margin:8px 0;color:#ddd}
+    .note{margin-top:20px;color:#8f8f8f;font-size:.95rem}
+    footer{margin-top:40px;padding-top:20px;border-top:1px solid #222;color:#666;font-size:.9rem}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <nav>
+      <a class="brand" href="/">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        <span>by <strong>jtt</strong> / RorkParity</span>
+      </a>
+      <div class="links">
+        <a href="/">Home</a>
+        <a href="/workspace.html">Workspace</a>
+        <a href="/gallery.html">Gallery</a>
+        <a href="/team.html">Team</a>
+      </div>
+    </nav>
+
+    <section class="hero">
+      <div class="kicker">Roadmap</div>
+      <h1>What we build next</h1>
+      <p class="sub">This roadmap follows the research: web-first shareable games now, stronger templates next, and mobile export only after the builder is stable. No fake parity claims. No hidden scope.</p>
+    </section>
+
+    <section class="grid">
+      <div class="card">
+        <span class="tag">Now</span>
+        <h2>Stabilize the builder</h2>
+        <ul>
+          <li>Keep landing, workspace, gallery, and team pages consistent.</li>
+          <li>Keep manifest-driven game listing working without relying on a broken API.</li>
+          <li>Make the preview loop reliable before adding more systems.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <span class="tag">Next</span>
+        <h2>Strengthen game templates</h2>
+        <ul>
+          <li>Improve the Phaser brawler path.</li>
+          <li>Keep Three.js world generation valid and playable.</li>
+          <li>Add better starter prompts for combat, zones, leveling, and loot.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <span class="tag">Then</span>
+        <h2>Make the agents visible</h2>
+        <ul>
+          <li>Show the role split clearly on the Team page.</li>
+          <li>Keep planning, building, and validation separated.</li>
+          <li>Use parallel agents for roadmap and implementation work.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <span class="tag">Later</span>
+        <h2>Mobile export parity</h2>
+        <ul>
+          <li>Expo / RN export is deferred.</li>
+          <li>Only build it after the web builder is solid.</li>
+          <li>Use it as a parity path, not the core product.</li>
+        </ul>
+      </div>
+    </section>
+
+    <p class="note">Research alignment: Rork is mobile-app-first. RorkParity is game-first, web-first, and shareable by default.</p>
+
+    <footer>
+      Roadmap stays public. Scope stays small enough to ship.
+    </footer>
+  </div>
+</body>
+</html>

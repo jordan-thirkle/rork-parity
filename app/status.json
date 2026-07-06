@@ -1,5 +1,5 @@
 {
-  "last_update": "2026-07-06T22:00:29.389027Z",
+  "last_update": "2026-07-06T22:03:18.208243Z",
   "gateway": "online",
   "agents": [
     {
@@ -80,6 +80,22 @@
       "name": "ForgeLoop Hermes Ops Sync",
       "schedule": "every 5m",
       "next_run": "2026-07-06T23:04:18.405736+01:00",
+      "deliver": "local",
+      "status": "online",
+      "detail": "Managed by Hermes cron"
+    },
+    {
+      "name": "ForgeLoop Autopilot",
+      "schedule": "every 30m",
+      "next_run": "2026-07-06T23:32:55.982483+01:00",
+      "deliver": "local",
+      "status": "online",
+      "detail": "Managed by Hermes cron"
+    },
+    {
+      "name": "ForgeLoop Server Watchdog",
+      "schedule": "every 10m",
+      "next_run": "2026-07-06T23:12:59.156864+01:00",
       "deliver": "local",
       "status": "online",
       "detail": "Managed by Hermes cron"

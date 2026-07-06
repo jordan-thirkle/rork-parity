@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Team — RorkParity</title>
-  <meta name="description" content="RorkParity team page: agent roles, workflow, and roadmap.">
+  <meta name="description" content="RorkParity team page: agent roles, collaboration, and roadmap.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
@@ -34,51 +34,52 @@
         <a href="/">Home</a>
         <a href="/workspace.html">Workspace</a>
         <a href="/gallery.html">Gallery</a>
+        <a href="/roadmap.html">Roadmap</a>
         <a href="/team.html">Team</a>
       </div>
     </nav>
 
     <section class="hero">
       <div class="kicker">Agent roles</div>
-      <h1>Team Page</h1>
-      <p class="sub">RorkParity is built as a multi-agent system. The site should show the roles, show the roadmap, and make it clear that the main agent works with supporting agents instead of pretending to do everything alone.</p>
+      <h1>Team</h1>
+      <p class="sub">RorkParity is not built to replace every agent. It is built to work alongside them. The main agent drives the roadmap. Supporting agents keep the spec tight, the build clean, and the checks honest.</p>
     </section>
 
     <section class="grid">
       <div class="card">
         <div class="meta">FORGEMASTER</div>
         <h2>Plan</h2>
-        <p>Turns the user request into a tight spec. Chooses the template, stack, and scope. Cuts anything that does not ship in v1.</p>
+        <p>Reads the request and turns it into a buildable spec.</p>
         <ul>
-          <li>Reads the request</li>
-          <li>Sets scope</li>
-          <li>Flags deferred work plainly</li>
+          <li>Chooses stack and template</li>
+          <li>Sets scope for v1</li>
+          <li>Names what gets deferred</li>
         </ul>
       </div>
       <div class="card">
         <div class="meta">SMITH</div>
         <h2>Build</h2>
-        <p>Writes the game or feature from the spec. Keeps changes local and avoids regenerating working systems.</p>
+        <p>Implements the spec without disturbing working parts.</p>
         <ul>
-          <li>Generates files</li>
-          <li>Touches only the affected sections</li>
-          <li>Preserves working code</li>
+          <li>Writes the page or feature</li>
+          <li>Patches only what changed</li>
+          <li>Keeps output static-first</li>
         </ul>
       </div>
       <div class="card">
         <div class="meta">WHETSTONE</div>
         <h2>Validate</h2>
-        <p>Checks for runtime risk, scope creep, and obvious breakage. Approves only when the result actually works.</p>
+        <p>Checks the result before it reaches the user.</p>
         <ul>
-          <li>Syntax and crash checks</li>
-          <li>Scope compliance</li>
-          <li>Minimal patch feedback</li>
+          <li>Syntax and runtime risk</li>
+          <li>Scope creep checks</li>
+          <li>Minimal fix notes</li>
         </ul>
       </div>
       <div class="card">
         <div class="meta">LOREKEEPER</div>
-        <h2>Store</h2>
-        <p>Manages templates, docs, and reusable assets. Keeps the library aligned to the current product direction.</p>
+        <h2>Curate</h2>
+        <p>Keeps templates, docs, and reusable pieces aligned.</p>
         <ul>
           <li>Template registry</li>
           <li>Docs and manifests</li>
@@ -88,41 +89,41 @@
       <div class="card">
         <div class="meta">CRIER</div>
         <h2>Publish</h2>
-        <p>Handles packaging and release steps. It packages. It does not ship without a human saying so.</p>
+        <p>Packages release work. It does not ship on its own.</p>
         <ul>
-          <li>Deploy prep</li>
+          <li>Deployment prep</li>
           <li>SEO assets</li>
-          <li>Release packaging only</li>
+          <li>Release packaging</li>
         </ul>
       </div>
       <div class="card">
-        <div class="meta">COORDINATOR</div>
-        <h2>Work with other agents</h2>
-        <p>The primary agent works in parallel with supporting agents on roadmap and execution. That is the model.</p>
+        <div class="meta">MAIN + SUPPORT</div>
+        <h2>Roadmap work</h2>
+        <p>The main agent owns the roadmap. Supporting agents review, extend, and validate the work. That keeps the system collaborative instead of territorial.</p>
         <ul>
-          <li>One agent may draft the plan</li>
-          <li>Another may review or extend it</li>
-          <li>Roadmap stays visible to the user</li>
+          <li>One agent drafts</li>
+          <li>Another agent reviews</li>
+          <li>Roadmap stays visible</li>
         </ul>
       </div>
     </section>
 
     <section class="roadmap">
       <div class="card">
-        <span class="pill">Roadmap aligned to research</span>
-        <h2>Next priorities</h2>
+        <span class="pill">Roadmap</span>
+        <h2>Current focus</h2>
         <ul>
-          <li><strong>Stabilize builder:</strong> finish the workspace so generation, preview, and iteration are reliable.</li>
-          <li><strong>Make roles visible:</strong> show the agent pipeline and team page in the main nav.</li>
-          <li><strong>Game-first depth:</strong> strengthen Phaser/Three.js templates, especially brawler and 3D world paths.</li>
-          <li><strong>Project persistence:</strong> keep saved projects, versions, and manifest-driven gallery working.</li>
-          <li><strong>Mobile parity later:</strong> Expo/RN export is deferred until the web flow is solid.</li>
+          <li><strong>Stabilize the builder:</strong> generation, preview, and iteration need to stay reliable.</li>
+          <li><strong>Show the roles:</strong> keep Team visible from the main nav and landing page.</li>
+          <li><strong>Stay game-first:</strong> keep Phaser and Three.js paths strong.</li>
+          <li><strong>Keep persistence solid:</strong> saved projects, versions, and gallery manifest flow cleanly.</li>
+          <li><strong>Defer mobile parity:</strong> native export waits until the web flow is stable.</li>
         </ul>
       </div>
     </section>
 
     <footer>
-      RorkParity is game-first. Web-first now. Mobile parity later.
+      Game-first. Static-first. Collaboration over replacement.
     </footer>
   </div>
 </body>
