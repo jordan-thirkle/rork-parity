@@ -55,9 +55,15 @@ else
   # Attempt restart
   if command -v npx &> /dev/null; then
     echo "[autopilot] Restarting server..."
-    npx serve app/ -p 3001 &
+    nohup npx serve app/ -p 3001 > /tmp/rorkparity-server.log 2>&1 &
     disown
-    echo "[autopilot] Server restart initiated"
+    echo "[autopilot] Server restart initiated (PID: $!)"
+    sleep 2
+    if curl -sf http://localhost:3001 > /dev/null 2>&1; then
+      echo "[autopilot] Server confirmed running"
+    else
+      echo "[autopilot] Server restart in progress..."
+    fi
   fi
 fi
 
