@@ -28,7 +28,7 @@ echo "Deploying to production..."
 vercel --prod --yes
 
 echo "✓ Deploy complete"
-echo "URL: https://games.byjtt.com"
+echo "URL: https://forgeloop.byjtt.com"
 
 # Update sitemap with production URL
 sed -i 's|https://games.byjtt.com|https://games.byjtt.com|g' publish/sitemap.xml

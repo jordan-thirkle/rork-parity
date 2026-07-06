@@ -13,7 +13,7 @@ mkdir -p publish
 
 # === SITEMAP.XML ===
 SITEMAP="publish/sitemap.xml"
-BASE_URL="https://games.byjtt.com"
+BASE_URL="https://forgeloop.byjtt.com"
 TIMESTAMP=$(date -u +%Y-%m-%d)
 
 cat > "$SITEMAP" << EOF

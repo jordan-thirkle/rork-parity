@@ -3,7 +3,7 @@
   "@type": "CollectionPage",
   "name": "RorkParity Games",
   "description": "Instant-play browser games built with RorkParity — the AI game builder by ByJTT.",
-  "url": "https://games.byjtt.com",
+  "url": "https://forgeloop.byjtt.com",
   "publisher": {
     "@type": "Organization",
     "name": "ByJTT",

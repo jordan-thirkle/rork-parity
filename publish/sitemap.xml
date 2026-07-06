@@ -2,43 +2,30 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://games.byjtt.com/</loc>
+    <loc>https://forgeloop.byjtt.com/</loc>
     <lastmod>2026-07-06</lastmod>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://games.byjtt.com/landing.html</loc>
-    <lastmod>2026-07-06</lastmod>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://games.byjtt.com/gallery.html</loc>
+    <loc>https://forgeloop.byjtt.com/games/3d-world-template.html</loc>
     <lastmod>2026-07-06</lastmod>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://forgeloop.byjtt.com/games/3d-world-template.html"/>
   </url>
   <url>
-    <loc>https://games.byjtt.com/workspace.html</loc>
+    <loc>https://forgeloop.byjtt.com/games/brawler-zone-crawler.html</loc>
     <lastmod>2026-07-06</lastmod>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://forgeloop.byjtt.com/games/brawler-zone-crawler.html"/>
   </url>
   <url>
-    <loc>https://games.byjtt.com/games/auto-20260706-medieval-castle-defense.html</loc>
-    <lastmod>2026-07-06</lastmod>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://games.byjtt.com/games/zone-brawler-v1.html</loc>
+    <loc>https://forgeloop.byjtt.com/games/auto-20260706-medieval-castle-defense.html</loc>
     <lastmod>2026-07-06</lastmod>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://games.byjtt.com/templates/3d-world-template.html</loc>
+    <loc>https://forgeloop.byjtt.com/games/zone-brawler-v1.html</loc>
     <lastmod>2026-07-06</lastmod>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://games.byjtt.com/templates/brawler-zone-crawler.html</loc>
-    <lastmod>2026-07-06</lastmod>
-    <priority>0.7</priority>
+    <priority>0.6</priority>
   </url>
 </urlset>
