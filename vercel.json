@@ -1,17 +1,17 @@
 {
-  "version": 2,
-  "builds": [
+  "buildCommand": null,
+  "outputDirectory": "app",
+  "cleanUrls": true,
+  "headers": [
     {
-      "src": "app/package.json",
-      "use": "@vercel/static-build",
-      "config": { "distDir": "app" }
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "DENY" }
+      ]
     }
   ],
-  "routes": [
-    { "src": "/api/(.*)", "dest": "/app/api.js" },
-    { "src": "/games/(.*)", "dest": "/app/games/$1" },
-    { "src": "/gallery", "dest": "/app/gallery.html" },
-    { "src": "/workspace", "dest": "/app/index.html" },
-    { "src": "/(.*)", "dest": "/app/$1" }
+  "redirects": [
+    { "source": "/workspace", "destination": "/index.html", "statusCode": 302 }
   ]
 }

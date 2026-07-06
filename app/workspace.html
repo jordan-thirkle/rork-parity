@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RorkParity — ByJTT Game Builder</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav" id="appNav">
+    <div class="nav-inner">
+      <a href="/" class="nav-brand">
+        <svg class="brand-mark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+          <path d="M2 17l10 5 10-5"/>
+          <path d="M2 12l10 5 10-5"/>
+        </svg>
+        <span class="brand-text">by <strong>jtt</strong></span>
+        <span class="brand-divider">/</span>
+        <span class="brand-product">RorkParity</span>
+      </a>
+      <!-- Project selector -->
+      <div class="nav-project hidden" id="projectSelector">
+        <select id="projectSelect" class="project-select hidden">
+          <option value="">— Select project —</option>
+        </select>
+        <span class="text-sm text-muted" id="projectTitleInline">No project</span>
+      </div>
+      <div class="nav-actions">
+        <span class="status-dot" id="modelIndicator" title="Current model">Hermes Agent</span>
+        <span class="credit-badge" id="creditIndicator" title="Generation credits">— credits</span>
+        <!-- Auth / User -->
+        <button class="btn btn-ghost btn-sm hidden" id="userMenuBtn" title="Account">
+          <span id="userMenuName">Account</span>
+        </button>
+        <button class="btn btn-ghost btn-sm" id="loginBtn">Sign In</button>
+        <button class="btn btn-ghost btn-sm hidden" id="newProjectBtn" title="New project">New</button>
+        <button class="btn btn-ghost btn-sm hidden" id="exportBtn" title="Export project">Export</button>
+        <button class="btn btn-ghost btn-sm hidden" id="syncBtn" title="Sync to GitHub">Sync</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hybrid Workspace -->
+  <div class="workspace">
+    <!-- LEFT PANEL: Orchestrator Control -->
+    <div class="panel panel-left" id="leftPanel">
+
+      <!-- Top: Agent Execution Log -->
+      <div class="pane" id="agentLogPane">
+        <div class="pane-header">
+          <h3 class="pane-title">Agent Log</h3>
+          <button class="btn-icon" id="clearLogBtn" title="Clear log">⌧</button>
+        </div>
+        <div class="pane-body" id="agentLogBody">
+          <div class="log-entry log-info">
+            <span class="log-time">ready</span>
+            <span class="log-msg">RorkParity agent pipeline loaded. Describe a game to begin.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Middle: File/Asset Explorer -->
+      <div class="pane" id="explorerPane">
+        <div class="pane-header">
+          <h3 class="pane-title">Project Files</h3>
+          <span class="project-badge" id="projectBadge">No project</span>
+        </div>
+        <div class="pane-body" id="explorerBody">
+          <div class="explorer-empty">
+            <span class="text-muted">Generate a game to see project files.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom: Conversational Input -->
+      <div class="pane" id="inputPane">
+        <!-- Quick-start templates -->
+        <div class="quick-start" id="quickStartStrip">
+          <div class="quick-start-grid">
+            <button class="quick-start-btn" data-prompt="Create a 2D brawler with 5 zones, combat, leveling. Phaser 3.">
+              <span class="quick-start-icon">⚔️</span>
+              <span class="quick-start-text">2D Brawler</span>
+            </button>
+            <button class="quick-start-btn" data-prompt="Create an idle RPG with auto-combat, loot, XP, and level progression. Phaser 3.">
+              <span class="quick-start-icon">⚡</span>
+              <span class="quick-start-text">Idle RPG</span>
+            </button>
+            <button class="quick-start-btn" data-prompt="Create a space shooter with power-ups, enemy waves, and score tracking. Phaser 3.">
+              <span class="quick-start-icon">🚀</span>
+              <span class="quick-start-text">Shooter</span>
+            </button>
+            <button class="quick-start-btn" data-prompt="Create a 3D world with physics, gravity, FPS controls, and interactable objects. Three.js.">
+              <span class="quick-start-icon">🌍</span>
+              <span class="quick-start-text">3D World</span>
+            </button>
+          </div>
+        </div>
+        <div class="chat-input-area">
+          <button class="btn-icon" id="uploadBtn" title="Upload reference image">📎</button>
+          <textarea class="chat-input" id="chatInput" rows="2" placeholder="Describe a game, ask for changes, or upload a reference image..." autofocus></textarea>
+          <div class="input-actions">
+            <button class="btn btn-plan" id="planModeBtn" title="Toggle plan mode">Plan</button>
+            <button class="btn btn-primary" id="sendBtn">Generate</button>
+          </div>
+        </div>
+        <input type="file" id="fileUploadInput" accept="image/*" style="display:none">
+      </div>
+    </div>
+
+    <!-- Divider -->
+    <div class="divider" id="divider"></div>
+
+    <!-- RIGHT PANEL: Live Interactive Simulator -->
+    <div class="panel panel-right" id="rightPanel">
+      <!-- Viewport Toolbar -->
+      <div class="viewport-toolbar">
+        <div class="viewport-info">
+          <span id="projectTitleDisplay">No project</span>
+          <span class="phase-badge" id="phaseBadge">Phase 2</span>
+        </div>
+        <div class="viewport-controls">
+          <button class="viewport-btn active" data-viewport="desktop" title="Desktop 16:9">🖥 Desktop</button>
+          <button class="viewport-btn" data-viewport="mobile" title="Mobile Portrait">📱 Mobile</button>
+          <button class="viewport-btn" data-viewport="tablet" title="Tablet">📟 Tablet</button>
+          <button class="viewport-btn" data-viewport="vr" title="VR / Immersive">🥽 VR</button>
+          <div class="viewport-separator"></div>
+          <button class="viewport-action-btn" id="refreshPreviewBtn" title="Refresh preview">↻</button>
+          <button class="viewport-action-btn" id="openPreviewBtn" title="Open in new tab">↗</button>
+          <button class="viewport-action-btn" id="qrCodeBtn" title="Show QR code">📲</button>
+        </div>
+      </div>
+
+      <!-- Preview Canvas -->
+      <div class="preview-container" id="previewContainer">
+        <div class="preview-empty" id="previewEmpty">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-muted">
+            <rect x="2" y="3" width="20" height="14" rx="2"/>
+            <path d="M8 21h8"/>
+            <path d="M12 17v4"/>
+          </svg>
+          <p class="text-muted">Your game will appear here once generated.</p>
+          <p class="text-muted text-sm">Pick a quick-start template above or describe a game.</p>
+        </div>
+        <iframe class="preview-frame hidden" id="previewFrame"
+          sandbox="allow-scripts allow-same-origin allow-pointer-lock"></iframe>
+        <div class="preview-overlay hidden" id="previewOverlay">
+          <div class="preview-status-bar">
+            <span id="previewFps" class="fps-display">0 FPS</span>
+            <span id="previewStatus" class="status-display">Ready</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MODALS ===== -->
+
+  <!-- Auth Modal -->
+  <div class="modal hidden" id="authModal">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content modal-sm">
+      <h3 class="modal-title" id="authModalTitle">Sign In</h3>
+      <div class="modal-form" id="authForm">
+        <div class="form-group">
+          <label class="form-label" for="authEmail">Email</label>
+          <input type="email" class="form-input" id="authEmail" placeholder="you@example.com" autocomplete="email">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="authPassword">Password</label>
+          <input type="password" class="form-input" id="authPassword" placeholder="••••••••" autocomplete="current-password">
+        </div>
+        <p class="form-error text-xs hidden" id="authError"></p>
+        <div class="modal-actions" style="flex-wrap: wrap;">
+          <button class="btn btn-primary" id="authPrimaryBtn">Sign In</button>
+          <button class="btn btn-ghost" id="authToggleBtn">Create account</button>
+          <span class="text-xs text-muted" style="width:100%;text-align:center;padding-top:8px;border-top:1px solid var(--border);">or</span>
+          <button class="btn btn-ghost" id="authGoogleBtn" style="width:100%;">
+            <svg width="16" height="16" viewBox="0 0 24 24" style="vertical-align:middle;margin-right:6px;"><path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path fill="currentColor" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="currentColor" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="currentColor" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+            Continue with Google
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Deferred Modal -->
+  <div class="modal hidden" id="deferredModal">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content">
+      <h3 class="modal-title">Deferred Features</h3>
+      <div id="deferredList"></div>
+      <div class="modal-actions">
+        <button class="btn btn-primary" id="deferredContinue">Continue</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- QR Modal -->
+  <div class="modal hidden" id="qrModal">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content modal-sm">
+      <h3 class="modal-title">Play on Mobile</h3>
+      <div id="qrContainer" class="qr-container">
+        <p class="text-muted text-sm">Scan to play live on your device</p>
+        <div id="qrCodeDisplay" class="qr-code-display">[QR]</div>
+        <p class="text-muted text-xs" id="qrUrlDisplay">localhost:3001</p>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-primary" id="qrCloseBtn">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Supabase Config Modal (shown if no config) -->
+  <div class="modal" id="supabaseConfigModal">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content modal-sm">
+      <h3 class="modal-title">Supabase Setup</h3>
+      <p class="text-sm text-muted" style="margin-bottom:12px;">
+        Connect your Supabase project to enable auth, credit tracking, and cloud storage.
+      </p>
+      <div class="form-group">
+        <label class="form-label" for="configSupabaseUrl">Project URL</label>
+        <input type="url" class="form-input" id="configSupabaseUrl"
+          value="https://xuwfpcogphhrkagwgzpf.supabase.co"
+          placeholder="https://xxxx.supabase.co">
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="configAnonKey">Anon / Public Key</label>
+        <input type="text" class="form-input" id="configAnonKey"
+          placeholder="eyJhbG...NiIs...">
+      </div>
+      <p class="text-xs text-muted">
+        Find keys at:
+        <a href="https://supabase.com/dashboard/project/xuwfpcogphhrkagwgzpf/settings/api" target="_blank" class="link">Dashboard → Settings → API</a>
+      </p>
+      <div class="modal-actions">
+        <button class="btn btn-primary" id="configSaveBtn">Save</button>
+        <button class="btn btn-ghost" id="configSkipBtn">Skip (local only)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="state.js"></script>
+  <script src="agent-log.js"></script>
+  <script src="explorer.js"></script>
+  <script src="chat.js"></script>
+  <script src="preview.js"></script>
+  <script src="bridge.js"></script>
+  <script src="supabase.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

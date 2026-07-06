@@ -4,7 +4,7 @@
 
 const SUPABASE_CONFIG = {
   url: 'https://xuwfpcogphhrkagwgzpf.supabase.co',
-  anonKey: 'sb_pub...I-'
+  anonKey: 'sb_publishable_YSFRl77bFARtSluR4IDIUA_6xtc8cI-'
 };
 
 const SupabaseClient = {

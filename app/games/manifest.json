@@ -1,0 +1,18 @@
+[
+  {
+    "title": "Medieval Castle Defense",
+    "description": "Defend your castle from waves of enemies with towers and magic",
+    "filename": "auto-20260706-medieval-castle-defense.html",
+    "emoji": "🏰",
+    "engine": "Phaser 3",
+    "date": "2026-07-06"
+  },
+  {
+    "title": "Zone Brawler",
+    "description": "Fight through 5 zones with increasing difficulty, combat, and leveling",
+    "filename": "zone-brawler-v1.html",
+    "emoji": "⚔️",
+    "engine": "Phaser 3",
+    "date": "2026-07-06"
+  }
+]
