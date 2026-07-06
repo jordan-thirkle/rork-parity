@@ -1,10 +1,41 @@
 {
   "last_update": "2026-07-06T22:45:00Z",
   "agents": [
-    {"name":"Autopilot","role":"health checks, restart, validation","schedule":"30m","status":"online","detail":"Running and healthy"},
-    {"name":"SEO","role":"sitemap, robots, OG meta","schedule":"daily 9am","status":"online","detail":"Generated 8 URLs"},
-    {"name":"Game Gen","role":"new game creation","schedule":"daily 10am","status":"online","detail":"Auto-generated game exists"},
-    {"name":"Maintenance","role":"git cleanup, stale file check","schedule":"sun 2am","status":"online","detail":"Last run completed cleanly"},
-    {"name":"Self-Improvement","role":"gap analysis, competitor review","schedule":"mon 11am","status":"idle","detail":"Awaiting next run"}
+    {
+      "name": "Autopilot",
+      "role": "health checks, restart, validation",
+      "schedule": "30m",
+      "status": "online",
+      "detail": "Running and healthy",
+      "last_run": "2026-07-06T21:50:38.853329Z"
+    },
+    {
+      "name": "SEO",
+      "role": "sitemap, robots, OG meta",
+      "schedule": "daily 9am",
+      "status": "online",
+      "detail": "Generated sitemap + robots + OG meta"
+    },
+    {
+      "name": "Game Gen",
+      "role": "new game creation",
+      "schedule": "daily 10am",
+      "status": "online",
+      "detail": "Auto-generated game exists"
+    },
+    {
+      "name": "Maintenance",
+      "role": "git cleanup, stale file check",
+      "schedule": "sun 2am",
+      "status": "online",
+      "detail": "Last run completed cleanly"
+    },
+    {
+      "name": "Self-Improvement",
+      "role": "gap analysis, competitor review",
+      "schedule": "mon 11am",
+      "status": "idle",
+      "detail": "Awaiting next run"
+    }
   ]
 }

@@ -1,8 +1,8 @@
 {
   "@context": "https://schema.org",
   "@type": "CollectionPage",
-  "name": "ForgeLoop Games",
-  "description": "Instant-play browser games built with ForgeLoop — the AI game builder by ByJTT.",
+  "name": "RorkParity Games",
+  "description": "Instant-play browser games built with RorkParity — the AI game builder by ByJTT.",
   "url": "https://forgeloop.byjtt.com",
   "publisher": {
     "@type": "Organization",
