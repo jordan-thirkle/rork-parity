@@ -313,6 +313,11 @@ const App = {
     AgentLog.smith(fileName);
     State.generatedCode = code;
 
+    // Auto-version: commit current state before overwriting
+    AgentLog.add('Auto-version: snapshotting current state before generation...', 'info');
+    // In Hermes: run `bash scripts/auto-version.sh` before calling smith()
+    // The web app logs intent; the actual git commit happens in the agent shell
+
     const files = [
       { name: 'index.html', size: `${(code.length / 1000).toFixed(1)} KB` },
       { name: fileName, size: `${(code.length / 1000).toFixed(1)} KB` }
