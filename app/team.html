@@ -20,6 +20,7 @@
     ul{margin:12px 0 0 20px;padding:0} li{margin:8px 0;color:#ddd}
     .roadmap{margin-top:30px}.roadmap .card{border-color:#2f3b5c}
     .pill{display:inline-block;padding:5px 10px;border:1px solid #2a3e66;border-radius:999px;color:#8fb3ff;font-family:'JetBrains Mono',monospace;font-size:.75rem;margin-bottom:12px}
+    .timeline{display:grid;gap:12px;margin-top:16px}.event{padding:14px 16px;background:#101010;border:1px solid #262626;border-radius:12px;font-family:'JetBrains Mono',monospace;font-size:.9rem}.event strong{color:#fff}.event .ts{color:#888;display:block;margin-bottom:4px}
     footer{margin-top:40px;padding-top:20px;border-top:1px solid #222;color:#666;font-size:.9rem}
   </style>
 </head>
@@ -119,6 +120,8 @@
           <li><strong>Keep persistence solid:</strong> saved projects, versions, and gallery manifest flow cleanly.</li>
           <li><strong>Defer mobile parity:</strong> native export waits until the web flow is stable.</li>
         </ul>
+        <h2 style="margin-top:18px">Live ops timeline</h2>
+        <div class="timeline" id="timeline"></div>
       </div>
     </section>
 
@@ -126,5 +129,45 @@
       Game-first. Static-first. Collaboration over replacement.
     </footer>
   </div>
+  <script>
+    async function loadOps() {
+      try {
+        const status = await fetch('/status.json', { cache: 'no-store' }).then(r => r.json())
+        const timeline = document.getElementById('timeline')
+        timeline.innerHTML = ''
+        ;(status.agents || []).slice().reverse().forEach(agent => {
+          const el = document.createElement('div')
+          el.className = 'event'
+          const ts = document.createElement('span')
+          ts.className = 'ts'
+          ts.textContent = `${agent.name} · ${agent.schedule || 'live'}`
+          const strong = document.createElement('strong')
+          strong.textContent = agent.status || 'unknown'
+          el.appendChild(ts)
+          el.appendChild(strong)
+          el.appendChild(document.createTextNode(` — ${agent.detail || ''}`))
+          timeline.appendChild(el)
+        })
+        const history = await fetch('/ops-history.json', { cache: 'no-store' }).then(r => r.json()).catch(() => [])
+        history.slice().reverse().forEach(item => {
+          const el = document.createElement('div')
+          el.className = 'event'
+          const ts = document.createElement('span')
+          ts.className = 'ts'
+          ts.textContent = item.at || ''
+          const strong = document.createElement('strong')
+          strong.textContent = item.type || 'event'
+          el.appendChild(ts)
+          el.appendChild(strong)
+          el.appendChild(document.createTextNode(` — ${item.summary || ''}`))
+          timeline.appendChild(el)
+        })
+      } catch (e) {
+        document.getElementById('timeline').innerHTML = '<div class="event"><strong>offline</strong> — status feed unavailable</div>'
+      }
+    }
+    loadOps()
+    setInterval(loadOps, 15000)
+  </script>
 </body>
 </html>

@@ -1,0 +1,9 @@
+[
+  {
+    "at": "2026-07-06T22:06:59.115823Z",
+    "type": "sync",
+    "gateway": "online",
+    "jobs": 7,
+    "summary": "Synced 7 cron jobs and gateway online"
+  }
+]

@@ -44,5 +44,21 @@ status = {
     ] + jobs
 }
 pathlib.Path('app/status.json').write_text(json.dumps(status, indent=2) + '\n')
+
+history_path = pathlib.Path('app/ops-history.json')
+try:
+    history = json.loads(history_path.read_text())
+except Exception:
+    history = []
+history = history[-199:]
+history.append({
+    'at': datetime.datetime.utcnow().isoformat() + 'Z',
+    'type': 'sync',
+    'gateway': gateway_status,
+    'jobs': len(jobs),
+    'summary': f'Synced {len(jobs)} cron jobs and gateway {gateway_status}'
+})
+history_path.write_text(json.dumps(history, indent=2) + '\n')
+
 print('synced', len(jobs), 'jobs, gateway', gateway_status)
 PY
