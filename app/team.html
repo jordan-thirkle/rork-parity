@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ForgeLoop Team</title>
+  <meta name="description" content="Live autonomous team status for ForgeLoop: generation, SEO, maintenance, and self-improvement agents.">
+  <style>
+    body{margin:0;font-family:'JetBrains Mono',monospace;background:#0f0f0f;color:#fff;padding:40px}
+    .wrap{max-width:1100px;margin:0 auto}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+    .card{background:#1a1a1a;border:1px solid #333;border-radius:12px;padding:16px}
+    .ok{color:#7CFF7C}.warn{color:#ffce5d}.bad{color:#ff6b6b}
+    a{color:#5d9eff}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <a href="/">← Home</a>
+    <h1>ForgeLoop Autonomous Team</h1>
+    <p>Live cron-driven system. Last updated from generated status.</p>
+    <div class="grid" id="cards"></div>
+  </div>
+  <script>
+    const jobs = [
+      ['Autopilot', '30m', 'Health checks, restart if down, template validation'],
+      ['SEO Generator', 'Daily 9am', 'Sitemap, robots, OG meta, schema refresh'],
+      ['Daily Game Generation', 'Daily 10am', 'Generate a new playable game'],
+      ['Weekly Maintenance', 'Sun 2am', 'Git gc, cleanup, disk check, tag'],
+      ['Self-Improvement', 'Mon 11am', 'Analyze gaps and report']
+    ];
+    document.getElementById('cards').innerHTML = jobs.map(([name,sched,desc]) => `
+      <div class="card"><h3>${name}</h3><p class="ok">${sched}</p><p>${desc}</p></div>
+    `).join('');
+  </script>
+</body>
+</html>

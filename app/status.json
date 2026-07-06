@@ -1,0 +1,15 @@
+{
+  "brand": "ForgeLoop",
+  "product_subdomain": "forgeloop.byjtt.com",
+  "autonomy": {
+    "autopilot": "30m",
+    "seo": "daily 9am",
+    "game_generation": "daily 10am",
+    "maintenance": "sun 2am",
+    "self_improvement": "mon 11am"
+  },
+  "templates": ["brawler-zone-crawler", "3d-world-template"],
+  "edge_functions": ["consume-credit"],
+  "generated_games": 3,
+  "last_update": "2026-07-06"
+}
