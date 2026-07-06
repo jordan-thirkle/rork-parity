@@ -10,7 +10,8 @@ Built by **ByJTT**. Game-specialized, not general-purpose.
 
 | Component | Status |
 |-----------|--------|
-| Chat UI (split-pane) | Built — `app/index.html` |
+| Landing page | Built — `app/index.html` |
+| Chat UI (split-pane) | Built — `app/workspace.html` |
 | Preview system | Built — iframe sandbox with blob URL isolation |
 | Agent pipeline docs | Spec'd — `docs/agent-pipeline.md` |
 | FORGEMASTER → SMITH → WHETSTONE flow | Defined — executed in Hermes session |
@@ -49,7 +50,7 @@ docs/                   — Architecture documentation
 
 ## How to use
 
-1. Open `app/index.html` in a browser (or serve via `npx serve app/`).
+1. Open `app/index.html` for the landing page and `app/workspace.html` for the builder (or serve via `npx serve app/`).
 2. Describe a game in the chat panel.
 3. I (the Hermes agent) process through the FORGEMASTER → SMITH → WHETSTONE pipeline.
 4. Generated game appears in the preview pane.
@@ -85,6 +86,7 @@ and strategic gaps we can exploit).
 ## Tech
 
 - **UI**: Plain HTML/CSS/JS with ByJTT design tokens (Space Grotesk, dark theme)
+- **Hosting**: Vercel static deploy with clean URL redirects
 - **Preview**: Sandboxed iframe with blob URL isolation
 - **Game stack**: Canvas2D (default), Three.js, Phaser, or Godot
 - **Backend** (Phase 2): Supabase (auth, Postgres, storage)

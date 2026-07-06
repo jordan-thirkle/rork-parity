@@ -238,28 +238,29 @@
   </footer>
 
   <script>
-    // Load games dynamically
+    // Load games dynamically from the local manifest so the site works without an API.
     async function loadGames() {
-      try {
-        const response = await fetch('/api/games');
-        const games = await response.json();
-        
-        const grid = document.getElementById('gameGrid');
-        if (games.length === 0) {
-          grid.innerHTML = `
-            <div class="game-card">
-              <div class="game-preview">🎮</div>
-              <div class="game-info">
-                <h3>Be the first!</h3>
-                <p>Generate your game and it will appear here</p>
-                <a href="/workspace.html" class="play-button">Start Building</a>
-              </div>
-            </div>
-          `;
-          return;
+      const grid = document.getElementById('gameGrid');
+      const fallbackGames = [
+        {
+          title: 'Medieval Castle Defense',
+          description: 'Defend your castle from waves of enemies',
+          filename: 'auto-20260706-medieval-castle-defense.html',
+          emoji: '🏰'
+        },
+        {
+          title: 'Zone Brawler',
+          description: 'Fight through 5 zones with increasing difficulty',
+          filename: 'zone-brawler-v1.html',
+          emoji: '⚔️'
         }
-        
-        grid.innerHTML = games.map(game => `
+      ];
+
+      try {
+        const response = await fetch('/games/manifest.json?t=' + Date.now());
+        const games = response.ok ? await response.json() : fallbackGames;
+        const safeGames = Array.isArray(games) && games.length ? games : fallbackGames;
+        grid.innerHTML = safeGames.map(game => `
           <div class="game-card">
             <div class="game-preview">${game.emoji || '🎮'}</div>
             <div class="game-info">
@@ -271,6 +272,16 @@
         `).join('');
       } catch (error) {
         console.error('Failed to load games:', error);
+        grid.innerHTML = fallbackGames.map(game => `
+          <div class="game-card">
+            <div class="game-preview">${game.emoji}</div>
+            <div class="game-info">
+              <h3>${game.title}</h3>
+              <p>${game.description}</p>
+              <a href="/games/${game.filename}" class="play-button">Play Now</a>
+            </div>
+          </div>
+        `).join('');
       }
     }
     

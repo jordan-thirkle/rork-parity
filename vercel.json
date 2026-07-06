@@ -12,6 +12,7 @@
     }
   ],
   "redirects": [
-    { "source": "/workspace", "destination": "/index.html", "statusCode": 302 }
+    { "source": "/workspace", "destination": "/workspace.html", "statusCode": 302 },
+    { "source": "/gallery", "destination": "/gallery.html", "statusCode": 302 }
   ]
 }
