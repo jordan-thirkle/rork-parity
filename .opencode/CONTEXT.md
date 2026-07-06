@@ -5,10 +5,7 @@ to re-explain the ecosystem it's operating in.
 
 ## Where this lives
 
-RorkParity is a ByJTT project. Published games surface at games.byjtt.com. The wider
-ByJTT ecosystem includes byjtt.com (main site), freetier.byjtt.com, ui.byjtt.com (shared
-UI Kit), and affiliate.byjtt.com. RorkParity should use the UI Kit for its own chat/
-dashboard interface where practical, not invent a parallel design system.
+RorkParity is the internal project codename for the ForgeLoop product line under ByJTT. Public game surfaces currently use the ForgeLoop subdomain (forgeloop.byjtt.com) rather than games.byjtt.com. The wider ByJTT ecosystem includes byjtt.com (main site), freetier.byjtt.com, ui.byjtt.com (shared UI Kit), affiliate.byjtt.com, and ForgeLoop as the game-builder product surface. The UI should use the UI Kit for its own chat/dashboard interface where practical, not invent a parallel design system.
 
 ## Project location
 

@@ -9,7 +9,7 @@ phase" line in CONTEXT.md whenever a gate is crossed.
 | **1. Core chat + web gen** | Chat → single-file web game, live preview, iterate | Always on | FORGEMASTER, SMITH, WHETSTONE |
 | **2. Projects + credits** | Saved projects, history, basic usage tracking | Phase 1 used across ≥3 real sessions with real games | + Supabase schema, dashboard UI |
 | **3. Template library** | Reusable starter templates across genres | ≥2 genres independently validated in Phase 1 | LOREKEEPER activates |
-| **4. Publishing** | One-click package + listing to games.byjtt.com | First project the user actually wants live | CRIER activates |
+| **4. Publishing** | One-click package + listing to the ForgeLoop subdomain (currently forgeloop.byjtt.com) | First project the user actually wants live | CRIER activates |
 | **5. Mobile export (RN/Expo)** | Generate Expo project, QR preview | Explicit user demand — not a default assumption | New agent: FLETCHER (not yet specced — write its instructions when this gate is actually reached, not before) |
 | **6. Native/cloud build parity** | SwiftUI, cloud Xcode, streamed simulator | Only if Phase 5 sees real use and is explicitly requested | Out of scope for this profile — revisit as a separate initiative when reached |
 

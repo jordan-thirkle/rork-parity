@@ -86,8 +86,8 @@ cat > "publish/games-schema.json" << EOF
 {
   "@context": "https://schema.org",
   "@type": "CollectionPage",
-  "name": "RorkParity Games",
-  "description": "Instant-play browser games built with RorkParity — the AI game builder by ByJTT.",
+  "name": "ForgeLoop Games",
+  "description": "Instant-play browser games built with ForgeLoop — the AI game builder by ByJTT.",
   "url": "${BASE_URL}",
   "publisher": {
     "@type": "Organization",
@@ -107,10 +107,10 @@ for tmpl in templates/*.html; do
     [[ "$name" == "manifest" ]] && continue
     
     # Extract title from HTML
-    title=$(grep '<title>' "$tmpl" | sed 's/.*<title>//;s/<\/title>.*//' 2>/dev/null || echo "RorkParity Game")
+    title=$(grep '<title>' "$tmpl" | sed 's/.*<title>//;s/<\/title>.*//' 2>/dev/null || echo "ForgeLoop Game")
     
     # Extract description
-    desc=$(grep 'name="description"' "$tmpl" | sed 's/.*content="//;s/".*//' 2>/dev/null || echo "An instant-play browser game built with RorkParity.")
+    desc=$(grep 'name="description"' "$tmpl" | sed 's/.*content="//;s/".*//' 2>/dev/null || echo "An instant-play browser game built with ForgeLoop.")
     
     cat > "publish/og/${name}.json" << EOF
 {

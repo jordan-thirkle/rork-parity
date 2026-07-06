@@ -10,7 +10,7 @@ generate.
 
 A chat-to-game builder. You describe a game, it becomes a playable thing in your
 browser in one pass, and you refine it in conversation until it's good enough to publish
-to games.byjtt.com. That's the whole product.
+to the ForgeLoop subdomain under ByJTT (currently forgeloop.byjtt.com). That's the whole product for now.
 
 ## What this is not
 
@@ -55,10 +55,7 @@ personality.
 
 ## Relationship to ByJTT brand
 
-RorkParity is a feature of the ByJTT ecosystem, published through games.byjtt.com. It
-does not need its own separate brand voice, its own mascot, or marketing language
-distinct from the rest of the studio. When in doubt, default to how byjtt.com already
-talks about itself.
+ForgeLoop is the public product layer of the ByJTT ecosystem. RorkParity is the internal project codename and agent namespace. Public surfaces should speak as ForgeLoop under the ByJTT brand, not as a separate company. When in doubt, default to how byjtt.com already talks about itself.
 
 ## Decision heuristic for ambiguous cases
 
