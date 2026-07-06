@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://games.byjtt.com/</loc>
+    <lastmod>2026-07-06</lastmod>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://games.byjtt.com/games/3d-world-template.html</loc>
+    <lastmod>2026-07-06</lastmod>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://games.byjtt.com/games/3d-world-template.html"/>
+  </url>
+  <url>
+    <loc>https://games.byjtt.com/games/brawler-zone-crawler.html</loc>
+    <lastmod>2026-07-06</lastmod>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://games.byjtt.com/games/brawler-zone-crawler.html"/>
+  </url>
+  <url>
+    <loc>https://games.byjtt.com/games/zone-brawler-v1.html</loc>
+    <lastmod>2026-07-06</lastmod>
+    <priority>0.6</priority>
+  </url>
+</urlset>

@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RorkParity — 3D World (Three.js)</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { 
+      background: #000; overflow: hidden; font-family: 'JetBrains Mono', monospace;
+      user-select: none; cursor: default;
+    }
+    canvas { display: block; }
+
+    /* HUD */
+    #hud {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none; z-index: 10;
+    }
+    #crosshair {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 24px; height: 24px;
+    }
+    #crosshair::before, #crosshair::after {
+      content: ''; position: absolute; background: rgba(255,255,255,0.6);
+    }
+    #crosshair::before { width: 2px; height: 100%; left: 50%; transform: translateX(-50%); }
+    #crosshair::after { width: 100%; height: 2px; top: 50%; transform: translateY(-50%); }
+
+    #scoreboard {
+      position: absolute; top: 16px; left: 50%; transform: translateX(-50%);
+      background: rgba(0,0,0,0.7); padding: 8px 20px; border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.15);
+      display: flex; gap: 24px; font-size: 14px; color: #fff;
+    }
+    #scoreboard span { opacity: 0.6; }
+    #scoreboard strong { color: #5d9eff; opacity: 1; }
+
+    #controls {
+      position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%);
+      background: rgba(0,0,0,0.7); padding: 8px 16px; border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.5); font-size: 12px;
+      text-align: center;
+    }
+
+    #interactPrompt {
+      position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%);
+      background: rgba(93,158,255,0.2); color: #5d9eff;
+      padding: 6px 16px; border-radius: 6px; border: 1px solid rgba(93,158,255,0.3);
+      font-size: 13px; opacity: 0; transition: opacity 0.3s;
+    }
+    #interactPrompt.visible { opacity: 1; }
+
+    /* FPS / status from workspace */
+    #statusBar {
+      position: absolute; top: 16px; right: 16px;
+      font-size: 11px; color: rgba(255,255,255,0.3);
+      text-align: right;
+    }
+
+    /* Block overlay until click */
+    #startOverlay {
+      position: fixed; inset: 0; z-index: 100;
+      background: rgba(0,0,0,0.85);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      cursor: pointer;
+    }
+    #startOverlay h1 { color: #fff; font-size: 28px; margin-bottom: 12px; font-weight: 500; }
+    #startOverlay p { color: rgba(255,255,255,0.5); font-size: 14px; }
+    #startOverlay .click-hint { 
+      margin-top: 24px; padding: 10px 28px; 
+      border: 1px solid rgba(93,158,255,0.4); border-radius: 8px;
+      color: #5d9eff; font-size: 15px; transition: background 0.3s;
+    }
+  </style>
+</head>
+<body>
+  <!-- Start overlay -->
+  <div id="startOverlay">
+    <h1>3D World</h1>
+    <p>WASD move · Mouse look · Click to interact</p>
+    <div class="click-hint">Click to explore</div>
+  </div>
+
+  <!-- HUD -->
+  <div id="hud">
+    <div id="crosshair"></div>
+    <div id="scoreboard">
+      <div><span>SCORE</span> <strong id="scoreDisplay">0</strong></div>
+      <div><span>COLLECTED</span> <strong id="collectedDisplay">0/8</strong></div>
+      <div><span>FPS</span> <strong id="fpsDisplay">60</strong></div>
+    </div>
+    <div id="interactPrompt">[E] Collect crystal</div>
+    <div id="statusBar">
+      <div id="wsFps">-- FPS</div>
+      <div id="wsStatus">Initializing...</div>
+    </div>
+    <div id="controls">WASD <span style="opacity:0.3;">·</span> Move &nbsp; Mouse <span style="opacity:0.3;">·</span> Look &nbsp; E <span style="opacity:0.3;">·</span> Interact</div>
+  </div>
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+    }
+  </script>
+
+  <script type="module">
+    import * as THREE from 'three';
+    import { PointerLockControls } from 'three/addons/controls/PointerLockControls.js';
+    import { CSS2DRenderer, CSS2DObject } from 'three/addons/renderers/CSS2DRenderer.js';
+
+    // ─── FPS reporter ───
+    let frameCount = 0, lastFpsTime = performance.now();
+    function reportFps() {
+      frameCount++;
+      const now = performance.now();
+      if (now - lastFpsTime >= 1000) {
+        const fps = Math.round(frameCount * 1000 / (now - lastFpsTime));
+        document.getElementById('fpsDisplay').textContent = fps;
+        window.parent?.postMessage({ type: 'FPS', fps, source: 'rork-parity-3d' }, '*');
+        frameCount = 0;
+        lastFpsTime = now;
+      }
+    }
+
+    // ─── Notify workspace ───
+    function notify(event, data = {}) {
+      window.parent?.postMessage(
+        { type: event, source: 'rork-parity-3d', timestamp: Date.now(), ...data },
+        '*'
+      );
+    }
+    // Signal ready after first frame
+    let readySent = false;
+
+    // ─── Scene setup ───
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x0a0a1a);
+    scene.fog = new THREE.Fog(0x0a0a1a, 30, 80);
+
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 500);
+    camera.position.set(0, 2, 8);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.2;
+    document.body.prepend(renderer.domElement);
+
+    // ─── Controls ───
+    const controls = new PointerLockControls(camera, renderer.domElement);
+    const startOverlay = document.getElementById('startOverlay');
+    startOverlay.addEventListener('click', () => {
+      controls.lock();
+      startOverlay.style.display = 'none';
+    });
+    document.addEventListener('click', () => {
+      if (!controls.isLocked) return;
+    });
+
+    // ─── Lighting ───
+    const ambientLight = new THREE.AmbientLight(0x444466, 0.5);
+    scene.add(ambientLight);
+
+    const sunLight = new THREE.DirectionalLight(0xffeedd, 1.8);
+    sunLight.position.set(20, 30, 10);
+    sunLight.castShadow = true;
+    sunLight.shadow.mapSize.width = 2048;
+    sunLight.shadow.mapSize.height = 2048;
+    sunLight.shadow.camera.near = 0.5;
+    sunLight.shadow.camera.far = 60;
+    sunLight.shadow.camera.left = -30;
+    sunLight.shadow.camera.right = 30;
+    sunLight.shadow.camera.top = 30;
+    sunLight.shadow.camera.bottom = -30;
+    scene.add(sunLight);
+
+    const fillLight = new THREE.DirectionalLight(0x4488ff, 0.3);
+    fillLight.position.set(-10, 10, -10);
+    scene.add(fillLight);
+
+    const hemiLight = new THREE.HemisphereLight(0x4466aa, 0x224422, 0.6);
+    scene.add(hemiLight);
+
+    // ─── Ground ───
+    const groundGeom = new THREE.PlaneGeometry(100, 100);
+    const groundMat = new THREE.MeshStandardMaterial({
+      color: 0x2a2a3a,
+      roughness: 0.8,
+      metalness: 0.1,
+    });
+    const ground = new THREE.Mesh(groundGeom, groundMat);
+    ground.rotation.x = -Math.PI / 2;
+    ground.position.y = -0.5;
+    ground.receiveShadow = true;
+    scene.add(ground);
+
+    // Grid helper for depth perception
+    const gridHelper = new THREE.GridHelper(100, 40, 0x4444aa, 0x333366);
+    gridHelper.position.y = -0.45;
+    scene.add(gridHelper);
+
+    // ─── Collectible crystals ───
+    const crystalPositions = [
+      { x: -4, z: -3 }, { x: 3, z: -5 }, { x: -6, z: 2 },
+      { x: 5, z: 4 }, { x: -2, z: -8 }, { x: 7, z: -2 },
+      { x: -7, z: -6 }, { x: 0, z: 7 }
+    ];
+
+    const crystals = [];
+    const crystalGroup = new THREE.Group();
+    let collectedCount = 0;
+    const totalCrystals = crystalPositions.length;
+
+    function createCrystal(x, z) {
+      const group = new THREE.Group();
+      
+      // Core
+      const coreGeom = new THREE.OctahedronGeometry(0.4, 0);
+      const coreMat = new THREE.MeshStandardMaterial({
+        color: 0x5d9eff,
+        emissive: 0x5d9eff,
+        emissiveIntensity: 0.4,
+        metalness: 0.1,
+        roughness: 0.3,
+      });
+      const core = new THREE.Mesh(coreGeom, coreMat);
+      core.castShadow = true;
+      group.add(core);
+
+      // Glow aura
+      const glowGeom = new THREE.OctahedronGeometry(0.6, 0);
+      const glowMat = new THREE.MeshBasicMaterial({
+        color: 0x5d9eff,
+        transparent: true,
+        opacity: 0.15,
+      });
+      const glow = new THREE.Mesh(glowGeom, glowMat);
+      group.add(glow);
+
+      // Light
+      const light = new THREE.PointLight(0x5d9eff, 0.5, 4);
+      group.add(light);
+
+      // Label
+      const labelDiv = document.createElement('div');
+      labelDiv.textContent = '✦';
+      labelDiv.style.color = '#5d9eff';
+      labelDiv.style.fontSize = '18px';
+      labelDiv.style.textShadow = '0 0 10px rgba(93,158,255,0.5)';
+      const label = new CSS2DObject(labelDiv);
+      label.position.y = 0.8;
+      group.add(label);
+
+      group.position.set(x, 0.5, z);
+      group.userData = { collected: false, baseY: 0.5, floatOffset: Math.random() * Math.PI * 2 };
+      
+      return group;
+    }
+
+    for (const pos of crystalPositions) {
+      const crystal = createCrystal(pos.x, pos.z);
+      crystals.push(crystal);
+      crystalGroup.add(crystal);
+    }
+    scene.add(crystalGroup);
+
+    // ─── Pillars / obstacles ───
+    const obstacles = [];
+    const pillarPositions = [
+      { x: -8, z: -2, h: 2 }, { x: 6, z: 1, h: 3 }, { x: -3, z: -7, h: 2.5 },
+      { x: 4, z: -6, h: 1.5 }, { x: -6, z: 5, h: 2 }, { x: 8, z: -3, h: 3.5 },
+      { x: -1, z: 5, h: 2 }, { x: 3, z: -1, h: 2.5 }
+    ];
+
+    for (const pos of pillarPositions) {
+      const geom = new THREE.BoxGeometry(0.8, pos.h, 0.8);
+      const mat = new THREE.MeshStandardMaterial({
+        color: 0x3a3a5a,
+        roughness: 0.7,
+        metalness: 0.3,
+        emissive: 0x222244,
+        emissiveIntensity: 0.1,
+      });
+      const pillar = new THREE.Mesh(geom, mat);
+      pillar.position.set(pos.x, pos.h / 2 - 0.5, pos.z);
+      pillar.castShadow = true;
+      pillar.receiveShadow = true;
+      scene.add(pillar);
+      obstacles.push(pillar);
+    }
+
+    // ─── Skybox stars ───
+    const starsGeom = new THREE.BufferGeometry();
+    const starCount = 2000;
+    const starPos = new Float32Array(starCount * 3);
+    for (let i = 0; i < starCount * 3; i++) {
+      starPos[i] = (Math.random() - 0.5) * 400;
+      starPos[i] = Math.abs(starPos[i]) > 50 ? starPos[i] : starPos[i] + 100;
+    }
+    starsGeom.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
+    const starsMat = new THREE.PointsMaterial({
+      color: 0xffffff, size: 0.15, transparent: true, opacity: 0.8,
+    });
+    const stars = new THREE.Points(starsGeom, starsMat);
+    stars.position.y = 20;
+    scene.add(stars);
+
+    // ─── Physics (simple ground + obstacle collision) ───
+    const velocity = new THREE.Vector3();
+    const direction = new THREE.Vector3();
+    let yaw = 0;
+    const moveSpeed = 5;
+    const gravity = -9.8;
+    const jumpSpeed = 5;
+    let playerHeight = 1.7;
+    let onGround = false;
+
+    const keys = { forward: false, backward: false, left: false, right: false, jump: false };
+
+    document.addEventListener('keydown', (e) => {
+      switch (e.code) {
+        case 'KeyW': keys.forward = true; break;
+        case 'KeyS': keys.backward = true; break;
+        case 'KeyA': keys.left = true; break;
+        case 'KeyD': keys.right = true; break;
+        case 'Space': keys.jump = true; e.preventDefault(); break;
+        case 'KeyE': tryInteract(); break;
+      }
+    });
+    document.addEventListener('keyup', (e) => {
+      switch (e.code) {
+        case 'KeyW': keys.forward = false; break;
+        case 'KeyS': keys.backward = false; break;
+        case 'KeyA': keys.left = false; break;
+        case 'KeyD': keys.right = false; break;
+        case 'Space': keys.jump = false; break;
+      }
+    });
+
+    // ─── Interaction raycasting ───
+    const raycaster = new THREE.Raycaster();
+    const interactPrompt = document.getElementById('interactPrompt');
+    let nearestCrystal = null;
+
+    function tryInteract() {
+      if (!controls.isLocked) return;
+      if (nearestCrystal && !nearestCrystal.userData.collected) {
+        nearestCrystal.userData.collected = true;
+        collectedCount++;
+        document.getElementById('scoreDisplay').textContent = collectedCount * 100;
+        document.getElementById('collectedDisplay').textContent = `${collectedCount}/${totalCrystals}`;
+        notify('COLLECT', { score: collectedCount * 100, collected: collectedCount, total: totalCrystals });
+        
+        // Animate out
+        const scaleTween = { value: 1 };
+        const shrink = () => {
+          scaleTween.value -= 0.05;
+          nearestCrystal.scale.set(scaleTween.value, scaleTween.value, scaleTween.value);
+          if (scaleTween.value > 0) requestAnimationFrame(shrink);
+          else scene.remove(nearestCrystal);
+        };
+        shrink();
+
+        if (collectedCount >= totalCrystals) {
+          setTimeout(() => {
+            interactPrompt.textContent = '✨ All crystals collected! ✨';
+            interactPrompt.classList.add('visible');
+            notify('GAME_COMPLETE', { score: collectedCount * 100 });
+          }, 300);
+        }
+      }
+    }
+
+    // ─── Physics update ───
+    function updatePhysics(dt) {
+      if (!controls.isLocked) return;
+
+      // Get forward/right vectors
+      const forward = new THREE.Vector3(0, 0, -1).applyQuaternion(camera.quaternion);
+      forward.y = 0;
+      forward.normalize();
+      const right = new THREE.Vector3(1, 0, 0).applyQuaternion(camera.quaternion);
+      right.y = 0;
+      right.normalize();
+
+      // Movement
+      direction.set(0, 0, 0);
+      if (keys.forward) direction.add(forward);
+      if (keys.backward) direction.sub(forward);
+      if (keys.left) direction.sub(right);
+      if (keys.right) direction.add(right);
+      direction.normalize();
+
+      velocity.x = direction.x * moveSpeed;
+      velocity.z = direction.z * moveSpeed;
+
+      // Gravity
+      if (onGround && keys.jump) {
+        velocity.y = jumpSpeed;
+        onGround = false;
+      }
+      velocity.y += gravity * dt;
+      
+      // Apply horizontal
+      const newX = camera.position.x + velocity.x * dt;
+      const newZ = camera.position.z + velocity.z * dt;
+
+      // Obstacle collision (simple AABB)
+      let canMoveX = true, canMoveZ = true;
+      const playerRadius = 0.4;
+      for (const obs of obstacles) {
+        const halfW = 0.5;
+        const halfD = 0.5;
+        const ox = obs.position.x, oz = obs.position.z;
+        
+        // X check
+        if (Math.abs(newX - ox) < (playerRadius + halfW) && Math.abs(camera.position.z - oz) < (playerRadius + halfD) && camera.position.y < obs.position.y + 1) {
+          canMoveX = false;
+        }
+        // Z check
+        if (Math.abs(camera.position.x - ox) < (playerRadius + halfW) && Math.abs(newZ - oz) < (playerRadius + halfD) && camera.position.y < obs.position.y + 1) {
+          canMoveZ = false;
+        }
+      }
+
+      if (canMoveX) camera.position.x = newX;
+      if (canMoveZ) camera.position.z = newZ;
+
+      // Apply vertical
+      camera.position.y += velocity.y * dt;
+
+      // Ground collision
+      if (camera.position.y < playerHeight) {
+        camera.position.y = playerHeight;
+        velocity.y = 0;
+        onGround = true;
+      }
+
+      // Boundary
+      const bound = 45;
+      camera.position.x = Math.max(-bound, Math.min(bound, camera.position.x));
+      camera.position.z = Math.max(-bound, Math.min(bound, camera.position.z));
+
+      // Interaction ray
+      raycaster.setFromCamera({ x: 0, y: 0 }, camera);
+      nearestCrystal = null;
+      let closestDist = 4;
+      for (const c of crystals) {
+        if (c.userData.collected) continue;
+        const dist = c.position.distanceTo(camera.position);
+        if (dist < closestDist) {
+          const intersects = raycaster.intersectObjects(c.children, true);
+          if (intersects.length > 0) {
+            closestDist = dist;
+            nearestCrystal = c;
+          }
+        }
+      }
+      interactPrompt.classList.toggle('visible', nearestCrystal !== null && !nearestCrystal.userData.collected);
+    }
+
+    // ─── Animate crystals ───
+    function animateCrystals(time) {
+      crystals.forEach((c, i) => {
+        if (c.userData.collected) return;
+        const floatY = Math.sin(time * 2 + c.userData.floatOffset) * 0.15;
+        c.position.y = c.userData.baseY + floatY;
+        c.rotation.y = time * 0.5 + i;
+        c.children[0].rotation.x = time * 0.3 + i * 0.5;
+        // Pulse glow
+        const pulse = 0.4 + Math.sin(time * 3 + i) * 0.2;
+        c.children[0].material.emissiveIntensity = pulse;
+        c.children[1].material.opacity = 0.1 + Math.sin(time * 2 + i * 1.5) * 0.08;
+      });
+    }
+
+    // ─── Resize ───
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    // ─── Main loop ───
+    let prevTime = performance.now();
+
+    function animate(time) {
+      requestAnimationFrame(animate);
+
+      const dt = Math.min((time - prevTime) / 1000, 0.05);
+      prevTime = time;
+
+      updatePhysics(dt);
+      animateCrystals(time / 1000);
+
+      controls.update();
+      renderer.render(scene, camera);
+      reportFps();
+
+      if (!readySent) {
+        readySent = true;
+        notify('GAME_READY', { engine: 'Three.js', timestamp: Date.now() });
+        document.getElementById('wsStatus').textContent = 'Ready';
+      }
+    }
+
+    animate(performance.now());
+
+    // ─── Workspace bridge ───
+    window.addEventListener('message', (e) => {
+      if (e.data?.type === 'RORK_PARITY_PING') {
+        e.source?.postMessage({ type: 'RORK_PARITY_PONG', source: 'rork-parity-3d' }, '*');
+      }
+    });
+
+    console.log('RorkParity 3D World loaded');
+    notify('LOG', { message: '3D World initialized' });
+
+    // ─── Error handler ───
+    window.addEventListener('error', (e) => {
+      notify('ERROR', { message: e.message, filename: e.filename, lineno: e.lineno });
+    });
+
+    // ─── Visibility ───
+    document.addEventListener('visibilitychange', () => {
+      notify('VISIBILITY', { visible: !document.hidden });
+    });
+  </script>
+</body>
+</html>
