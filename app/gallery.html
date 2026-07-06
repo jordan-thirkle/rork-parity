@@ -4,290 +4,54 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ForgeLoop Game Gallery</title>
-  <meta name="description" content="Browse AI-generated games built with ForgeLoop. Play instantly in your browser.">
+  <meta name="description" content="Browse AI-generated games built with ForgeLoop.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: 'Space Grotesk', sans-serif;
-      background: #0f0f0f;
-      color: #fff;
-      line-height: 1.6;
-    }
-    
-    /* Nav */
-    nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 100;
-      background: rgba(15, 15, 15, 0.95);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid #222;
-      padding: 16px 0;
-    }
-    .nav-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .nav-brand {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      text-decoration: none;
-      color: #fff;
-      font-weight: 600;
-    }
-    .nav-brand svg { width: 24px; height: 24px; }
-    .nav-links {
-      display: flex;
-      gap: 24px;
-      align-items: center;
-    }
-    .nav-links a {
-      color: #aaa;
-      text-decoration: none;
-      font-size: 0.95rem;
-      transition: color 0.2s;
-    }
-    .nav-links a:hover { color: #5d9eff; }
-    .nav-cta {
-      padding: 8px 20px;
-      background: #5d9eff;
-      color: #fff !important;
-      border-radius: 6px;
-      font-weight: 500;
-      transition: all 0.2s;
-    }
-    .nav-cta:hover {
-      background: #4a8eff;
-      transform: translateY(-1px);
-    }
-    
-    /* Main */
-    .main {
-      padding: 120px 20px 80px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    .back-link {
-      display: inline-block;
-      margin-bottom: 32px;
-      color: #5d9eff;
-      text-decoration: none;
-      font-size: 0.95rem;
-      transition: color 0.2s;
-    }
-    .back-link:hover { color: #4a8eff; }
-    h1 {
-      font-size: 2.5rem;
-      margin-bottom: 12px;
-    }
-    .subtitle {
-      color: #aaa;
-      font-size: 1.1rem;
-      margin-bottom: 48px;
-    }
-    
-    /* Game Grid */
-    .game-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 24px;
-    }
-    .game-card {
-      background: #1a1a1a;
-      border-radius: 12px;
-      overflow: hidden;
-      border: 1px solid #2a2a2a;
-      transition: all 0.3s;
-    }
-    .game-card:hover {
-      border-color: #5d9eff;
-      transform: translateY(-4px);
-      box-shadow: 0 12px 32px rgba(0,0,0,0.4);
-    }
-    .game-preview {
-      width: 100%;
-      height: 200px;
-      background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 4rem;
-    }
-    .game-info {
-      padding: 24px;
-    }
-    .game-info h3 {
-      margin-bottom: 8px;
-      font-size: 1.2rem;
-    }
-    .game-info p {
-      color: #888;
-      font-size: 0.95rem;
-      margin-bottom: 16px;
-    }
-    .game-meta {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.8rem;
-      color: #666;
-      margin-bottom: 16px;
-      font-family: 'JetBrains Mono', monospace;
-    }
-    .play-button {
-      display: block;
-      padding: 12px 24px;
-      background: #5d9eff;
-      color: #fff;
-      text-decoration: none;
-      border-radius: 8px;
-      font-size: 0.95rem;
-      font-weight: 500;
-      text-align: center;
-      transition: all 0.2s;
-    }
-    .play-button:hover {
-      background: #4a8eff;
-      transform: translateY(-1px);
-    }
-    .empty-state {
-      text-align: center;
-      padding: 80px 20px;
-      color: #666;
-      grid-column: 1 / -1;
-    }
-    .empty-state h2 {
-      color: #aaa;
-      margin-bottom: 12px;
-    }
-    
-    /* Footer */
-    footer {
-      padding: 40px 20px;
-      background: #0a0a0a;
-      border-top: 1px solid #222;
-      text-align: center;
-    }
-    .footer-links {
-      display: flex;
-      gap: 24px;
-      justify-content: center;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
-    }
-    .footer-links a {
-      color: #888;
-      text-decoration: none;
-      font-size: 0.9rem;
-      transition: color 0.2s;
-    }
-    .footer-links a:hover { color: #5d9eff; }
-    .footer-copy {
-      color: #555;
-      font-size: 0.85rem;
-    }
-    
-    @media (max-width: 768px) {
-      .main { padding: 100px 20px 60px; }
-      h1 { font-size: 2rem; }
-      .game-grid { grid-template-columns: 1fr; }
-    }
+    body{margin:0;background:#0f0f0f;color:#fff;font-family:'Space Grotesk',sans-serif}
+    .wrap{max-width:1200px;margin:0 auto;padding:120px 20px 80px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
+    .card{background:#1a1a1a;border:1px solid #2a2a2a;border-radius:14px;overflow:hidden}
+    .card img{width:100%;height:180px;object-fit:cover;background:#222}
+    .body{padding:16px}
+    .meta{font-family:'JetBrains Mono',monospace;color:#aaa;font-size:12px}
+    a{color:#5d9eff;text-decoration:none}
   </style>
 </head>
 <body>
-  <!-- Navigation -->
-  <nav>
-    <div class="nav-inner">
-      <a href="/" class="nav-brand">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-          <path d="M2 17l10 5 10-5"/>
-          <path d="M2 12l10 5 10-5"/>
-        </svg>
-        <span>RorkParity</span>
-      </a>
-      <div class="nav-links">
-        <a href="/">Home</a>
-        <a href="/gallery.html">Gallery</a>
-        <a href="/workspace.html">Workspace</a>
-        <a href="https://github.com/jordan-thirkle/rork-parity" target="_blank">GitHub</a>
-        <a href="/workspace.html" class="nav-cta">Start Building</a>
-      </div>
-    </div>
-  </nav>
-
-  <div class="main">
-    <a href="/" class="back-link">← Back to Home</a>
-    <h1>Game Gallery</h1>
-    <p class="subtitle">All games generated by RorkParity AI</p>
-    
-    <div class="game-grid" id="gameGrid">
-      <div class="empty-state">
-        <h2>Loading games...</h2>
-        <p>Fetching the latest AI-generated games</p>
-      </div>
-    </div>
+  <div class="wrap">
+    <a href="/">← Home</a>
+    <h1>ForgeLoop Game Gallery</h1>
+    <p style="color:#aaa">Live from Supabase when available; local manifest fallback otherwise.</p>
+    <div class="grid" id="games"></div>
   </div>
-
-  <!-- Footer -->
-  <footer>
-    <div class="footer-links">
-      <a href="/">Home</a>
-      <a href="/gallery.html">Gallery</a>
-      <a href="/workspace.html">Workspace</a>
-      <a href="https://byjtt.com">ByJTT</a>
-      <a href="https://github.com/jordan-thirkle/rork-parity">GitHub</a>
-    </div>
-    <p class="footer-copy">© 2026 RorkParity by <a href="https://byjtt.com" style="color:#5d9eff;text-decoration:none;">ByJTT</a>. All games generated by AI.</p>
-  </footer>
-
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    async function loadGames() {
-      const grid = document.getElementById('gameGrid');
-      
+    const fallback = [
+      {title:'Zone Brawler', slug:'zone-brawler-v1.html', summary:'Phaser brawler template', updated_at:'local'},
+      {title:'Medieval Castle Defense', slug:'auto-20260706-medieval-castle-defense.html', summary:'Autogenerated defense game', updated_at:'local'}
+    ];
+    async function load(){
+      let items = fallback;
       try {
-        const response = await fetch('/games/manifest.json?t=' + Date.now());
-        if (response.ok) {
-          const games = await response.json();
-          if (games.length > 0) {
-            grid.innerHTML = games.map(game => `
-              <div class="game-card">
-                <div class="game-preview">${game.emoji || '🎮'}</div>
-                <div class="game-info">
-                  <h3>${game.title}</h3>
-                  <p>${game.description || 'AI-generated game'}</p>
-                  <div class="game-meta">
-                    <span>${game.engine || 'Phaser 3'}</span>
-                    <span>${game.date || ''}</span>
-                  </div>
-                  <a href="/games/${game.filename}" class="play-button">Play Now</a>
-                </div>
-              </div>
-            `).join('');
-            return;
-          }
-        }
-      } catch (e) {}
-      
-      // Fallback
-      grid.innerHTML = `
-        <div class="empty-state">
-          <h2>No games yet</h2>
-          <p>Be the first to generate a game!</p>
-          <a href="/workspace.html" class="play-button" style="margin-top: 20px; display: inline-block; width: auto;">Start Building</a>
-        </div>
-      `;
+        const url = localStorage.getItem('supabase:url') || 'https://xuwfpcogphhrkagwgzpf.supabase.co';
+        const key = localStorage.getItem('supabase:anonKey') || 'sb_publishable_YSFRl77bFARtSluR4IDIUA_6xtc8cI-';
+        const s = supabase.createClient(url, key);
+        const { data } = await s.from('game_projects').select('id,title,updated_at,engine,status').order('updated_at', {ascending:false}).limit(24);
+        if (data && data.length) items = data.map(p => ({title:p.title, slug:'workspace.html', summary:`${p.engine || 'Game'} • ${p.status || 'draft'}`, updated_at:p.updated_at}));
+      } catch(e) {}
+      document.getElementById('games').innerHTML = items.map(g => `
+        <div class="card">
+          <img alt="${g.title}" src="https://placehold.co/800x450/1a1a1a/ffffff?text=${encodeURIComponent(g.title)}">
+          <div class="body">
+            <h3>${g.title}</h3>
+            <p>${g.summary}</p>
+            <div class="meta">${g.updated_at}</div>
+            <p><a href="/${g.slug}">Open</a></p>
+          </div>
+        </div>`).join('');
     }
-    
-    loadGames();
+    load();
   </script>
 </body>
 </html>

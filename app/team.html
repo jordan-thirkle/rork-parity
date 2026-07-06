@@ -4,34 +4,94 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ForgeLoop Team</title>
-  <meta name="description" content="Live autonomous team status for ForgeLoop: generation, SEO, maintenance, and self-improvement agents.">
+  <meta name="description" content="Live autonomous team status for ForgeLoop.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
-    body{margin:0;font-family:'JetBrains Mono',monospace;background:#0f0f0f;color:#fff;padding:40px}
-    .wrap{max-width:1100px;margin:0 auto}
-    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
-    .card{background:#1a1a1a;border:1px solid #333;border-radius:12px;padding:16px}
-    .ok{color:#7CFF7C}.warn{color:#ffce5d}.bad{color:#ff6b6b}
-    a{color:#5d9eff}
+    :root{--bg:#0f0f0f;--panel:#1a1a1a;--line:#2a2a2a;--accent:#5d9eff;--ok:#53e07d;--warn:#ffce5d;--bad:#ff6b6b}
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:#fff;font-family:'Space Grotesk',sans-serif}
+    a{color:var(--accent);text-decoration:none}
+    .wrap{max-width:1200px;margin:0 auto;padding:32px}
+    .top{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:20px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+    .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px}
+    .row{display:flex;justify-content:space-between;gap:12px;align-items:center}
+    .mono{font-family:'JetBrains Mono',monospace;font-size:12px;color:#bbb}
+    .status{font-weight:700}
+    .online{color:var(--ok)} .idle{color:var(--warn)} .offline{color:var(--bad)}
+    canvas{width:100%;height:420px;background:#090909;border:1px solid var(--line);border-radius:16px;display:block}
+    .small{color:#9a9a9a;font-size:14px;line-height:1.5}
   </style>
 </head>
 <body>
   <div class="wrap">
-    <a href="/">← Home</a>
-    <h1>ForgeLoop Autonomous Team</h1>
-    <p>Live cron-driven system. Last updated from generated status.</p>
+    <div class="top">
+      <div>
+        <a href="/">← Home</a>
+        <h1>ForgeLoop Autonomous Team</h1>
+        <p class="small">Live cron outputs, real status, and offline detection. This page refreshes from <span class="mono">app/status.json</span>.</p>
+      </div>
+      <div class="mono" id="lastUpdate">loading…</div>
+    </div>
+
+    <canvas id="scene" width="1200" height="420"></canvas>
+
+    <h2 style="margin:24px 0 12px">Agents</h2>
     <div class="grid" id="cards"></div>
   </div>
+
   <script>
-    const jobs = [
-      ['Autopilot', '30m', 'Health checks, restart if down, template validation'],
-      ['SEO Generator', 'Daily 9am', 'Sitemap, robots, OG meta, schema refresh'],
-      ['Daily Game Generation', 'Daily 10am', 'Generate a new playable game'],
-      ['Weekly Maintenance', 'Sun 2am', 'Git gc, cleanup, disk check, tag'],
-      ['Self-Improvement', 'Mon 11am', 'Analyze gaps and report']
-    ];
-    document.getElementById('cards').innerHTML = jobs.map(([name,sched,desc]) => `
-      <div class="card"><h3>${name}</h3><p class="ok">${sched}</p><p>${desc}</p></div>
-    `).join('');
+    const fallback = {
+      last_update: 'unknown',
+      agents: [
+        {name:'Autopilot', role:'health checks', schedule:'30m', status:'offline', detail:'No recent run'},
+        {name:'SEO', role:'metadata generation', schedule:'daily 9am', status:'offline', detail:'No recent run'},
+        {name:'Game Gen', role:'template generation', schedule:'daily 10am', status:'offline', detail:'No recent run'},
+        {name:'Maintenance', role:'git cleanup', schedule:'sun 2am', status:'offline', detail:'No recent run'},
+        {name:'Self-Improvement', role:'gap analysis', schedule:'mon 11am', status:'offline', detail:'No recent run'}
+      ]
+    };
+
+    function statusClass(s){ return s === 'online' ? 'online' : s === 'idle' ? 'idle' : 'offline'; }
+    function render(data){
+      document.getElementById('lastUpdate').textContent = `last update: ${data.last_update || 'unknown'}`;
+      const cards = document.getElementById('cards');
+      cards.innerHTML = data.agents.map(a => `
+        <div class="card">
+          <div class="row"><strong>${a.name}</strong><span class="status ${statusClass(a.status)}">${a.status}</span></div>
+          <div class="mono">${a.schedule}</div>
+          <p class="small">${a.role}</p>
+          <p class="small">${a.detail}</p>
+        </div>
+      `).join('');
+      draw(data.agents);
+    }
+
+    async function load(){
+      try {
+        const res = await fetch('/status.json', {cache:'no-store'});
+        render(res.ok ? await res.json() : fallback);
+      } catch(e){ render(fallback); }
+    }
+
+    const c = document.getElementById('scene');
+    const x = c.getContext('2d');
+    function draw(agents){
+      x.clearRect(0,0,c.width,c.height);
+      x.fillStyle='#090909'; x.fillRect(0,0,c.width,c.height);
+      const n = agents.length;
+      agents.forEach((a,i)=>{
+        const px = 120 + i*200, py = 180;
+        x.fillStyle = a.status === 'online' ? '#53e07d' : a.status === 'idle' ? '#ffce5d' : '#ff6b6b';
+        x.beginPath(); x.arc(px,py,26,0,Math.PI*2); x.fill();
+        x.fillStyle = '#fff'; x.font='16px JetBrains Mono'; x.fillText(a.name, px-40, py+52);
+        x.strokeStyle='#2a2a2a'; x.beginPath(); x.moveTo(px,py); x.lineTo(600,80); x.stroke();
+      });
+      x.fillStyle='#5d9eff'; x.beginPath(); x.arc(600,80,34,0,Math.PI*2); x.fill();
+      x.fillStyle='#fff'; x.font='bold 16px Space Grotesk'; x.fillText('ForgeLoop', 555, 130);
+    }
+    load(); setInterval(load, 30000);
   </script>
 </body>
 </html>

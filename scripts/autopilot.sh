@@ -70,4 +70,20 @@ fi
 # 6. Commit any template/workspace changes
 bash scripts/auto-version.sh "autopilot: post-run snapshot"
 
+STATUS_FILE="app/status.json"
+python - <<'PY'
+import json, datetime, pathlib
+p = pathlib.Path('app/status.json')
+try:
+    data = json.loads(p.read_text())
+except Exception:
+    data = {"last_update": "unknown", "agents": []}
+for a in data.get('agents', []):
+    if a.get('name') == 'Autopilot':
+        a['status'] = 'online'
+        a['detail'] = 'Running and healthy'
+        a['last_run'] = datetime.datetime.utcnow().isoformat() + 'Z'
+p.write_text(json.dumps(data, indent=2) + '\n')
+PY
+
 echo "[autopilot] Done — $(date)"

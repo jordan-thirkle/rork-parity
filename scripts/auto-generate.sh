@@ -225,7 +225,7 @@ echo "✓ SEO metadata created"
 TIMESTAMP=$(date -u +%Y-%m-%d)
 cat >> publish/sitemap.xml << EOF
   <url>
-    <loc>https://games.byjtt.com/games/${GAME_NAME}.html</loc>
+    <loc>https://forgeloop.byjtt.com/games/${GAME_NAME}.html</loc>
     <lastmod>${TIMESTAMP}</lastmod>
     <priority>0.6</priority>
   </url>
@@ -245,4 +245,4 @@ echo "✓ Committed and tagged"
 echo "=== Generation Complete ==="
 echo "Game: ${GAME_NAME}"
 echo "Concept: ${CONCEPT}"
-echo "URL: https://games.byjtt.com/games/${GAME_NAME}.html"
+echo "URL: https://forgeloop.byjtt.com/games/${GAME_NAME}.html"

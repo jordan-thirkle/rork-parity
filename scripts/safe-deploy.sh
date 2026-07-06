@@ -17,5 +17,6 @@ echo '[safe-deploy] verify routes'
 curl -sL http://localhost:3001/ >/dev/null
 curl -sL http://localhost:3001/gallery.html >/dev/null
 curl -sL http://localhost:3001/team.html >/dev/null
+curl -sL http://localhost:3001/payment.html >/dev/null
 
 echo '[safe-deploy] ready for Vercel deploy'

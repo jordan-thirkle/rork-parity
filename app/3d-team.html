@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ForgeLoop 3D Team</title>
+  <style>
+    body{margin:0;background:#050505;color:#fff;font-family:Arial, sans-serif;overflow:hidden}
+    canvas{display:block;width:100vw;height:100vh}
+    .hud{position:fixed;top:16px;left:16px;background:rgba(0,0,0,.55);padding:12px 14px;border:1px solid #333;border-radius:12px;backdrop-filter:blur(10px)}
+    .off{color:#ff6b6b}.on{color:#53e07d}.idle{color:#ffce5d}
+  </style>
+</head>
+<body>
+  <div class="hud"><strong>ForgeLoop 3D Team</strong><div id="status">loading…</div></div>
+  <canvas id="c"></canvas>
+  <script>
+    const c=document.getElementById('c'),x=c.getContext('2d');
+    function resize(){c.width=innerWidth*c.devicePixelRatio;c.height=innerHeight*c.devicePixelRatio}
+    addEventListener('resize',resize);resize();
+    async function load(){try{const d=await fetch('/status.json',{cache:'no-store'}).then(r=>r.json());document.getElementById('status').textContent=d.agents.map(a=>a.name+': '+a.status).join(' | ');draw(d.agents)}catch(e){document.getElementById('status').textContent='offline';draw([])}}
+    function draw(agents){x.setTransform(1,0,0,1,0,0);x.clearRect(0,0,c.width,c.height);x.fillStyle='#050505';x.fillRect(0,0,c.width,c.height);const cx=c.width/2,cy=c.height/2;agents.forEach((a,i)=>{const ang=i/Math.max(1,agents.length)*Math.PI*2;const r=180;const px=cx+Math.cos(ang)*r,py=cy+Math.sin(ang)*r; x.fillStyle=a.status==='online'?'#53e07d':a.status==='idle'?'#ffce5d':'#ff6b6b'; x.beginPath();x.arc(px,py,26,0,Math.PI*2);x.fill();x.strokeStyle='#5d9eff';x.beginPath();x.moveTo(px,py);x.lineTo(cx,cy);x.stroke();}); x.fillStyle='#5d9eff';x.beginPath();x.arc(cx,cy,40,0,Math.PI*2);x.fill();}
+    setInterval(load,30000);load();
+  </script>
+</body>
+</html>

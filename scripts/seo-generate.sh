@@ -70,6 +70,17 @@ Sitemap: ${BASE_URL}/sitemap.xml
 EOF
 echo "[seo] robots.txt written"
 
+python - <<'PY'
+import json, pathlib
+p = pathlib.Path('app/status.json')
+data = json.loads(p.read_text())
+for a in data.get('agents', []):
+    if a.get('name') == 'SEO':
+        a['status'] = 'online'
+        a['detail'] = 'Generated sitemap + robots + OG meta'
+p.write_text(json.dumps(data, indent=2) + '\n')
+PY
+
 # === JSON-LD GAME SCHEMA ===
 cat > "publish/games-schema.json" << EOF
 {
