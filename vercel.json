@@ -1,0 +1,17 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "app/package.json",
+      "use": "@vercel/static-build",
+      "config": { "distDir": "app" }
+    }
+  ],
+  "routes": [
+    { "src": "/api/(.*)", "dest": "/app/api.js" },
+    { "src": "/games/(.*)", "dest": "/app/games/$1" },
+    { "src": "/gallery", "dest": "/app/gallery.html" },
+    { "src": "/workspace", "dest": "/app/index.html" },
+    { "src": "/(.*)", "dest": "/app/$1" }
+  ]
+}

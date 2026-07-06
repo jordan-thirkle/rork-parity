@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RorkParity — AI Game Builder | Create Games in Seconds</title>
+  <meta name="description" content="RorkParity is an AI-powered game builder that creates playable browser games from text descriptions. Build 2D and 3D games instantly with no coding required.">
+  <meta property="og:title" content="RorkParity — AI Game Builder">
+  <meta property="og:description" content="Create playable browser games from text descriptions. No coding required.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://games.byjtt.com">
+  <link rel="canonical" href="https://games.byjtt.com">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'JetBrains Mono', monospace;
+      background: #0f0f0f;
+      color: #fff;
+      line-height: 1.6;
+    }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+    
+    /* Hero */
+    .hero {
+      min-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 80px 20px;
+    }
+    .hero h1 {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #5d9eff 0%, #a855f7 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero p {
+      font-size: 1.25rem;
+      color: #aaa;
+      max-width: 600px;
+      margin-bottom: 40px;
+    }
+    .cta-button {
+      display: inline-block;
+      padding: 16px 32px;
+      background: #5d9eff;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      transition: all 0.3s;
+      border: 2px solid #5d9eff;
+    }
+    .cta-button:hover {
+      background: transparent;
+      color: #5d9eff;
+      transform: translateY(-2px);
+    }
+    
+    /* Features */
+    .features {
+      padding: 80px 20px;
+      background: #1a1a1a;
+    }
+    .features h2 {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 60px;
+    }
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .feature-card {
+      background: #0f0f0f;
+      padding: 30px;
+      border-radius: 12px;
+      border: 1px solid #333;
+      transition: all 0.3s;
+    }
+    .feature-card:hover {
+      border-color: #5d9eff;
+      transform: translateY(-4px);
+    }
+    .feature-card h3 {
+      color: #5d9eff;
+      margin-bottom: 15px;
+      font-size: 1.5rem;
+    }
+    .feature-card p {
+      color: #aaa;
+    }
+    
+    /* Gallery Preview */
+    .gallery {
+      padding: 80px 20px;
+    }
+    .gallery h2 {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 60px;
+    }
+    .game-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 30px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .game-card {
+      background: #1a1a1a;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #333;
+      transition: all 0.3s;
+    }
+    .game-card:hover {
+      border-color: #5d9eff;
+      transform: translateY(-4px);
+    }
+    .game-preview {
+      width: 100%;
+      height: 200px;
+      background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+    }
+    .game-info {
+      padding: 20px;
+    }
+    .game-info h3 {
+      margin-bottom: 10px;
+      color: #fff;
+    }
+    .game-info p {
+      color: #aaa;
+      font-size: 0.9rem;
+    }
+    .play-button {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 8px 20px;
+      background: #5d9eff;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      transition: all 0.3s;
+    }
+    .play-button:hover {
+      background: #4a8eff;
+    }
+    
+    /* Footer */
+    footer {
+      padding: 40px 20px;
+      background: #1a1a1a;
+      text-align: center;
+      color: #666;
+      border-top: 1px solid #333;
+    }
+    footer a {
+      color: #5d9eff;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <section class="hero">
+    <h1>Build Games with AI</h1>
+    <p>Describe your game in plain English. RorkParity creates a playable browser game in seconds. No coding required.</p>
+    <a href="/workspace.html" class="cta-button">Start Building →</a>
+  </section>
+
+  <section class="features">
+    <div class="container">
+      <h2>How It Works</h2>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <h3>🎮 Describe Your Game</h3>
+          <p>Tell us what you want to build. "A space shooter with asteroid mining" or "A medieval castle defense game". Our AI understands natural language.</p>
+        </div>
+        <div class="feature-card">
+          <h3>⚡ Instant Generation</h3>
+          <p>Our AI pipeline generates a complete, playable game in seconds. Choose from 2D (Phaser) or 3D (Three.js) engines.</p>
+        </div>
+        <div class="feature-card">
+          <h3>🚀 Play Immediately</h3>
+          <p>Your game runs instantly in the browser. Share it with friends, embed it on your site, or keep iterating until it's perfect.</p>
+        </div>
+        <div class="feature-card">
+          <h3>💾 Auto-Save & Version</h3>
+          <p>Every generation is automatically saved and versioned. Roll back to previous versions or fork into new directions.</p>
+        </div>
+        <div class="feature-card">
+          <h3>🎨 Multiple Templates</h3>
+          <p>Start from proven templates: 2D brawlers, 3D worlds, platformers, shooters, and more. Customize everything.</p>
+        </div>
+        <div class="feature-card">
+          <h3>🔒 Secure & Private</h3>
+          <p>Your games are private by default. Share when you're ready. Built on Supabase with enterprise-grade security.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="gallery">
+    <div class="container">
+      <h2>Recently Generated Games</h2>
+      <div class="game-grid" id="gameGrid">
+        <!-- Games will be loaded dynamically -->
+        <div class="game-card">
+          <div class="game-preview">🎮</div>
+          <div class="game-info">
+            <h3>Loading games...</h3>
+            <p>Check back soon for AI-generated games</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>Built with ❤️ by <a href="https://byjtt.com">ByJTT</a> | <a href="/workspace.html">Open Workspace</a> | <a href="https://github.com/jordan-thirkle/rork-parity">GitHub</a></p>
+      <p style="margin-top: 10px; font-size: 0.9rem;">© 2026 RorkParity. All games generated by AI.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Load games dynamically
+    async function loadGames() {
+      try {
+        const response = await fetch('/api/games');
+        const games = await response.json();
+        
+        const grid = document.getElementById('gameGrid');
+        if (games.length === 0) {
+          grid.innerHTML = `
+            <div class="game-card">
+              <div class="game-preview">🎮</div>
+              <div class="game-info">
+                <h3>Be the first!</h3>
+                <p>Generate your game and it will appear here</p>
+                <a href="/workspace.html" class="play-button">Start Building</a>
+              </div>
+            </div>
+          `;
+          return;
+        }
+        
+        grid.innerHTML = games.map(game => `
+          <div class="game-card">
+            <div class="game-preview">${game.emoji || '🎮'}</div>
+            <div class="game-info">
+              <h3>${game.title}</h3>
+              <p>${game.description || 'AI-generated game'}</p>
+              <a href="/games/${game.filename}" class="play-button">Play Now</a>
+            </div>
+          </div>
+        `).join('');
+      } catch (error) {
+        console.error('Failed to load games:', error);
+      }
+    }
+    
+    loadGames();
+  </script>
+</body>
+</html>
