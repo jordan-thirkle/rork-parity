@@ -3,95 +3,127 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ForgeLoop Team</title>
-  <meta name="description" content="Live autonomous team status for ForgeLoop.">
+  <title>Team — RorkParity</title>
+  <meta name="description" content="RorkParity team page: agent roles, workflow, and roadmap.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
-    :root{--bg:#0f0f0f;--panel:#1a1a1a;--line:#2a2a2a;--accent:#5d9eff;--ok:#53e07d;--warn:#ffce5d;--bad:#ff6b6b}
-    *{box-sizing:border-box}
-    body{margin:0;background:var(--bg);color:#fff;font-family:'Space Grotesk',sans-serif}
-    a{color:var(--accent);text-decoration:none}
-    .wrap{max-width:1200px;margin:0 auto;padding:32px}
-    .top{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:20px}
-    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
-    .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px}
-    .row{display:flex;justify-content:space-between;gap:12px;align-items:center}
-    .mono{font-family:'JetBrains Mono',monospace;font-size:12px;color:#bbb}
-    .status{font-weight:700}
-    .online{color:var(--ok)} .idle{color:var(--warn)} .offline{color:var(--bad)}
-    canvas{width:100%;height:420px;background:#090909;border:1px solid var(--line);border-radius:16px;display:block}
-    .small{color:#9a9a9a;font-size:14px;line-height:1.5}
+    *{box-sizing:border-box} body{margin:0;font-family:'Space Grotesk',sans-serif;background:#0f0f0f;color:#fff;line-height:1.6}
+    a{color:#5d9eff;text-decoration:none} .wrap{max-width:1100px;margin:0 auto;padding:32px 20px 80px}
+    nav{display:flex;justify-content:space-between;align-items:center;padding:18px 0;border-bottom:1px solid #222;position:sticky;top:0;background:rgba(15,15,15,.95);backdrop-filter:blur(10px);z-index:10}
+    .brand{display:flex;gap:10px;align-items:center;color:#fff;font-weight:700}.brand svg{width:22px;height:22px}
+    .links{display:flex;gap:18px;flex-wrap:wrap;justify-content:flex-end}
+    .hero{padding:64px 0 40px}.kicker{font-family:'JetBrains Mono',monospace;color:#5d9eff;text-transform:uppercase;font-size:.82rem;letter-spacing:.08em}
+    h1{font-size:clamp(2.3rem,5vw,4rem);margin:10px 0 16px;line-height:1.05}.sub{max-width:760px;color:#aaa;font-size:1.15rem}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;margin-top:32px}
+    .card{background:#151515;border:1px solid #262626;border-radius:14px;padding:22px}.card h2{margin:0 0 8px;font-size:1.2rem}.meta{font-family:'JetBrains Mono',monospace;color:#888;font-size:.82rem;margin-bottom:12px}
+    ul{margin:12px 0 0 20px;padding:0} li{margin:8px 0;color:#ddd}
+    .roadmap{margin-top:30px}.roadmap .card{border-color:#2f3b5c}
+    .pill{display:inline-block;padding:5px 10px;border:1px solid #2a3e66;border-radius:999px;color:#8fb3ff;font-family:'JetBrains Mono',monospace;font-size:.75rem;margin-bottom:12px}
+    footer{margin-top:40px;padding-top:20px;border-top:1px solid #222;color:#666;font-size:.9rem}
   </style>
 </head>
 <body>
   <div class="wrap">
-    <div class="top">
-      <div>
-        <a href="/">← Home</a>
-        <h1>ForgeLoop Autonomous Team</h1>
-        <p class="small">Live cron outputs, real status, and offline detection. This page refreshes from <span class="mono">app/status.json</span>.</p>
+    <nav>
+      <a class="brand" href="/">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        <span>by <strong>jtt</strong> / RorkParity</span>
+      </a>
+      <div class="links">
+        <a href="/">Home</a>
+        <a href="/workspace.html">Workspace</a>
+        <a href="/gallery.html">Gallery</a>
+        <a href="/team.html">Team</a>
       </div>
-      <div class="mono" id="lastUpdate">loading…</div>
-    </div>
+    </nav>
 
-    <canvas id="scene" width="1200" height="420"></canvas>
+    <section class="hero">
+      <div class="kicker">Agent roles</div>
+      <h1>Team Page</h1>
+      <p class="sub">RorkParity is built as a multi-agent system. The site should show the roles, show the roadmap, and make it clear that the main agent works with supporting agents instead of pretending to do everything alone.</p>
+    </section>
 
-    <h2 style="margin:24px 0 12px">Agents</h2>
-    <div class="grid" id="cards"></div>
+    <section class="grid">
+      <div class="card">
+        <div class="meta">FORGEMASTER</div>
+        <h2>Plan</h2>
+        <p>Turns the user request into a tight spec. Chooses the template, stack, and scope. Cuts anything that does not ship in v1.</p>
+        <ul>
+          <li>Reads the request</li>
+          <li>Sets scope</li>
+          <li>Flags deferred work plainly</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="meta">SMITH</div>
+        <h2>Build</h2>
+        <p>Writes the game or feature from the spec. Keeps changes local and avoids regenerating working systems.</p>
+        <ul>
+          <li>Generates files</li>
+          <li>Touches only the affected sections</li>
+          <li>Preserves working code</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="meta">WHETSTONE</div>
+        <h2>Validate</h2>
+        <p>Checks for runtime risk, scope creep, and obvious breakage. Approves only when the result actually works.</p>
+        <ul>
+          <li>Syntax and crash checks</li>
+          <li>Scope compliance</li>
+          <li>Minimal patch feedback</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="meta">LOREKEEPER</div>
+        <h2>Store</h2>
+        <p>Manages templates, docs, and reusable assets. Keeps the library aligned to the current product direction.</p>
+        <ul>
+          <li>Template registry</li>
+          <li>Docs and manifests</li>
+          <li>Asset hygiene</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="meta">CRIER</div>
+        <h2>Publish</h2>
+        <p>Handles packaging and release steps. It packages. It does not ship without a human saying so.</p>
+        <ul>
+          <li>Deploy prep</li>
+          <li>SEO assets</li>
+          <li>Release packaging only</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="meta">COORDINATOR</div>
+        <h2>Work with other agents</h2>
+        <p>The primary agent works in parallel with supporting agents on roadmap and execution. That is the model.</p>
+        <ul>
+          <li>One agent may draft the plan</li>
+          <li>Another may review or extend it</li>
+          <li>Roadmap stays visible to the user</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="roadmap">
+      <div class="card">
+        <span class="pill">Roadmap aligned to research</span>
+        <h2>Next priorities</h2>
+        <ul>
+          <li><strong>Stabilize builder:</strong> finish the workspace so generation, preview, and iteration are reliable.</li>
+          <li><strong>Make roles visible:</strong> show the agent pipeline and team page in the main nav.</li>
+          <li><strong>Game-first depth:</strong> strengthen Phaser/Three.js templates, especially brawler and 3D world paths.</li>
+          <li><strong>Project persistence:</strong> keep saved projects, versions, and manifest-driven gallery working.</li>
+          <li><strong>Mobile parity later:</strong> Expo/RN export is deferred until the web flow is solid.</li>
+        </ul>
+      </div>
+    </section>
+
+    <footer>
+      RorkParity is game-first. Web-first now. Mobile parity later.
+    </footer>
   </div>
-
-  <script>
-    const fallback = {
-      last_update: 'unknown',
-      agents: [
-        {name:'Autopilot', role:'health checks', schedule:'30m', status:'offline', detail:'No recent run'},
-        {name:'SEO', role:'metadata generation', schedule:'daily 9am', status:'offline', detail:'No recent run'},
-        {name:'Game Gen', role:'template generation', schedule:'daily 10am', status:'offline', detail:'No recent run'},
-        {name:'Maintenance', role:'git cleanup', schedule:'sun 2am', status:'offline', detail:'No recent run'},
-        {name:'Self-Improvement', role:'gap analysis', schedule:'mon 11am', status:'offline', detail:'No recent run'}
-      ]
-    };
-
-    function statusClass(s){ return s === 'online' ? 'online' : s === 'idle' ? 'idle' : 'offline'; }
-    function render(data){
-      document.getElementById('lastUpdate').textContent = `last update: ${data.last_update || 'unknown'}`;
-      const cards = document.getElementById('cards');
-      cards.innerHTML = data.agents.map(a => `
-        <div class="card">
-          <div class="row"><strong>${a.name}</strong><span class="status ${statusClass(a.status)}">${a.status}</span></div>
-          <div class="mono">${a.schedule}</div>
-          <p class="small">${a.role}</p>
-          <p class="small">${a.detail}</p>
-        </div>
-      `).join('');
-      draw(data.agents);
-    }
-
-    async function load(){
-      try {
-        const res = await fetch('/status.json', {cache:'no-store'});
-        render(res.ok ? await res.json() : fallback);
-      } catch(e){ render(fallback); }
-    }
-
-    const c = document.getElementById('scene');
-    const x = c.getContext('2d');
-    function draw(agents){
-      x.clearRect(0,0,c.width,c.height);
-      x.fillStyle='#090909'; x.fillRect(0,0,c.width,c.height);
-      const n = agents.length;
-      agents.forEach((a,i)=>{
-        const px = 120 + i*200, py = 180;
-        x.fillStyle = a.status === 'online' ? '#53e07d' : a.status === 'idle' ? '#ffce5d' : '#ff6b6b';
-        x.beginPath(); x.arc(px,py,26,0,Math.PI*2); x.fill();
-        x.fillStyle = '#fff'; x.font='16px JetBrains Mono'; x.fillText(a.name, px-40, py+52);
-        x.strokeStyle='#2a2a2a'; x.beginPath(); x.moveTo(px,py); x.lineTo(600,80); x.stroke();
-      });
-      x.fillStyle='#5d9eff'; x.beginPath(); x.arc(600,80,34,0,Math.PI*2); x.fill();
-      x.fillStyle='#fff'; x.font='bold 16px Space Grotesk'; x.fillText('ForgeLoop', 555, 130);
-    }
-    load(); setInterval(load, 30000);
-  </script>
 </body>
 </html>
