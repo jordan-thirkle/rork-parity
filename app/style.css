@@ -1,0 +1,58 @@
+  /* ===== VIEWPORT FRAMES ===== */
+  /* Device-specific frame rendering for realistic preview */
+  .preview-frame.viewport-mobile {
+    max-width: 375px;
+    max-height: 812px;
+    border-radius: 36px;
+    border: 3px solid #333;
+    box-shadow: 0 0 50px rgba(0,0,0,0.6), inset 0 0 0 1px #444;
+    margin: auto;
+  }
+  .preview-frame.viewport-tablet {
+    max-width: 768px;
+    max-height: 1024px;
+    border-radius: 16px;
+    border: 3px solid #333;
+    box-shadow: 0 0 40px rgba(0,0,0,0.5), inset 0 0 0 1px #444;
+    margin: auto;
+  }
+  /* Notch/Hole-punch simulation for mobile */
+  .preview-container.device-mobile::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 375px;
+    height: 812px;
+    border-radius: 36px;
+    pointer-events: none;
+    z-index: 10;
+    /* Simulated notch bar */
+    box-shadow: 
+      0 -8px 10px -8px rgba(0,0,0,0.4) inset;
+  }
+  /* Phone status bar overlay */
+  .preview-container.device-mobile::after {
+    content: attr(data-device-time);
+    position: absolute;
+    top: calc(50% - 406px + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    width: 375px;
+    padding: 4px 24px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    color: #fff;
+    font-family: var(--font);
+    pointer-events: none;
+    z-index: 11;
+  }
+  /* Rotate phone indicator */
+  .viewport-btn.rotate-phone::after {
+    content: '↻';
+    margin-left: 4px;
+    font-size: 8px;
+    opacity: 0.5;
+  }

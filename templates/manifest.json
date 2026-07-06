@@ -1,0 +1,21 @@
+{
+  "templates": [
+    {
+      "name": "brawler-zone-crawler",
+      "genre": "action-brawler",
+      "stack": "canvas-2d",
+      "systems": [
+        "combat",
+        "leveling",
+        "zones",
+        "enemy-ai",
+        "score",
+        "progression"
+      ],
+      "file_ref": "templates/brawler-zone-crawler.html",
+      "last_validated_date": "2026-07-06",
+      "description": "2D arena brawler with 5 zones, leveling, combat, and score system. WASD move, click/F attack, E interact to zone gate."
+    }
+  ],
+  "_note": "Templates are real, validated game files. Additions only through LOREKEEPER proposal + user confirmation workflow."
+}
