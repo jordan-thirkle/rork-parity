@@ -1,13 +1,20 @@
 {
-  "last_update": "2026-07-06T22:45:00Z",
+  "last_update": "2026-07-06T22:00:29.389027Z",
+  "gateway": "online",
   "agents": [
+    {
+      "name": "Hermes Gateway",
+      "role": "scheduler + messaging bridge",
+      "schedule": "on login",
+      "status": "online",
+      "detail": "Hermes gateway service"
+    },
     {
       "name": "Autopilot",
       "role": "health checks, restart, validation",
       "schedule": "30m",
       "status": "online",
-      "detail": "Running and healthy",
-      "last_run": "2026-07-06T21:50:38.853329Z"
+      "detail": "Running and healthy"
     },
     {
       "name": "SEO",
@@ -21,7 +28,7 @@
       "role": "new game creation",
       "schedule": "daily 10am",
       "status": "online",
-      "detail": "Auto-generated game exists"
+      "detail": "Generated game output exists"
     },
     {
       "name": "Maintenance",
@@ -36,6 +43,46 @@
       "schedule": "mon 11am",
       "status": "idle",
       "detail": "Awaiting next run"
+    },
+    {
+      "name": "RorkParity SEO Generator",
+      "schedule": "0 9 * * *",
+      "next_run": "2026-07-07T09:00:00+01:00",
+      "deliver": "local",
+      "status": "online",
+      "detail": "Managed by Hermes cron"
+    },
+    {
+      "name": "RorkParity Weekly Maintenance",
+      "schedule": "0 2 * * 0",
+      "next_run": "2026-07-12T02:00:00+01:00",
+      "deliver": "local",
+      "status": "online",
+      "detail": "Managed by Hermes cron"
+    },
+    {
+      "name": "RorkParity Daily Game Generation",
+      "schedule": "0 10 * * *",
+      "next_run": "2026-07-07T10:00:00+01:00",
+      "deliver": "local",
+      "status": "online",
+      "detail": "Managed by Hermes cron"
+    },
+    {
+      "name": "RorkParity Self-Improvement Analysis",
+      "schedule": "0 11 * * 1",
+      "next_run": "2026-07-13T11:00:00+01:00",
+      "deliver": "local",
+      "status": "online",
+      "detail": "Managed by Hermes cron"
+    },
+    {
+      "name": "ForgeLoop Hermes Ops Sync",
+      "schedule": "every 5m",
+      "next_run": "2026-07-06T23:04:18.405736+01:00",
+      "deliver": "local",
+      "status": "online",
+      "detail": "Managed by Hermes cron"
     }
   ]
 }
