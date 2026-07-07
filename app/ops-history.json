@@ -719,5 +719,47 @@
     "gateway": "online",
     "jobs": 12,
     "summary": "Synced 12 cron jobs and gateway online"
+  },
+  {
+    "at": "2026-07-07T10:44:55.372123Z",
+    "type": "sync",
+    "gateway": "online",
+    "jobs": 12,
+    "summary": "Synced 12 cron jobs and gateway online"
+  },
+  {
+    "at": "2026-07-07T10:50:51.084566Z",
+    "type": "sync",
+    "gateway": "online",
+    "jobs": 12,
+    "summary": "Synced 12 cron jobs and gateway online"
+  },
+  {
+    "at": "2026-07-07T10:56:52.770765Z",
+    "type": "sync",
+    "gateway": "online",
+    "jobs": 12,
+    "summary": "Synced 12 cron jobs and gateway online"
+  },
+  {
+    "at": "2026-07-07T11:02:50.666380Z",
+    "type": "sync",
+    "gateway": "online",
+    "jobs": 12,
+    "summary": "Synced 12 cron jobs and gateway online"
+  },
+  {
+    "at": "2026-07-07T11:08:51.012005Z",
+    "type": "sync",
+    "gateway": "online",
+    "jobs": 12,
+    "summary": "Synced 12 cron jobs and gateway online"
+  },
+  {
+    "at": "2026-07-07T11:14:56.923747Z",
+    "type": "sync",
+    "gateway": "online",
+    "jobs": 12,
+    "summary": "Synced 12 cron jobs and gateway online"
   }
 ]
