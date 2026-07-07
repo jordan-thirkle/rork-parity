@@ -1,5 +1,5 @@
 {
-  "last_update": "2026-07-07T11:14:56.923747Z",
+  "last_update": "2026-07-07T11:44:55.054309Z",
   "gateway": "online",
   "agents": [
     {
@@ -14,8 +14,7 @@
       "role": "health checks, restart, validation",
       "schedule": "30m",
       "status": "online",
-      "detail": "Running and healthy",
-      "last_run": "2026-07-07T11:15:31.497425Z"
+      "detail": "Running and healthy"
     },
     {
       "name": "SEO",
@@ -48,7 +47,7 @@
     {
       "name": "ForgeLoop Hermes Ops Sync",
       "schedule": "every 5m",
-      "next_run": "2026-07-07T12:19:41.120027+01:00",
+      "next_run": "2026-07-07T12:49:41.823884+01:00",
       "deliver": "local",
       "status": "online",
       "detail": "Managed by Hermes cron"
@@ -56,7 +55,7 @@
     {
       "name": "ForgeLoop Autopilot",
       "schedule": "every 30m",
-      "next_run": "2026-07-07T12:44:41.132129+01:00",
+      "next_run": "2026-07-07T12:45:49.177534+01:00",
       "deliver": "local",
       "status": "online",
       "detail": "Managed by Hermes cron"
@@ -64,7 +63,7 @@
     {
       "name": "ForgeLoop Server Watchdog",
       "schedule": "every 10m",
-      "next_run": "2026-07-07T12:15:54.140830+01:00",
+      "next_run": "2026-07-07T12:50:02.641866+01:00",
       "deliver": "local",
       "status": "online",
       "detail": "Managed by Hermes cron"
@@ -104,7 +103,7 @@
     {
       "name": "ForgeLoop Uptime Check",
       "schedule": "every 10m",
-      "next_run": "2026-07-07T12:19:57.107381+01:00",
+      "next_run": "2026-07-07T12:53:52.263042+01:00",
       "deliver": "local",
       "status": "online",
       "detail": "Managed by Hermes cron"
@@ -112,7 +111,7 @@
     {
       "name": "ForgeLoop Catalog Builder",
       "schedule": "every 30m",
-      "next_run": "2026-07-07T12:21:32.751036+01:00",
+      "next_run": "2026-07-07T12:51:57.597195+01:00",
       "deliver": "local",
       "status": "online",
       "detail": "Managed by Hermes cron"
@@ -136,18 +135,18 @@
     {
       "name": "ForgeLoop Credibility Monitor",
       "schedule": "every 15m",
-      "next_run": "2026-07-07T12:28:55.150835+01:00",
+      "next_run": "2026-07-07T12:44:52.516953+01:00",
       "deliver": "local",
       "status": "online",
       "detail": "Managed by Hermes cron"
     },
     {
-      "name": "Server Watchdog",
-      "role": "keep the local workspace server alive",
-      "schedule": "10m",
+      "name": "Credibility Monitor",
+      "role": "watch public sentiment and brand mentions",
+      "schedule": "15m",
       "status": "online",
-      "detail": "Checked workspace server and restarted if needed",
-      "last_run": "2026-07-07T11:16:47.825236Z"
+      "detail": "Monitored public signals and recorded sentiment",
+      "last_run": "2026-07-07T11:45:44.825808Z"
     }
   ]
 }
