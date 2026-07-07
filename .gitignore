@@ -1,21 +1,12 @@
-# RorkParity — Git auto-versioning
-
-# Generated game artifacts (rebuilt by pipeline)
-app/games/*.html
-!app/games/.gitkeep
-
-# Environment & secrets
-.env
-.env.local
+node_modules
+.next
+.next/types
+out
+dist
+build
+.tmp
+temp
+.env*.local
 *.log
-
-# OS
-Thumbs.db
 .DS_Store
-
-# Editor
-.idea/
-.vscode/
-*.swp
-
-.vercel
+Thumbs.db

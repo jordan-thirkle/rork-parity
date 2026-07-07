@@ -1,6 +1,6 @@
 {
-  "buildCommand": null,
-  "outputDirectory": "app",
+  "buildCommand": "cd next && npm run build",
+  "outputDirectory": "next/.next",
   "cleanUrls": true,
   "headers": [
     {
