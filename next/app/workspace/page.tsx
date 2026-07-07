@@ -1,10 +1,11 @@
 'use client';
 
 import Link from 'next/link';
+import WorkspaceChat from '@/components/workspace-chat';
 
 export default function Workspace() {
   return (
-    <main style={{ minHeight: '100vh' }}>
+    <main style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <nav style={{
         display: 'flex',
         gap: '1.5rem',
@@ -21,57 +22,45 @@ export default function Workspace() {
         <Link href="/gallery" style={{ opacity: 0.8 }}>Gallery</Link>
         <Link href="/docs" style={{ opacity: 0.8 }}>Docs</Link>
       </nav>
+
       <section style={{
+        flex: 1,
         maxWidth: '1200px',
+        width: '100%',
         margin: '0 auto',
-        padding: '2rem 1.5rem',
+        padding: '1.5rem',
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-        gap: '1.5rem',
+        gridTemplateColumns: '1fr',
+        gap: '1rem',
+        minHeight: 0,
       }}>
-        <div style={{ gridColumn: '1 / -1' }}>
-          <h1 style={{ fontSize: '2rem', fontWeight: 700, letterSpacing: '-0.03em' }}>
-            Workspace
-          </h1>
-          <p style={{ opacity: 0.8, marginTop: '0.5rem' }}>
-            Chat prompt, upload assets, generate native apps, preview, export.
-          </p>
-        </div>
-        <div style={{
-          gridColumn: '1 / -1',
-          padding: '1.25rem',
-          borderRadius: '16px',
-          border: '1px solid #262626',
-          background: '#141414',
-        }}>
-          <div style={{
-            display: 'flex',
-            gap: '0.75rem',
-            marginBottom: '1rem',
-          }}>
-            <input
-              placeholder="Describe your app..."
-              style={{
-                flex: 1,
-                padding: '0.9rem 1rem',
-                borderRadius: '10px',
-                border: '1px solid #2a2a2a',
-                background: '#0f0f0f',
-                color: '#fff',
-              }}
-            />
-            <button style={{
-              padding: '0.9rem 1.2rem',
-              borderRadius: '10px',
-              background: '#5d9eff',
-              color: '#fff',
-              fontWeight: 600,
-            }}>
-              Generate
-            </button>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1rem', minHeight: 0 }}>
+          <div style={{ minHeight: 520 }}>
+            <WorkspaceChat />
           </div>
-          <div style={{ opacity: 0.6 }}>
-            Wire FORGEMASTER/SMITH pipeline here.
+          <div style={{
+            padding: '1.25rem',
+            borderRadius: 16,
+            border: '1px solid #262626',
+            background: '#141414',
+            minHeight: 520,
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '0.75rem',
+          }}>
+            <div style={{ fontWeight: 600, letterSpacing: '-0.01em' }}>Preview / Export</div>
+            <div style={{ opacity: 0.7 }}>This panel will host the live preview and native export actions.</div>
+            <div style={{ marginTop: 'auto', display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+              <Link href="/docs/rebuild-brief-v2" style={{
+                padding: '0.75rem 1.1rem',
+                borderRadius: 10,
+                border: '1px solid #262626',
+                color: '#fff',
+                fontWeight: 600,
+              }}>
+                Open Rebuild Brief
+              </Link>
+            </div>
           </div>
         </div>
       </section>

@@ -1,21 +1,18 @@
 {
-  "templates": [
-    {
-      "name": "brawler-zone-crawler",
-      "genre": "action-brawler",
-      "stack": "canvas-2d",
-      "systems": [
-        "combat",
-        "leveling",
-        "zones",
-        "enemy-ai",
-        "score",
-        "progression"
-      ],
-      "file_ref": "templates/brawler-zone-crawler.html",
-      "last_validated_date": "2026-07-06",
-      "description": "2D arena brawler with 5 zones, leveling, combat, and score system. WASD move, click/F attack, E interact to zone gate."
-    }
+  "id": "native-expo-starter",
+  "name": "Native Expo Starter",
+  "description": "Real Expo/React Native template with Three.js + Cannon.js physics scene.",
+  "stack": ["expo", "react-native", "three", "cannon-es"],
+  "files": [
+    "app.json",
+    "package.json",
+    "tsconfig.json",
+    "app/_layout.tsx",
+    "app/index.tsx",
+    "app/GameScene.tsx",
+    "README.md"
   ],
-  "_note": "Templates are real, validated game files. Additions only through LOREKEEPER proposal + user confirmation workflow."
+  "status": "production-ready",
+  "buildTargets": ["ios", "android"],
+  "notes": "Use as the default template for native export until chat-customized variants are added."
 }
