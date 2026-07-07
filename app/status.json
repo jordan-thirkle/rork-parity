@@ -1,5 +1,5 @@
 {
-  "last_update": "2026-07-07T06:36:49.383778Z",
+  "last_update": "2026-07-07T07:00:50.770147Z",
   "gateway": "online",
   "agents": [
     {
@@ -47,7 +47,7 @@
     {
       "name": "ForgeLoop Hermes Ops Sync",
       "schedule": "every 5m",
-      "next_run": "2026-07-07T07:41:34.215497+01:00",
+      "next_run": "2026-07-07T08:05:34.812166+01:00",
       "deliver": "local",
       "status": "online",
       "detail": "Managed by Hermes cron"
@@ -63,7 +63,7 @@
     {
       "name": "ForgeLoop Server Watchdog",
       "schedule": "every 10m",
-      "next_run": "2026-07-07T07:36:58.029496+01:00",
+      "next_run": "2026-07-07T08:10:34.824277+01:00",
       "deliver": "local",
       "status": "online",
       "detail": "Managed by Hermes cron"
@@ -103,7 +103,7 @@
     {
       "name": "ForgeLoop Uptime Check",
       "schedule": "every 10m",
-      "next_run": "2026-07-07T07:37:53.066767+01:00",
+      "next_run": "2026-07-07T08:10:34.835880+01:00",
       "deliver": "local",
       "status": "online",
       "detail": "Managed by Hermes cron"
@@ -111,7 +111,7 @@
     {
       "name": "ForgeLoop Catalog Builder",
       "schedule": "every 30m",
-      "next_run": "2026-07-07T07:41:48.255567+01:00",
+      "next_run": "2026-07-07T08:13:12.653713+01:00",
       "deliver": "local",
       "status": "online",
       "detail": "Managed by Hermes cron"
@@ -135,7 +135,7 @@
     {
       "name": "ForgeLoop Credibility Monitor",
       "schedule": "every 15m",
-      "next_run": "2026-07-07T07:40:47.710131+01:00",
+      "next_run": "2026-07-07T08:12:53.311085+01:00",
       "deliver": "local",
       "status": "online",
       "detail": "Managed by Hermes cron"
@@ -146,7 +146,7 @@
       "schedule": "10m",
       "status": "online",
       "detail": "Checked workspace server and restarted if needed",
-      "last_run": "2026-07-07T06:37:42.576939Z"
+      "last_run": "2026-07-07T07:01:35.529701Z"
     },
     {
       "name": "Uptime Checker",
@@ -154,7 +154,7 @@
       "schedule": "10m",
       "status": "online",
       "detail": "Checked local server and key routes",
-      "last_run": "2026-07-07T06:38:38.691970Z"
+      "last_run": "2026-07-07T07:01:44.507641Z"
     }
   ]
 }
