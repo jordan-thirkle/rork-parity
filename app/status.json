@@ -1,5 +1,5 @@
 {
-  "last_update": "2026-07-07T02:54:39.841114Z",
+  "last_update": "2026-07-07T03:00:42.494917Z",
   "gateway": "online",
   "agents": [
     {
@@ -47,7 +47,7 @@
     {
       "name": "ForgeLoop Hermes Ops Sync",
       "schedule": "every 5m",
-      "next_run": "2026-07-07T03:59:28.308213+01:00",
+      "next_run": "2026-07-07T04:05:28.444820+01:00",
       "deliver": "local",
       "status": "online",
       "detail": "Managed by Hermes cron"
@@ -55,7 +55,7 @@
     {
       "name": "ForgeLoop Autopilot",
       "schedule": "every 30m",
-      "next_run": "2026-07-07T03:56:17.631149+01:00",
+      "next_run": "2026-07-07T04:26:53.898720+01:00",
       "deliver": "local",
       "status": "online",
       "detail": "Managed by Hermes cron"
@@ -63,7 +63,7 @@
     {
       "name": "ForgeLoop Server Watchdog",
       "schedule": "every 10m",
-      "next_run": "2026-07-07T03:56:37.849116+01:00",
+      "next_run": "2026-07-07T04:07:35.463317+01:00",
       "deliver": "local",
       "status": "online",
       "detail": "Managed by Hermes cron"
@@ -103,7 +103,7 @@
     {
       "name": "ForgeLoop Uptime Check",
       "schedule": "every 10m",
-      "next_run": "2026-07-07T03:57:33.358172+01:00",
+      "next_run": "2026-07-07T04:08:46.573859+01:00",
       "deliver": "local",
       "status": "online",
       "detail": "Managed by Hermes cron"
@@ -127,7 +127,7 @@
     {
       "name": "ForgeLoop Verification",
       "schedule": "0 4 * * *",
-      "next_run": "2026-07-07T04:00:00+01:00",
+      "next_run": "2026-07-08T04:00:00+01:00",
       "deliver": "local",
       "status": "online",
       "detail": "Managed by Hermes cron"
@@ -135,10 +135,18 @@
     {
       "name": "ForgeLoop Credibility Monitor",
       "schedule": "every 15m",
-      "next_run": "2026-07-07T03:56:34.271158+01:00",
+      "next_run": "2026-07-07T04:12:44.369322+01:00",
       "deliver": "local",
       "status": "online",
       "detail": "Managed by Hermes cron"
+    },
+    {
+      "name": "Verification",
+      "role": "verify routes, HTML, and media after changes",
+      "schedule": "60m",
+      "status": "online",
+      "detail": "Ran safe deploy checks",
+      "last_run": "2026-07-07T03:00:54.772653Z"
     }
   ]
 }
