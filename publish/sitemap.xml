@@ -3,29 +3,29 @@
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://forgeloop.byjtt.com/</loc>
-    <lastmod>2026-07-06</lastmod>
+    <lastmod>2026-07-07</lastmod>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://forgeloop.byjtt.com/games/3d-world-template.html</loc>
-    <lastmod>2026-07-06</lastmod>
+    <lastmod>2026-07-07</lastmod>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://forgeloop.byjtt.com/games/3d-world-template.html"/>
   </url>
   <url>
     <loc>https://forgeloop.byjtt.com/games/brawler-zone-crawler.html</loc>
-    <lastmod>2026-07-06</lastmod>
+    <lastmod>2026-07-07</lastmod>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://forgeloop.byjtt.com/games/brawler-zone-crawler.html"/>
   </url>
   <url>
     <loc>https://forgeloop.byjtt.com/games/auto-20260706-medieval-castle-defense.html</loc>
-    <lastmod>2026-07-06</lastmod>
+    <lastmod>2026-07-07</lastmod>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://forgeloop.byjtt.com/games/zone-brawler-v1.html</loc>
-    <lastmod>2026-07-06</lastmod>
+    <lastmod>2026-07-07</lastmod>
     <priority>0.6</priority>
   </url>
 </urlset>

@@ -1,5 +1,5 @@
 {
-  "last_update": "2026-07-07T00:20:38.603067Z",
+  "last_update": "2026-07-07T00:31:33.974456Z",
   "gateway": "online",
   "agents": [
     {
@@ -45,41 +45,9 @@
       "detail": "Awaiting next run"
     },
     {
-      "name": "RorkParity SEO Generator",
-      "schedule": "0 9 * * *",
-      "next_run": "2026-07-07T09:00:00+01:00",
-      "deliver": "local",
-      "status": "online",
-      "detail": "Managed by Hermes cron"
-    },
-    {
-      "name": "RorkParity Weekly Maintenance",
-      "schedule": "0 2 * * 0",
-      "next_run": "2026-07-12T02:00:00+01:00",
-      "deliver": "local",
-      "status": "online",
-      "detail": "Managed by Hermes cron"
-    },
-    {
-      "name": "RorkParity Daily Game Generation",
-      "schedule": "0 10 * * *",
-      "next_run": "2026-07-07T10:00:00+01:00",
-      "deliver": "local",
-      "status": "online",
-      "detail": "Managed by Hermes cron"
-    },
-    {
-      "name": "RorkParity Self-Improvement Analysis",
-      "schedule": "0 11 * * 1",
-      "next_run": "2026-07-13T11:00:00+01:00",
-      "deliver": "local",
-      "status": "online",
-      "detail": "Managed by Hermes cron"
-    },
-    {
       "name": "ForgeLoop Hermes Ops Sync",
       "schedule": "every 5m",
-      "next_run": "2026-07-07T01:25:17.943560+01:00",
+      "next_run": "2026-07-07T01:36:20.731164+01:00",
       "deliver": "local",
       "status": "online",
       "detail": "Managed by Hermes cron"
@@ -95,10 +63,106 @@
     {
       "name": "ForgeLoop Server Watchdog",
       "schedule": "every 10m",
-      "next_run": "2026-07-07T01:30:20.099824+01:00",
+      "next_run": "2026-07-07T01:40:29.854991+01:00",
       "deliver": "local",
       "status": "online",
       "detail": "Managed by Hermes cron"
+    },
+    {
+      "name": "ForgeLoop SEO Generator",
+      "schedule": "0 9 * * *",
+      "next_run": "2026-07-07T09:00:00+01:00",
+      "deliver": "local",
+      "status": "online",
+      "detail": "Managed by Hermes cron"
+    },
+    {
+      "name": "ForgeLoop Weekly Maintenance",
+      "schedule": "0 2 * * 0",
+      "next_run": "2026-07-12T02:00:00+01:00",
+      "deliver": "local",
+      "status": "online",
+      "detail": "Managed by Hermes cron"
+    },
+    {
+      "name": "ForgeLoop Daily Game Generation",
+      "schedule": "0 10 * * *",
+      "next_run": "2026-07-07T10:00:00+01:00",
+      "deliver": "local",
+      "status": "online",
+      "detail": "Managed by Hermes cron"
+    },
+    {
+      "name": "ForgeLoop Self-Improvement Analysis",
+      "schedule": "0 11 * * 1",
+      "next_run": "2026-07-13T11:00:00+01:00",
+      "deliver": "local",
+      "status": "online",
+      "detail": "Managed by Hermes cron"
+    },
+    {
+      "name": "ForgeLoop Uptime Check",
+      "schedule": "every 10m",
+      "next_run": "2026-07-07T01:40:56.280365+01:00",
+      "deliver": "local",
+      "status": "online",
+      "detail": "Managed by Hermes cron"
+    },
+    {
+      "name": "ForgeLoop Catalog Builder",
+      "schedule": "every 30m",
+      "next_run": "2026-07-07T02:00:57.354910+01:00",
+      "deliver": "local",
+      "status": "online",
+      "detail": "Managed by Hermes cron"
+    },
+    {
+      "name": "ForgeLoop Security Scanner",
+      "schedule": "0 3 * * *",
+      "next_run": "2026-07-07T03:00:00+01:00",
+      "deliver": "local",
+      "status": "online",
+      "detail": "Managed by Hermes cron"
+    },
+    {
+      "name": "ForgeLoop Verification",
+      "schedule": "0 4 * * *",
+      "next_run": "2026-07-07T04:00:00+01:00",
+      "deliver": "local",
+      "status": "online",
+      "detail": "Managed by Hermes cron"
+    },
+    {
+      "name": "ForgeLoop Credibility Monitor",
+      "schedule": "every 15m",
+      "next_run": "2026-07-07T01:46:00.631309+01:00",
+      "deliver": "local",
+      "status": "online",
+      "detail": "Managed by Hermes cron"
+    },
+    {
+      "name": "Credibility Monitor",
+      "role": "watch public sentiment and brand mentions",
+      "schedule": "15m",
+      "status": "online",
+      "detail": "Monitored public signals and recorded sentiment",
+      "last_run": "2026-07-07T00:32:25.745971Z"
+    },
+    {
+      "name": "Security Scanner",
+      "role": "scan repo for exposed secrets and suspicious files",
+      "schedule": "60m",
+      "status": "online",
+      "detail": "Completed local repo/media risk scan",
+      "last_run": "2026-07-07T00:32:25.867614Z"
+    },
+    {
+      "name": "Verification",
+      "role": "verify routes, HTML, and media after changes",
+      "schedule": "60m",
+      "status": "online",
+      "detail": "Ran safe deploy checks",
+      "last_run": "2026-07-07T00:32:26.563435Z"
     }
   ]
 }
