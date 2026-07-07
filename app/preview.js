@@ -64,6 +64,10 @@ const Preview = {
     this.frame.classList.add('hidden');
     this.overlay.classList.add('hidden');
     this.empty.classList.remove('hidden');
+    const title = document.getElementById('projectTitleDisplay');
+    if (title) title.textContent = 'No project';
+    const badge = document.getElementById('phaseBadge');
+    if (badge) badge.textContent = 'Phase 2';
   },
 
   loadGame(url) {
@@ -77,9 +81,8 @@ const Preview = {
     this.overlay.classList.remove('hidden');
     this.frame.src = url;
     this.status('Game loaded');
-    // Update project title
-    document.getElementById('projectTitleDisplay').textContent =
-      State.project || 'Generated game';
+    const title = document.getElementById('projectTitleDisplay');
+    if (title) title.textContent = State.project || 'Generated game';
   },
 
   refresh() {
