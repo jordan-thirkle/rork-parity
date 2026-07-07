@@ -48,7 +48,7 @@ for tmpl in templates/*.html; do
 done
 
 # 5. Verify workspace server is running
-if curl -sf http://localhost:3001 > /dev/null 2>&1; then
+if curl -sf http://localhost:8888 > /dev/null 2>&1; then
   echo "[autopilot] Workspace server: running (:3001)"
 else
   echo "[autopilot] Workspace server: NOT running"
@@ -59,7 +59,7 @@ else
     disown
     echo "[autopilot] Server restart initiated (PID: $!)"
     sleep 2
-    if curl -sf http://localhost:3001 > /dev/null 2>&1; then
+    if curl -sf http://localhost:8888 > /dev/null 2>&1; then
       echo "[autopilot] Server confirmed running"
     else
       echo "[autopilot] Server restart in progress..."

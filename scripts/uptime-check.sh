@@ -27,13 +27,13 @@ else:
 p.write_text(json.dumps(data, indent=2) + '\n')
 PY
 
-if curl -sf http://localhost:3001/ >/dev/null 2>&1; then
+if curl -sf http://localhost:8888/ >/dev/null 2>&1; then
   echo "[uptime] server healthy"
 else
   echo "[uptime] server down"
 fi
 
 for route in / /index.html /workspace.html /gallery.html /team.html /roadmap.html /landing.html /payment.html /3d-team.html; do
-  code=$(curl -s -o /dev/null -w '%{http_code}' "http://localhost:3001${route}")
+  code=$(curl -s -o /dev/null -w '%{http_code}' "http://localhost:8888${route}")
   echo "[uptime] ${route} ${code}"
 done

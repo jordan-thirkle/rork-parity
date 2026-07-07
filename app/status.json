@@ -14,7 +14,8 @@
       "role": "health checks, restart, validation",
       "schedule": "30m",
       "status": "online",
-      "detail": "Running and healthy"
+      "detail": "Running and healthy",
+      "last_run": "2026-07-07T05:31:42.377020Z"
     },
     {
       "name": "SEO",
@@ -139,6 +140,14 @@
       "deliver": "local",
       "status": "online",
       "detail": "Managed by Hermes cron"
+    },
+    {
+      "name": "Server Watchdog",
+      "role": "keep the local workspace server alive",
+      "schedule": "10m",
+      "status": "online",
+      "detail": "Checked workspace server and restarted if needed",
+      "last_run": "2026-07-07T05:32:17.331133Z"
     }
   ]
 }
