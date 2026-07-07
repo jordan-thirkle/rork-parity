@@ -1,5 +1,5 @@
 {
-  "last_update": "2026-07-07T09:38:49.628220Z",
+  "last_update": "2026-07-07T10:08:51.379990Z",
   "gateway": "online",
   "agents": [
     {
@@ -47,7 +47,7 @@
     {
       "name": "ForgeLoop Hermes Ops Sync",
       "schedule": "every 5m",
-      "next_run": "2026-07-07T10:43:38.786483+01:00",
+      "next_run": "2026-07-07T11:13:39.563232+01:00",
       "deliver": "local",
       "status": "online",
       "detail": "Managed by Hermes cron"
@@ -55,7 +55,7 @@
     {
       "name": "ForgeLoop Autopilot",
       "schedule": "every 30m",
-      "next_run": "2026-07-07T10:41:03.081019+01:00",
+      "next_run": "2026-07-07T11:12:07.251375+01:00",
       "deliver": "local",
       "status": "online",
       "detail": "Managed by Hermes cron"
@@ -63,7 +63,7 @@
     {
       "name": "ForgeLoop Server Watchdog",
       "schedule": "every 10m",
-      "next_run": "2026-07-07T10:46:49.379780+01:00",
+      "next_run": "2026-07-07T11:09:14.455371+01:00",
       "deliver": "local",
       "status": "online",
       "detail": "Managed by Hermes cron"
@@ -103,7 +103,7 @@
     {
       "name": "ForgeLoop Uptime Check",
       "schedule": "every 10m",
-      "next_run": "2026-07-07T10:48:38.798582+01:00",
+      "next_run": "2026-07-07T11:13:45.559084+01:00",
       "deliver": "local",
       "status": "online",
       "detail": "Managed by Hermes cron"
@@ -111,7 +111,7 @@
     {
       "name": "ForgeLoop Catalog Builder",
       "schedule": "every 30m",
-      "next_run": "2026-07-07T10:48:20.953881+01:00",
+      "next_run": "2026-07-07T11:18:57.178267+01:00",
       "deliver": "local",
       "status": "online",
       "detail": "Managed by Hermes cron"
@@ -135,18 +135,26 @@
     {
       "name": "ForgeLoop Credibility Monitor",
       "schedule": "every 15m",
-      "next_run": "2026-07-07T10:52:49.688668+01:00",
+      "next_run": "2026-07-07T11:09:08.334169+01:00",
       "deliver": "local",
       "status": "online",
       "detail": "Managed by Hermes cron"
     },
     {
-      "name": "Uptime Checker",
-      "role": "verify local server and live HTML routes",
+      "name": "Server Watchdog",
+      "role": "keep the local workspace server alive",
       "schedule": "10m",
       "status": "online",
-      "detail": "Checked local server and key routes",
-      "last_run": "2026-07-07T09:39:33.500056Z"
+      "detail": "Checked workspace server and restarted if needed",
+      "last_run": "2026-07-07T10:09:44.784663Z"
+    },
+    {
+      "name": "Credibility Monitor",
+      "role": "watch public sentiment and brand mentions",
+      "schedule": "15m",
+      "status": "online",
+      "detail": "Monitored public signals and recorded sentiment",
+      "last_run": "2026-07-07T10:09:55.150168Z"
     }
   ]
 }
