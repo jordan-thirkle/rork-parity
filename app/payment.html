@@ -4,14 +4,137 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ForgeLoop Credits</title>
-  <style>body{margin:0;background:#0f0f0f;color:#fff;font-family:Arial;padding:40px}.card{max-width:700px;margin:0 auto;background:#1a1a1a;padding:24px;border-radius:16px;border:1px solid #2a2a2a}button{background:#5d9eff;color:#fff;border:0;padding:12px 18px;border-radius:8px;cursor:pointer}</style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Space Grotesk', Arial, sans-serif;
+      background: #0f0f0f;
+      color: #fff;
+      padding: 40px 20px;
+    }
+    .wrap {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .card {
+      background: #1a1a1a;
+      border: 1px solid #2a2a2a;
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+    .status {
+      background: #111;
+      border: 1px solid #262626;
+      color: #cbd5e1;
+      padding: 14px 16px;
+      border-radius: 10px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      margin-bottom: 16px;
+    }
+    .price {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 0;
+      border-top: 1px solid #262626;
+    }
+    .price:first-of-type { border-top: 0; }
+    .price strong { font-size: 1.05rem; }
+    button {
+      background: #5d9eff;
+      color: #fff;
+      border: 0;
+      padding: 12px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    button:disabled {
+      background: #2a2a2a;
+      color: #666;
+      cursor: not-allowed;
+    }
+    a { color: #5d9eff; text-decoration: none; }
+    .muted { color: #666; }
+    .ok { color: #53e07d; }
+    .err { color: #ff6b6b; }
+  </style>
 </head>
 <body>
-  <div class="card">
-    <a href="/">← Home</a>
-    <h1>Buy Credits</h1>
-    <p>Payment integration scaffold is ready. Real checkout needs Stripe keys and webhooks.</p>
-    <button onclick="alert('Stripe checkout wiring is scaffolded but needs live keys/webhook config.')">Start checkout</button>
+  <div class="wrap">
+    <div class="card">
+      <a href="/">← Home</a>
+      <h1 style="margin-top:8px">Buy Credits</h1>
+      <p class="muted" style="margin-top:6px">Credits are required to generate games in the workspace.</p>
+    </div>
+
+    <div class="card">
+      <h2>Account</h2>
+      <div class="status" id="status">Checking account…</div>
+      <a class="muted" href="/workspace.html">Open workspace →</a>
+    </div>
+
+    <div class="card">
+      <h2>Plans</h2>
+      <div class="price">
+        <div>
+          <strong>Starter</strong>
+          <div class="muted">10 credits</div>
+        </div>
+        <button data-amount="10">Buy $4</button>
+      </div>
+      <div class="price">
+        <div>
+          <strong>Builder</strong>
+          <div class="muted">50 credits</div>
+        </div>
+        <button data-amount="50">Buy $14</button>
+      </div>
+      <div class="price">
+        <div>
+          <strong>Studio</strong>
+          <div class="muted">200 credits</div>
+        </div>
+        <button data-amount="200">Buy $39</button>
+      </div>
+      <p class="muted" style="margin-top:10px">Checkout is scaffolded. Replace this with a real Stripe Checkout session + webhook when keys are available.</p>
+    </div>
   </div>
+
+  <script>
+    async function loadStatus() {
+      const el = document.getElementById('status');
+      try {
+        const res = await fetch('/status.json', { cache: 'no-store' });
+        const data = await res.json();
+        const user = data.user || data.gateway || {};
+        const balance = typeof user.credit_balance !== 'undefined' ? user.credit_balance : null;
+        const statusLabel = balance !== null ? `Credits: <span class="ok">${balance}</span>` : 'No account detected.';
+        el.innerHTML = `${statusLabel}<br>Generation is blocked when credits reach 0.`;
+      } catch (e) {
+        el.innerHTML = `<span class="err">offline</span> — cannot load account status.`;
+      }
+    }
+
+    document.querySelectorAll('button[data-amount]').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const amount = parseInt(btn.getAttribute('data-amount'), 10);
+        btn.disabled = true;
+        btn.textContent = 'Checkout unavailable';
+        setTimeout(() => {
+          btn.disabled = false;
+          btn.textContent = amount === 10 ? 'Buy $4' : amount === 50 ? 'Buy $14' : 'Buy $39';
+        }, 1200);
+        alert(`Checkout wiring is scaffolded for ${amount} credits. Add a real Stripe checkout + webhook to complete purchase.`);
+      });
+    });
+
+    loadStatus();
+  </script>
 </body>
 </html>
