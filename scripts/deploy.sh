@@ -1,12 +1,12 @@
 #!/bin/bash
-# Deploy RorkParity to Vercel
+# Deploy ForgeLoop to Vercel
 # Usage: bash scripts/deploy.sh
 
 set -e
 
 cd /d/Projects/rork-parity
 
-echo "=== RorkParity Deploy ==="
+echo "=== ForgeLoop Deploy ==="
 echo "Date: $(date)"
 
 # Check if Vercel CLI is installed
@@ -29,10 +29,6 @@ vercel --prod --yes
 
 echo "✓ Deploy complete"
 echo "URL: https://forgeloop.byjtt.com"
-
-# Update sitemap with production URL
-sed -i 's|https://games.byjtt.com|https://games.byjtt.com|g' publish/sitemap.xml
-
 # Commit deploy tag
 git tag "deploy-$(date +%Y%m%d-%H%M%S)"
 git push origin master --tags

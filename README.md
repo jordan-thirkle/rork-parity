@@ -90,4 +90,4 @@ and strategic gaps we can exploit).
 - **Preview**: Sandboxed iframe with blob URL isolation
 - **Game stack**: Canvas2D (default), Three.js, Phaser, or Godot
 - **Backend** (Phase 2): Supabase (auth, Postgres, storage)
-- **Publishing**: games.byjtt.com
+- **Publishing**: forgeloop.byjtt.com
