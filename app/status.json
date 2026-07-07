@@ -1,5 +1,5 @@
 {
-  "last_update": "2026-07-07T10:20:50.871067Z",
+  "last_update": "2026-07-07T10:38:51.297243Z",
   "gateway": "online",
   "agents": [
     {
@@ -47,7 +47,7 @@
     {
       "name": "ForgeLoop Hermes Ops Sync",
       "schedule": "every 5m",
-      "next_run": "2026-07-07T11:25:39.850640+01:00",
+      "next_run": "2026-07-07T11:43:40.266595+01:00",
       "deliver": "local",
       "status": "online",
       "detail": "Managed by Hermes cron"
@@ -63,7 +63,7 @@
     {
       "name": "ForgeLoop Server Watchdog",
       "schedule": "every 10m",
-      "next_run": "2026-07-07T11:30:39.859717+01:00",
+      "next_run": "2026-07-07T11:43:23.823356+01:00",
       "deliver": "local",
       "status": "online",
       "detail": "Managed by Hermes cron"
@@ -103,7 +103,7 @@
     {
       "name": "ForgeLoop Uptime Check",
       "schedule": "every 10m",
-      "next_run": "2026-07-07T11:25:33.408003+01:00",
+      "next_run": "2026-07-07T11:46:49.645849+01:00",
       "deliver": "local",
       "status": "online",
       "detail": "Managed by Hermes cron"
@@ -135,10 +135,18 @@
     {
       "name": "ForgeLoop Credibility Monitor",
       "schedule": "every 15m",
-      "next_run": "2026-07-07T11:25:02.885272+01:00",
+      "next_run": "2026-07-07T11:41:13.449471+01:00",
       "deliver": "local",
       "status": "online",
       "detail": "Managed by Hermes cron"
+    },
+    {
+      "name": "Credibility Monitor",
+      "role": "watch public sentiment and brand mentions",
+      "schedule": "15m",
+      "status": "online",
+      "detail": "Monitored public signals and recorded sentiment",
+      "last_run": "2026-07-07T10:42:00.358407Z"
     }
   ]
 }
