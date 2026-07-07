@@ -147,6 +147,14 @@
       "status": "online",
       "detail": "Checked workspace server and restarted if needed",
       "last_run": "2026-07-07T13:10:50.151867Z"
+    },
+    {
+      "name": "Uptime Checker",
+      "role": "verify local server and live HTML routes",
+      "schedule": "10m",
+      "status": "online",
+      "detail": "Checked local server and key routes",
+      "last_run": "2026-07-07T13:14:50.301402Z"
     }
   ]
 }

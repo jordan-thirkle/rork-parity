@@ -22,16 +22,17 @@ _Working base: `localhost:8888` serving `app/`_
 ## Remaining Gaps / Current Incomplete Work
 1. **Live Supabase-backed catalog**
    - migration file created: `supabase/migrations/002_published_games.sql`
-   - local/ gallery pages can read catalog manifest
-   - missing: actual Supabase publish flow + verified real-time query path in production
+   - `SupabaseClient.listPublishedGames()` added
+   - gallery/home/landing now prefer Supabase with manifest fallback
+   - missing: seed data + verified query in production
 2. **Payment/credits flow**
    - scaffold exists at `/payment.html`
    - missing: checkout integration, credit balance enforcement, purchase completion flow
 3. **Production deployment verification**
-   - local serving works; production deploy path exists but is not yet verified live
+   - local serving works; production deploy path verified live at `https://rork-parity.vercel.app`
 4. **3D team view completeness**
    - page exists at `/3d-team.html`
-   - missing: real Hermes agent online/offline state visualized, not just text status
+   - missing: richer online/offline transitions from ops history
 5. **Workspace auth readiness**
    - Supabase client scaffold exists
    - missing: verified public-safe auth/config gate and clean fallback if unconfigured
@@ -45,4 +46,4 @@ _Working base: `localhost:8888` serving `app/`_
 - Autonomous operation: done
 - Public branding + distribution domain clarity: done
 - Live user-facing catalog + payment: not yet
-- Stable production URL + publishing workflow: not yet
+- Stable production URL + publishing workflow: verified live at `https://rork-parity.vercel.app`
