@@ -1,5 +1,5 @@
 #!/bin/bash
-# RorkParity Auto-Version — pre-generation git commit
+# ForgeLoop Auto-Version — pre-generation git commit
 # Called before each SMITH code generation to snapshot state
 # Usage: ./scripts/auto-version.sh "Commit message" [tag-name]
 

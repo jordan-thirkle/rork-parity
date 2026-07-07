@@ -1,5 +1,5 @@
 #!/bin/bash
-# RorkParity Autopilot — Auto-generation pipeline
+# ForgeLoop Autopilot — Auto-generation pipeline
 # Watches for game descriptions, runs FORGEMASTER->SMITH->WHETSTONE
 # Intended as cron job: every 30m
 # Usage: bash scripts/autopilot.sh
@@ -9,7 +9,7 @@ set -e
 REPO_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$REPO_DIR"
 
-echo "[autopilot] $(date) — RorkParity autopilot check"
+echo "[autopilot] $(date) — ForgeLoop autopilot check"
 
 # 1. Auto-version any pending changes
 bash scripts/auto-version.sh "autopilot: pre-generation snapshot"

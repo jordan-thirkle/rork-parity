@@ -1,4 +1,4 @@
-# RorkParity — Chat-to-Game Builder
+# ForgeLoop — Chat-to-Game Builder
 
 Describe a game, get a playable web game. Iterate in chat. Publish to the ForgeLoop subdomain under ByJTT.
 

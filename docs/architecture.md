@@ -27,10 +27,10 @@ The plan is:
 
 ## Publishing target
 
-`games.byjtt.com` is the destination. Current structure (to be confirmed when CRIER
+`forgeloop.byjtt.com` is the destination. Current structure (to be confirmed when CRIER
 activates):
 - Static site hosting (Vercel or Cloudflare Pages)
-- Each game gets its own path: `games.byjtt.com/<game-slug>/`
+- Each game gets its own path: `forgeloop.byjtt.com/games/<game-slug>/`
 - Game assets served alongside the HTML file
 - Auto-generated listing with title, description, genre tag
 

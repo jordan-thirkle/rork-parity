@@ -1,5 +1,5 @@
 #!/bin/bash
-# RorkParity SEO Optimizer — generates sitemaps, OG tags, structured data
+# ForgeLoop SEO Optimizer — generates sitemaps, OG tags, structured data
 # Runs after new game generation and on daily cron
 # Usage: bash scripts/seo-generate.sh
 

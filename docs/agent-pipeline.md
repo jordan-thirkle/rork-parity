@@ -1,6 +1,6 @@
 # Agent Pipeline — FORGEMASTER → SMITH → WHETSTONE
 
-This document defines how the RorkParity agent pipeline executes in the Hermes session.
+This document defines how the ForgeLoop agent pipeline executes in the Hermes session.
 Unlike the `.opencode/` files (which target an OpenCode-style agent), this is the
 **live Hermes implementation** driving Phase 1.
 
