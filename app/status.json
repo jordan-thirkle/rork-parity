@@ -1,5 +1,5 @@
 {
-  "last_update": "2026-07-07T00:31:33.974456Z",
+  "last_update": "2026-07-07T00:49:32.842988Z",
   "gateway": "online",
   "agents": [
     {
@@ -14,8 +14,7 @@
       "role": "health checks, restart, validation",
       "schedule": "30m",
       "status": "online",
-      "detail": "Running and healthy",
-      "last_run": "2026-07-07T00:32:32.025253Z"
+      "detail": "Running and healthy"
     },
     {
       "name": "SEO",
@@ -48,7 +47,7 @@
     {
       "name": "ForgeLoop Hermes Ops Sync",
       "schedule": "every 5m",
-      "next_run": "2026-07-07T01:36:20.731164+01:00",
+      "next_run": "2026-07-07T01:54:21.229932+01:00",
       "deliver": "local",
       "status": "online",
       "detail": "Managed by Hermes cron"
@@ -64,7 +63,7 @@
     {
       "name": "ForgeLoop Server Watchdog",
       "schedule": "every 10m",
-      "next_run": "2026-07-07T01:40:29.854991+01:00",
+      "next_run": "2026-07-07T01:51:45.779613+01:00",
       "deliver": "local",
       "status": "online",
       "detail": "Managed by Hermes cron"
@@ -104,7 +103,7 @@
     {
       "name": "ForgeLoop Uptime Check",
       "schedule": "every 10m",
-      "next_run": "2026-07-07T01:40:56.280365+01:00",
+      "next_run": "2026-07-07T01:51:58.952096+01:00",
       "deliver": "local",
       "status": "online",
       "detail": "Managed by Hermes cron"
@@ -136,34 +135,10 @@
     {
       "name": "ForgeLoop Credibility Monitor",
       "schedule": "every 15m",
-      "next_run": "2026-07-07T01:46:00.631309+01:00",
+      "next_run": "2026-07-07T02:01:27.901191+01:00",
       "deliver": "local",
       "status": "online",
       "detail": "Managed by Hermes cron"
-    },
-    {
-      "name": "Credibility Monitor",
-      "role": "watch public sentiment and brand mentions",
-      "schedule": "15m",
-      "status": "online",
-      "detail": "Monitored public signals and recorded sentiment",
-      "last_run": "2026-07-07T00:32:25.745971Z"
-    },
-    {
-      "name": "Security Scanner",
-      "role": "scan repo for exposed secrets and suspicious files",
-      "schedule": "60m",
-      "status": "online",
-      "detail": "Completed local repo/media risk scan",
-      "last_run": "2026-07-07T00:32:25.867614Z"
-    },
-    {
-      "name": "Verification",
-      "role": "verify routes, HTML, and media after changes",
-      "schedule": "60m",
-      "status": "online",
-      "detail": "Ran safe deploy checks",
-      "last_run": "2026-07-07T00:32:26.563435Z"
     }
   ]
 }
