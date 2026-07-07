@@ -1,5 +1,5 @@
 {
-  "last_update": "2026-07-07T01:19:38.265917Z",
+  "last_update": "2026-07-07T01:49:38.373510Z",
   "gateway": "online",
   "agents": [
     {
@@ -47,7 +47,7 @@
     {
       "name": "ForgeLoop Hermes Ops Sync",
       "schedule": "every 5m",
-      "next_run": "2026-07-07T02:24:23.105423+01:00",
+      "next_run": "2026-07-07T02:54:23.762965+01:00",
       "deliver": "local",
       "status": "online",
       "detail": "Managed by Hermes cron"
@@ -55,7 +55,7 @@
     {
       "name": "ForgeLoop Autopilot",
       "schedule": "every 30m",
-      "next_run": "2026-07-07T02:21:20.724387+01:00",
+      "next_run": "2026-07-07T02:51:59.762818+01:00",
       "deliver": "local",
       "status": "online",
       "detail": "Managed by Hermes cron"
@@ -63,7 +63,7 @@
     {
       "name": "ForgeLoop Server Watchdog",
       "schedule": "every 10m",
-      "next_run": "2026-07-07T02:24:46.753187+01:00",
+      "next_run": "2026-07-07T02:58:07.988989+01:00",
       "deliver": "local",
       "status": "online",
       "detail": "Managed by Hermes cron"
@@ -103,7 +103,7 @@
     {
       "name": "ForgeLoop Uptime Check",
       "schedule": "every 10m",
-      "next_run": "2026-07-07T02:24:56.296838+01:00",
+      "next_run": "2026-07-07T02:58:38.462811+01:00",
       "deliver": "local",
       "status": "online",
       "detail": "Managed by Hermes cron"
@@ -111,7 +111,7 @@
     {
       "name": "ForgeLoop Catalog Builder",
       "schedule": "every 30m",
-      "next_run": "2026-07-07T02:31:58.438042+01:00",
+      "next_run": "2026-07-07T03:02:33.755373+01:00",
       "deliver": "local",
       "status": "online",
       "detail": "Managed by Hermes cron"
@@ -135,10 +135,18 @@
     {
       "name": "ForgeLoop Credibility Monitor",
       "schedule": "every 15m",
-      "next_run": "2026-07-07T02:33:37.303029+01:00",
+      "next_run": "2026-07-07T02:49:40.583949+01:00",
       "deliver": "local",
       "status": "online",
       "detail": "Managed by Hermes cron"
+    },
+    {
+      "name": "Credibility Monitor",
+      "role": "watch public sentiment and brand mentions",
+      "schedule": "15m",
+      "status": "online",
+      "detail": "Monitored public signals and recorded sentiment",
+      "last_run": "2026-07-07T01:50:27.181523Z"
     }
   ]
 }
