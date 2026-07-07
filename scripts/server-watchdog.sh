@@ -6,7 +6,7 @@ if curl -sf http://localhost:8888 >/dev/null 2>&1; then
   echo '[watchdog] server healthy'
 else
   echo '[watchdog] server down, restarting'
-  nohup npx serve app -l 3001 > /tmp/forgeloop-serve.log 2>&1 &
+  nohup npx serve app -l 8888 > /tmp/forgeloop-serve.log 2>&1 &
   disown || true
   sleep 2
   if curl -sf http://localhost:8888 >/dev/null 2>&1; then

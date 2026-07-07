@@ -49,13 +49,13 @@ done
 
 # 5. Verify workspace server is running
 if curl -sf http://localhost:8888 > /dev/null 2>&1; then
-  echo "[autopilot] Workspace server: running (:3001)"
+  echo "[autopilot] Workspace server: running (:8888)"
 else
   echo "[autopilot] Workspace server: NOT running"
   # Attempt restart
   if command -v npx &> /dev/null; then
     echo "[autopilot] Restarting server..."
-    nohup npx serve app/ -p 3001 > /tmp/rorkparity-server.log 2>&1 &
+    nohup npx serve app/ -p 8888 > /tmp/rorkparity-server.log 2>&1 &
     disown
     echo "[autopilot] Server restart initiated (PID: $!)"
     sleep 2
