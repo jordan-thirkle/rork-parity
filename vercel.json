@@ -11,13 +11,5 @@
       ]
     }
   ],
-  "redirects": [
-    { "source": "/workspace", "destination": "/workspace.html", "statusCode": 302 },
-    { "source": "/gallery", "destination": "/gallery.html", "statusCode": 302 },
-    { "source": "/team", "destination": "/team.html", "statusCode": 302 },
-    { "source": "/roadmap", "destination": "/roadmap.html", "statusCode": 302 },
-    { "source": "/landing", "destination": "/landing.html", "statusCode": 302 },
-    { "source": "/payment", "destination": "/payment.html", "statusCode": 302 },
-    { "source": "/3d-team", "destination": "/3d-team.html", "statusCode": 302 }
-  ]
+  "redirects": []
 }
