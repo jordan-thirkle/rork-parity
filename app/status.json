@@ -17,7 +17,8 @@
       "role": "health checks, validation, artifact management",
       "schedule": "30m",
       "status": "online",
-      "detail": "Running and healthy"
+      "detail": "Running and healthy",
+      "last_run": "2026-07-07T02:26:05.560640Z"
     },
     {
       "name": "SEO",
