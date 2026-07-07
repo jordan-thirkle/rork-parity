@@ -110,11 +110,4 @@ const Preview = {
   status(msg) {
     if (this.statusEl) this.statusEl.textContent = msg;
   },
-
-  setFps(fps) {
-    if (this.fpsEl) {
-      this.fpsEl.textContent = `${fps} FPS`;
-      this.fpsEl.style.color = fps >= 30 ? 'var(--success)' : fps >= 15 ? 'var(--warning)' : 'var(--error)';
-    }
-  }
 };

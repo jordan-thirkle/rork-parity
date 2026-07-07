@@ -429,6 +429,7 @@ const App = {
   onUserMessage(text) {
     State.generationCount++;
     AgentLog.add(`Received: "${text.slice(0, 100)}${text.length > 100 ? '...' : ''}"`, 'info');
+    this.status('Generating...');
 
     const result = this.runLocalPipeline(text);
     if (result) {
@@ -437,8 +438,10 @@ const App = {
       AgentLog.whetstone(this.runChecks(result.code));
       this.lorekeeper({ filename: result.fileName, engine: result.engine });
       this.crier({ status: 'Ready for publish', filename: result.fileName });
+      this.status('Ready');
     } else {
       AgentLog.add('No local generator matched this request. Try a prompt from the quick-start strip.', 'warn');
+      this.status('No match');
     }
   },
 
