@@ -1,5 +1,5 @@
 {
-  "last_update": "2026-07-07T16:36:32.410746Z",
+  "last_update": "2026-07-07T17:08:24.455387Z",
   "gateway": "online",
   "agents": [
     {
@@ -47,7 +47,7 @@
     {
       "name": "ForgeLoop Hermes Ops Sync",
       "schedule": "every 5m",
-      "next_run": "2026-07-07T17:41:06.355060+01:00",
+      "next_run": "2026-07-07T18:12:58.193053+01:00",
       "deliver": "local",
       "status": "online",
       "detail": "Managed by Hermes cron"
@@ -55,7 +55,7 @@
     {
       "name": "ForgeLoop Autopilot",
       "schedule": "every 30m",
-      "next_run": "2026-07-07T18:06:06.370187+01:00",
+      "next_run": "2026-07-07T18:37:58.211243+01:00",
       "deliver": "local",
       "status": "online",
       "detail": "Managed by Hermes cron"
@@ -63,7 +63,7 @@
     {
       "name": "ForgeLoop Server Watchdog",
       "schedule": "every 10m",
-      "next_run": "2026-07-07T17:46:06.386327+01:00",
+      "next_run": "2026-07-07T18:10:08.420620+01:00",
       "deliver": "local",
       "status": "online",
       "detail": "Managed by Hermes cron"
@@ -103,7 +103,7 @@
     {
       "name": "ForgeLoop Uptime Check",
       "schedule": "every 10m",
-      "next_run": "2026-07-07T17:46:06.401455+01:00",
+      "next_run": "2026-07-07T18:12:34.028508+01:00",
       "deliver": "local",
       "status": "online",
       "detail": "Managed by Hermes cron"
@@ -111,7 +111,7 @@
     {
       "name": "ForgeLoop Catalog Builder",
       "schedule": "every 30m",
-      "next_run": "2026-07-07T18:06:06.419616+01:00",
+      "next_run": "2026-07-07T18:08:18.403263+01:00",
       "deliver": "local",
       "status": "online",
       "detail": "Managed by Hermes cron"
@@ -135,7 +135,79 @@
     {
       "name": "ForgeLoop Credibility Monitor",
       "schedule": "every 15m",
-      "next_run": "2026-07-07T17:51:06.468051+01:00",
+      "next_run": "2026-07-07T18:09:22.933109+01:00",
+      "deliver": "local",
+      "status": "online",
+      "detail": "Managed by Hermes cron"
+    },
+    {
+      "name": "FORGEMASTER \u2014 Daily Scaffold Review",
+      "schedule": "0 8 * * *",
+      "next_run": "2026-07-08T08:00:00+01:00",
+      "deliver": "local",
+      "status": "online",
+      "detail": "Managed by Hermes cron"
+    },
+    {
+      "name": "SMITH \u2014 Daily Generation Smoke Test",
+      "schedule": "0 9 * * *",
+      "next_run": "2026-07-08T09:00:00+01:00",
+      "deliver": "local",
+      "status": "online",
+      "detail": "Managed by Hermes cron"
+    },
+    {
+      "name": "WHETSTONE \u2014 Daily Template Bench",
+      "schedule": "0 10 * * *",
+      "next_run": "2026-07-08T10:00:00+01:00",
+      "deliver": "local",
+      "status": "online",
+      "detail": "Managed by Hermes cron"
+    },
+    {
+      "name": "LOREKEEPER \u2014 Daily Docs Sync",
+      "schedule": "0 11 * * *",
+      "next_run": "2026-07-08T11:00:00+01:00",
+      "deliver": "local",
+      "status": "online",
+      "detail": "Managed by Hermes cron"
+    },
+    {
+      "name": "CRIER \u2014 Daily Ops/Release Check",
+      "schedule": "0 12 * * *",
+      "next_run": "2026-07-08T12:00:00+01:00",
+      "deliver": "local",
+      "status": "online",
+      "detail": "Managed by Hermes cron"
+    },
+    {
+      "name": "LOREKEEPER \u2014 Weekly Integration Audit",
+      "schedule": "0 6 * * 1",
+      "next_run": "2026-07-13T06:00:00+01:00",
+      "deliver": "local",
+      "status": "online",
+      "detail": "Managed by Hermes cron"
+    },
+    {
+      "name": "WHETSTONE \u2014 Weekly Performance Audit",
+      "schedule": "0 6 * * 3",
+      "next_run": "2026-07-08T06:00:00+01:00",
+      "deliver": "local",
+      "status": "online",
+      "detail": "Managed by Hermes cron"
+    },
+    {
+      "name": "FORGEMASTER \u2014 Weekly Security Audit",
+      "schedule": "0 6 * * 5",
+      "next_run": "2026-07-10T06:00:00+01:00",
+      "deliver": "local",
+      "status": "online",
+      "detail": "Managed by Hermes cron"
+    },
+    {
+      "name": "CRIER \u2014 Weekly Release Tag",
+      "schedule": "0 2 * * 0",
+      "next_run": "2026-07-12T02:00:00+01:00",
       "deliver": "local",
       "status": "online",
       "detail": "Managed by Hermes cron"

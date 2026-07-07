@@ -24,7 +24,7 @@ _Working base: `localhost:8888` serving `app/`_
    - migration file created: `supabase/migrations/002_published_games.sql`
    - `SupabaseClient.listPublishedGames()` added
    - gallery/home/landing now prefer Supabase with manifest fallback
-   - missing: seed data + verified query in production
+   - missing: valid service-role credentials to seed `published_games`; verified query in production
 2. **Payment/credits flow**
    - scaffold exists at `/payment.html`
    - missing: checkout integration, credit balance enforcement, purchase completion flow
