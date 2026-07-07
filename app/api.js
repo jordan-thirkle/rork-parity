@@ -1,4 +1,4 @@
-// Simple API server for RorkParity
+// Simple API server for ForgeLoop
 // Serves game list from Supabase
 
 const { createClient } = require('@supabase/supabase-js');

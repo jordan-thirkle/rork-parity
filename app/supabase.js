@@ -1,5 +1,5 @@
 // ============ SUPABASE ============
-// RorkParity Supabase client — auth + DB + storage + credits
+// ForgeLoop Supabase client — auth + DB + storage + credits
 // Auto-configured for project: xuwfpcogphhrkagwgzpf
 
 const SUPABASE_CONFIG = {

@@ -1,5 +1,5 @@
 // ============ APP ============
-// RorkParity Phase 2 — Orchestrator with Supabase integration
+// ForgeLoop Phase 2 — Orchestrator with Supabase integration
 // Coordinates FORGEMASTER → SMITH → WHETSTONE pipeline
 // through the Hermes agent session.
 
