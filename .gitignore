@@ -1,12 +1,9 @@
-node_modules
-.next
-.next/types
-out
-dist
-build
-.tmp
-temp
+.next/
+node_modules/
 .env*.local
 *.log
 .DS_Store
 Thumbs.db
+.vscode/
+.vercel/
+app/games/auto-*.html
