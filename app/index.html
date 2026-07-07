@@ -468,26 +468,31 @@
       const grid = document.getElementById('gameGrid');
       
       try {
-        const response = await fetch('/games/manifest.json?t=' + Date.now());
-        if (response.ok) {
-          const games = await response.json();
-          if (games.length > 0) {
-            grid.innerHTML = games.map(game => `
-              <div class="game-card">
-                <div class="game-preview">${game.emoji || '🎮'}</div>
-                <div class="game-info">
-                  <h3>${game.title}</h3>
-                  <p>${game.description || 'AI-generated game'}</p>
-                  <div class="game-meta">
-                    <span>${game.engine || 'Phaser 3'}</span>
-                    <span>${game.date || ''}</span>
-                  </div>
-                  <a href="/games/${game.filename}" class="play-button">Play Now</a>
+        let games = [];
+        if (typeof SupabaseClient !== 'undefined' && SupabaseClient.ready) {
+          games = await SupabaseClient.listPublishedGames();
+        }
+        if (!Array.isArray(games) || games.length === 0) {
+          const response = await fetch('/games/manifest.json?t=' + Date.now());
+          games = response.ok ? await response.json() : [];
+        }
+        const safeGames = Array.isArray(games) && games.length ? games : [];
+        if (safeGames.length) {
+          grid.innerHTML = safeGames.map(game => `
+            <div class="game-card">
+              <div class="game-preview">${game.emoji || '🎮'}</div>
+              <div class="game-info">
+                <h3>${game.title}</h3>
+                <p>${game.description || 'AI-generated game'}</p>
+                <div class="game-meta">
+                  <span>${game.engine || 'Phaser 3'}</span>
+                  <span>${game.date || ''}</span>
                 </div>
+                <a href="/games/${game.filename}" class="play-button">Play Now</a>
               </div>
-            `).join('');
-            return;
-          }
+            </div>
+          `).join('');
+          return;
         }
       } catch (e) {}
       

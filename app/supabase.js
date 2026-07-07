@@ -148,6 +148,21 @@ const SupabaseClient = {
     return data;
   },
 
+  async listPublishedGames() {
+    try {
+      const { data, error } = await this.client
+        .from('published_games')
+        .select('title,description,filename,engine,date,emoji')
+        .eq('status', 'published')
+        .order('published_at', { ascending: false });
+      if (error) throw error;
+      return data || [];
+    } catch (e) {
+      console.error('Supabase listPublishedGames failed:', e);
+      return [];
+    }
+  },
+
   async createProject(title, engine = 'Canvas2D') {
     const { data, error } = await this.client
       .from('game_projects')

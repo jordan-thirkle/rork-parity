@@ -152,10 +152,15 @@
       ];
       
       try {
-        const response = await fetch('/games/manifest.json?t=' + Date.now());
-        const games = response.ok ? await response.json() : fallback;
+        let games = [];
+        if (typeof SupabaseClient !== 'undefined' && SupabaseClient.ready) {
+          games = await SupabaseClient.listPublishedGames();
+        }
+        if (!Array.isArray(games) || games.length === 0) {
+          const response = await fetch('/games/manifest.json?t=' + Date.now());
+          games = response.ok ? await response.json() : fallback;
+        }
         const safeGames = Array.isArray(games) && games.length ? games : fallback;
-        
         grid.innerHTML = safeGames.map(game => `
           <div class="game-card">
             <div class="game-preview">${game.emoji || '🎮'}</div>

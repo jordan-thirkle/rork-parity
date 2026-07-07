@@ -239,10 +239,16 @@
   <script>
     async function loadGames() {
       try {
-        const response = await fetch('/games/manifest.json?t=' + Date.now());
-        const games = response.ok ? await response.json() : [];
-        const grid = document.getElementById('gameGrid');
+        let games = [];
+        if (typeof SupabaseClient !== 'undefined' && SupabaseClient.ready) {
+          games = await SupabaseClient.listPublishedGames();
+        }
         if (!Array.isArray(games) || games.length === 0) {
+          const response = await fetch('/games/manifest.json?t=' + Date.now());
+          games = response.ok ? await response.json() : [];
+        }
+        const safeGames = Array.isArray(games) && games.length ? games : [];
+        if (!safeGames.length) {
           grid.innerHTML = `
             <div class="game-card">
               <div class="game-preview">🎮</div>
@@ -255,7 +261,7 @@
           `;
           return;
         }
-        grid.innerHTML = games.map(game => `
+        grid.innerHTML = safeGames.map(game => `
           <div class="game-card">
             <div class="game-preview">${game.emoji || '🎮'}</div>
             <div class="game-info">
