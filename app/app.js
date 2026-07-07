@@ -389,6 +389,9 @@ const App = {
   },
 
   runLocalPipeline(text) {
+    if (typeof LocalGenerator !== 'object' || typeof LocalGenerator.generate !== 'function') {
+      return null;
+    }
     const pick = this.pickTemplate(text);
     const code = LocalGenerator.generate(pick.template, text);
     if (!code) return null;
@@ -416,12 +419,15 @@ const App = {
     const blob = new Blob([code], { type: 'text/html' });
     const url = URL.createObjectURL(blob);
     Preview.loadGame(url);
+    const title = document.getElementById('projectTitleDisplay');
+    if (title) title.textContent = fileName || 'Generated game';
+    const badge = document.getElementById('phaseBadge');
+    if (badge) badge.textContent = 'Phase 2';
     Explorer.setFiles([
-      { name: fileName, size: `${(code.length / 1000).toFixed(1)} KB` },
+      { name: fileName || 'game.html', size: `${(code.length / 1000).toFixed(1)} KB` },
       { name: 'style.css', size: 'local' },
       { name: 'app.js', size: 'local' }
     ]);
-    document.getElementById('projectTitleDisplay').textContent = fileName;
   },
 
   // ===== USER ACTIONS =====
