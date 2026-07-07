@@ -1,5 +1,5 @@
 {
-  "last_update": "2026-07-07T08:37:50.780596Z",
+  "last_update": "2026-07-07T08:56:49.560316Z",
   "gateway": "online",
   "agents": [
     {
@@ -47,7 +47,7 @@
     {
       "name": "ForgeLoop Hermes Ops Sync",
       "schedule": "every 5m",
-      "next_run": "2026-07-07T09:42:37.272775+01:00",
+      "next_run": "2026-07-07T10:01:37.703722+01:00",
       "deliver": "local",
       "status": "online",
       "detail": "Managed by Hermes cron"
@@ -55,7 +55,7 @@
     {
       "name": "ForgeLoop Autopilot",
       "schedule": "every 30m",
-      "next_run": "2026-07-07T09:39:00.627815+01:00",
+      "next_run": "2026-07-07T10:09:48.593722+01:00",
       "deliver": "local",
       "status": "online",
       "detail": "Managed by Hermes cron"
@@ -63,7 +63,7 @@
     {
       "name": "ForgeLoop Server Watchdog",
       "schedule": "every 10m",
-      "next_run": "2026-07-07T09:39:52.181486+01:00",
+      "next_run": "2026-07-07T10:01:52.228782+01:00",
       "deliver": "local",
       "status": "online",
       "detail": "Managed by Hermes cron"
@@ -103,7 +103,7 @@
     {
       "name": "ForgeLoop Uptime Check",
       "schedule": "every 10m",
-      "next_run": "2026-07-07T09:42:40.548804+01:00",
+      "next_run": "2026-07-07T10:04:49.243657+01:00",
       "deliver": "local",
       "status": "online",
       "detail": "Managed by Hermes cron"
@@ -111,7 +111,7 @@
     {
       "name": "ForgeLoop Catalog Builder",
       "schedule": "every 30m",
-      "next_run": "2026-07-07T09:46:11.814364+01:00",
+      "next_run": "2026-07-07T10:17:12.492916+01:00",
       "deliver": "local",
       "status": "online",
       "detail": "Managed by Hermes cron"
@@ -135,7 +135,7 @@
     {
       "name": "ForgeLoop Credibility Monitor",
       "schedule": "every 15m",
-      "next_run": "2026-07-07T09:48:49.488966+01:00",
+      "next_run": "2026-07-07T10:04:45.182230+01:00",
       "deliver": "local",
       "status": "online",
       "detail": "Managed by Hermes cron"
