@@ -1,5 +1,5 @@
 {
-  "last_update": "2026-07-07T14:19:38.861269Z",
+  "last_update": "2026-07-07T16:36:32.410746Z",
   "gateway": "online",
   "agents": [
     {
@@ -47,7 +47,7 @@
     {
       "name": "ForgeLoop Hermes Ops Sync",
       "schedule": "every 5m",
-      "next_run": "2026-07-07T15:23:49.910787+01:00",
+      "next_run": "2026-07-07T17:41:06.355060+01:00",
       "deliver": "local",
       "status": "online",
       "detail": "Managed by Hermes cron"
@@ -55,7 +55,7 @@
     {
       "name": "ForgeLoop Autopilot",
       "schedule": "every 30m",
-      "next_run": "2026-07-07T15:22:29.583131+01:00",
+      "next_run": "2026-07-07T18:06:06.370187+01:00",
       "deliver": "local",
       "status": "online",
       "detail": "Managed by Hermes cron"
@@ -63,7 +63,7 @@
     {
       "name": "ForgeLoop Server Watchdog",
       "schedule": "every 10m",
-      "next_run": "2026-07-07T15:27:03.080375+01:00",
+      "next_run": "2026-07-07T17:46:06.386327+01:00",
       "deliver": "local",
       "status": "online",
       "detail": "Managed by Hermes cron"
@@ -103,7 +103,7 @@
     {
       "name": "ForgeLoop Uptime Check",
       "schedule": "every 10m",
-      "next_run": "2026-07-07T15:20:02.390263+01:00",
+      "next_run": "2026-07-07T17:46:06.401455+01:00",
       "deliver": "local",
       "status": "online",
       "detail": "Managed by Hermes cron"
@@ -111,7 +111,7 @@
     {
       "name": "ForgeLoop Catalog Builder",
       "schedule": "every 30m",
-      "next_run": "2026-07-07T15:27:09.153652+01:00",
+      "next_run": "2026-07-07T18:06:06.419616+01:00",
       "deliver": "local",
       "status": "online",
       "detail": "Managed by Hermes cron"
@@ -135,18 +135,10 @@
     {
       "name": "ForgeLoop Credibility Monitor",
       "schedule": "every 15m",
-      "next_run": "2026-07-07T15:28:36.330060+01:00",
+      "next_run": "2026-07-07T17:51:06.468051+01:00",
       "deliver": "local",
       "status": "online",
       "detail": "Managed by Hermes cron"
-    },
-    {
-      "name": "Uptime Checker",
-      "role": "verify local server and live HTML routes",
-      "schedule": "10m",
-      "status": "online",
-      "detail": "Checked local server and key routes",
-      "last_run": "2026-07-07T14:22:12.642477Z"
     }
   ]
 }

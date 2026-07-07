@@ -31,8 +31,8 @@ _Working base: `localhost:8888` serving `app/`_
 3. **Production deployment verification**
    - local serving works; production deploy path verified live at `https://rork-parity.vercel.app`
 4. **3D team view completeness**
-   - page exists at `/3d-team.html`
-   - missing: richer online/offline transitions from ops history
+   - upgraded to interactive Three.js scene with live `/status.json` polling
+   - missing: richer online/offline transitions from `ops-history.json`
 5. **Workspace auth readiness**
    - Supabase client scaffold exists
    - missing: verified public-safe auth/config gate and clean fallback if unconfigured
