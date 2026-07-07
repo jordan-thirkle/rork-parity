@@ -1,5 +1,5 @@
 {
-  "last_update": "2026-07-07T10:08:51.379990Z",
+  "last_update": "2026-07-07T10:15:00.590930Z",
   "gateway": "online",
   "agents": [
     {
@@ -14,8 +14,7 @@
       "role": "health checks, restart, validation",
       "schedule": "30m",
       "status": "online",
-      "detail": "Running and healthy",
-      "last_run": "2026-07-07T10:12:57.801925Z"
+      "detail": "Running and healthy"
     },
     {
       "name": "SEO",
@@ -48,7 +47,7 @@
     {
       "name": "ForgeLoop Hermes Ops Sync",
       "schedule": "every 5m",
-      "next_run": "2026-07-07T11:13:39.563232+01:00",
+      "next_run": "2026-07-07T11:19:39.693427+01:00",
       "deliver": "local",
       "status": "online",
       "detail": "Managed by Hermes cron"
@@ -56,7 +55,7 @@
     {
       "name": "ForgeLoop Autopilot",
       "schedule": "every 30m",
-      "next_run": "2026-07-07T11:12:07.251375+01:00",
+      "next_run": "2026-07-07T11:43:12.654572+01:00",
       "deliver": "local",
       "status": "online",
       "detail": "Managed by Hermes cron"
@@ -64,7 +63,7 @@
     {
       "name": "ForgeLoop Server Watchdog",
       "schedule": "every 10m",
-      "next_run": "2026-07-07T11:09:14.455371+01:00",
+      "next_run": "2026-07-07T11:19:48.215010+01:00",
       "deliver": "local",
       "status": "online",
       "detail": "Managed by Hermes cron"
@@ -104,7 +103,7 @@
     {
       "name": "ForgeLoop Uptime Check",
       "schedule": "every 10m",
-      "next_run": "2026-07-07T11:13:45.559084+01:00",
+      "next_run": "2026-07-07T11:24:39.714107+01:00",
       "deliver": "local",
       "status": "online",
       "detail": "Managed by Hermes cron"
@@ -136,26 +135,18 @@
     {
       "name": "ForgeLoop Credibility Monitor",
       "schedule": "every 15m",
-      "next_run": "2026-07-07T11:09:08.334169+01:00",
+      "next_run": "2026-07-07T11:25:02.885272+01:00",
       "deliver": "local",
       "status": "online",
       "detail": "Managed by Hermes cron"
     },
     {
-      "name": "Server Watchdog",
-      "role": "keep the local workspace server alive",
+      "name": "Uptime Checker",
+      "role": "verify local server and live HTML routes",
       "schedule": "10m",
       "status": "online",
-      "detail": "Checked workspace server and restarted if needed",
-      "last_run": "2026-07-07T10:09:44.784663Z"
-    },
-    {
-      "name": "Credibility Monitor",
-      "role": "watch public sentiment and brand mentions",
-      "schedule": "15m",
-      "status": "online",
-      "detail": "Monitored public signals and recorded sentiment",
-      "last_run": "2026-07-07T10:09:55.150168Z"
+      "detail": "Checked local server and key routes",
+      "last_run": "2026-07-07T10:15:25.483106Z"
     }
   ]
 }
