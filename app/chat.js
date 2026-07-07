@@ -11,6 +11,11 @@ const Chat = {
     this.sendBtn = document.getElementById('sendBtn');
     this.planModeBtn = document.getElementById('planModeBtn');
 
+    if (!this.inputEl || !this.sendBtn || !this.planModeBtn) {
+      console.warn('Chat UI is missing required elements.');
+      return;
+    }
+
     // Send button
     this.sendBtn.addEventListener('click', () => this.send());
 
@@ -34,12 +39,15 @@ const Chat = {
     this.planModeBtn.addEventListener('click', () => this.togglePlanMode());
 
     // Quick-start buttons
-    document.querySelectorAll('.quick-start-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        this.inputEl.value = btn.dataset.prompt;
-        this.send();
+    const btns = document.querySelectorAll('.quick-start-btn');
+    if (btns.length) {
+      btns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          this.inputEl.value = btn.dataset.prompt || '';
+          this.send();
+        });
       });
-    });
+    }
   },
 
   send() {

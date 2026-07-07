@@ -1,5 +1,5 @@
 // ============ APP ============
-// ForgeLoop Phase 2 — Orchestrator with Supabase integration
+// RorkParity Phase 2 — Orchestrator with Supabase integration
 // Coordinates FORGEMASTER → SMITH → WHETSTONE pipeline
 // through the Hermes agent session.
 
@@ -377,17 +377,68 @@ const App = {
     Preview.status('Ready for publish');
   },
 
+  // ===== LOCAL GENERATION =====
+
+  pickTemplate(text) {
+    const t = text.toLowerCase();
+    if (/(3d|three\.js|world|fps|first person)/.test(t)) return { template: '3d', engine: 'Three.js', file: '3d-world.html' };
+    if (/(brawler|combat|zone|zones|arena|fighter)/.test(t)) return { template: 'brawler', engine: 'Phaser 3', file: 'zone-brawler.html' };
+    if (/(shooter|space|ship|asteroid|bullet)/.test(t)) return { template: 'shooter', engine: 'Canvas2D', file: 'shooter.html' };
+    if (/(idle|rpg|loot|xp|auto|rpg)/.test(t)) return { template: 'idle', engine: 'Canvas2D', file: 'idle-rpg.html' };
+    return { template: 'brawler', engine: 'Phaser 3', file: 'zone-brawler.html' };
+  },
+
+  runLocalPipeline(text) {
+    const pick = this.pickTemplate(text);
+    const code = LocalGenerator.generate(pick.template, text);
+    if (!code) return null;
+    return { code, fileName: pick.file, engine: pick.engine };
+  },
+
+  runChecks(code) {
+    const checks = [
+      { name: 'HTML structure', result: code.includes('<!DOCTYPE html') && code.includes('</html>') },
+      { name: 'Script present', result: code.includes('<script') },
+      { name: 'No empty output', result: code.length > 200 },
+      { name: 'No deferred breakage', result: !code.includes('TODO') }
+    ];
+    const allPassed = checks.every(c => c.result === true || c.result === 'pass');
+    checks.forEach(c => {
+      const ok = c.result === true || c.result === 'pass';
+      AgentLog.add(`  ${ok ? '✓' : '✗'} ${c.name}: ${ok ? 'Pass' : 'Fail'}`, ok ? 'ok' : 'err');
+    });
+    Preview.status(allPassed ? 'Validation passed' : 'Validation failed');
+    return allPassed;
+  },
+
+  loadGeneratedCode(code, fileName) {
+    State.generatedCode = code;
+    const blob = new Blob([code], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    Preview.loadGame(url);
+    Explorer.setFiles([
+      { name: fileName, size: `${(code.length / 1000).toFixed(1)} KB` },
+      { name: 'style.css', size: 'local' },
+      { name: 'app.js', size: 'local' }
+    ]);
+    document.getElementById('projectTitleDisplay').textContent = fileName;
+  },
+
   // ===== USER ACTIONS =====
 
   onUserMessage(text) {
     State.generationCount++;
-
     AgentLog.add(`Received: "${text.slice(0, 100)}${text.length > 100 ? '...' : ''}"`, 'info');
-    AgentLog.add('Pipeline ready — agent will process via FORGEMASTER → SMITH → WHETSTONE', 'info');
 
-    // Check credit balance if Supabase is active
-    if (SupabaseClient.profile && SupabaseClient.profile.credit_balance <= 0) {
-      AgentLog.warn(`Credit balance: ${SupabaseClient.profile.credit_balance}. Generation may be limited.`);
+    const result = this.runLocalPipeline(text);
+    if (result) {
+      this.loadGeneratedCode(result.code, result.fileName);
+      AgentLog.add(`[SMITH] Generated: ${result.fileName}`, 'ok');
+      AgentLog.whetstone(this.runChecks(result.code));
+      this.lorekeeper({ filename: result.fileName, engine: result.engine });
+      this.crier({ status: 'Ready for publish', filename: result.fileName });
+    } else {
+      AgentLog.add('No local generator matched this request. Try a prompt from the quick-start strip.', 'warn');
     }
   },
 
