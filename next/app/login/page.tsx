@@ -1,7 +1,6 @@
 'use client';
 
-import { createClient } from '@/lib/supabase/client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
 export default function Login() {
@@ -9,13 +8,35 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [missingEnv, setMissingEnv] = useState(false);
   const router = useRouter();
-  const supabase = createClient();
+
+  useEffect(() => {
+    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+      setMissingEnv(true);
+    }
+  }, []);
+
+  if (missingEnv) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-neutral-950 text-white">
+        <div className="max-w-md p-6 text-center">
+          <h1 className="text-2xl font-bold">RorkParity</h1>
+          <p className="mt-4 text-sm text-neutral-400">
+            Supabase is not configured. Set <code className="text-white">NEXT_PUBLIC_SUPABASE_URL</code> and <code className="text-white">NEXT_PUBLIC_SUPABASE_ANON_KEY</code> to enable login.
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
+
+    const { createClient } = await import('@/lib/supabase/client');
+    const supabase = createClient();
 
     const { error } = await supabase.auth.signInWithPassword({
       email,
@@ -33,6 +54,9 @@ export default function Login() {
   };
 
   const handleOAuth = async () => {
+    const { createClient } = await import('@/lib/supabase/client');
+    const supabase = createClient();
+
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'github',
       options: {
