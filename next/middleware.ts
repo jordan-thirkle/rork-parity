@@ -1,30 +1,27 @@
-import { createClient } from '@/lib/supabase/server';
 import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
 
-export async function middleware(request: Request) {
-  const supabase = await createClient();
-  const { data: { session } } = await supabase.auth.getSession();
+export function middleware(request: NextRequest) {
+  const url = new URL(request.url);
 
-  const isAuthPage = request.url.includes('/login');
-  const isApiAuth = request.url.includes('/api/auth');
+  const isAuthPage = url.pathname.startsWith('/login') || url.pathname.startsWith('/signup');
+  const isApiAuth = url.pathname.startsWith('/api/auth');
+  const isProtected = ['/workspace', '/gallery', '/team'].some(path => url.pathname.startsWith(path));
 
   if (isAuthPage || isApiAuth) {
-    if (session) {
-      return NextResponse.redirect(new URL('/workspace', request.url));
-    }
     return NextResponse.next();
   }
 
-  const protectedPaths = ['/workspace', '/gallery', '/team'];
-  const isProtected = protectedPaths.some(path => request.url.includes(path));
-
-  if (isProtected && !session) {
-    return NextResponse.redirect(new URL('/login', request.url));
+  if (isProtected) {
+    const sessionCookie = request.cookies.get('rorkparity_session')?.value;
+    if (!sessionCookie) {
+      return NextResponse.redirect(new URL('/login', request.url));
+    }
   }
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ['/((?!_next/static|_next/image|favicon.ico).*)'],
+  matcher: ['/((?!_next/static|_next/image|favicon.ico|api/upload|api/checkout|api/generate).*)'],
 };
