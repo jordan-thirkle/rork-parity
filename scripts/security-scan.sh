@@ -1,5 +1,6 @@
 #!/bin/bash
-set -e
+# RorkParity Security Scanner
+set -euo pipefail
 cd /d/Projects/rork-parity
 
 python - <<'PY'
@@ -27,7 +28,7 @@ else:
 p.write_text(json.dumps(data, indent=2) + '\n')
 PY
 
-matches=$(grep -RInE '(AIza[0-9A-Za-z\-_]{35}|AKIA[0-9A-Z]{16}|sk_live_[0-9a-zA-Z]{24,}|xox[baprs]-[0-9a-zA-Z-]+|-----BEGIN (RSA|OPENSSH|EC|DSA) PRIVATE KEY-----|ghp_[0-9A-Za-z]{36,}|github_pat_[0-9A-Za-z_]+|service_role key' . --exclude-dir=.git --exclude-dir=node_modules --exclude-dir=venv --exclude-dir=.venv --exclude='.env' --exclude='.env.example' --exclude='security-scan.sh' --exclude='*.png' --exclude='*.jpg' --exclude='*.jpeg' --exclude='*.gif' --exclude='*.svg' --exclude='*.woff2' --exclude='*.ttf' --exclude='*.zip' --exclude='*.tar*' --exclude='*.gz' --exclude='*.7z' --exclude='*.mp3' --exclude='*.mp4' --exclude='*.mov' --exclude='*.avi' || true)
+matches=$(grep -RInE '(AIza[0-9A-Za-z\\-_]{35}|AKIA[0-9A-Z]{16}|sk_live_[0-9a-zA-Z]{24,}|xox[baprs]-[0-9a-zA-Z-]+|-----BEGIN (RSA|OPENSSH|EC|DSA) PRIVATE KEY-----|ghp_[0-9A-Za-z]{36,}|github_pat_[0-9A-Za-z_]+|service_role key' . --exclude-dir=.git --exclude-dir=node_modules --exclude-dir=venv --exclude-dir=.venv --exclude='.env' --exclude='.env.example' --exclude='security-scan.sh' --exclude='*.png' --exclude='*.jpg' --exclude='*.jpeg' --exclude='*.gif' --exclude='*.svg' --exclude='*.woff2' --exclude='*.ttf' --exclude='*.zip' --exclude='*.tar*' --exclude='*.gz' --exclude='*.7z' --exclude='*.mp3' --exclude='*.mp4' --exclude='*.mov' --exclude='*.avi' || true)
 if [ -n "$matches" ]; then
   echo "[security] suspects found"
   echo "$matches"

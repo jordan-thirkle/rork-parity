@@ -1,5 +1,6 @@
 #!/bin/bash
-set -e
+# RorkParity Verification + recovery
+set -euo pipefail
 cd /d/Projects/rork-parity
 
 python - <<'PY'
@@ -27,5 +28,5 @@ else:
 p.write_text(json.dumps(data, indent=2) + '\n')
 PY
 
-bash scripts/safe-deploy.sh >/tmp/forgeloop-safety.log 2>&1 || true
+bash scripts/safe-deploy.sh >/tmp/rorkparity-safety.log 2>&1 || true
 echo "[verify] safe deploy check executed"

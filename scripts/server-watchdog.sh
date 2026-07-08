@@ -1,39 +1,54 @@
 #!/bin/bash
-set -e
+# RorkParity Server Watchdog
+# Usage: bash scripts/server-watchdog.sh
+
+set -euo pipefail
+
 cd /d/Projects/rork-parity
 
-if curl -sf http://localhost:8888 >/dev/null 2>&1; then
-  echo '[watchdog] server healthy'
-else
-  echo '[watchdog] server down, restarting'
-  nohup npx serve app -l 8888 > /tmp/forgeloop-serve.log 2>&1 &
-  disown || true
-  sleep 2
-  if curl -sf http://localhost:8888 >/dev/null 2>&1; then
-    echo '[watchdog] restart confirmed'
+report() {
+  echo "[watchdog] $*"
+}
+
+check_url() {
+  local url="$1"
+  local name="$2"
+  if curl -sf "$url" >/dev/null 2>&1; then
+    report "$name healthy: $url"
+    return 0
   else
-    echo '[watchdog] restart pending'
+    report "$name unreachable: $url"
+    return 1
   fi
-fi
+}
+
+check_url "http://localhost:3001/" "static site"
+check_url "http://localhost:3002/" "Next.js dev" || true
 
 python - <<'PY'
-import json, pathlib, datetime
+import json, datetime, pathlib
 p = pathlib.Path('app/status.json')
-data = json.loads(p.read_text())
+try:
+    data = json.loads(p.read_text())
+except Exception:
+    data = {"last_update": "unknown", "agents": []}
 for a in data.get('agents', []):
     if a.get('name') == 'Server Watchdog':
         a['status'] = 'online'
-        a['detail'] = 'Checked workspace server and restarted if needed'
+        a['detail'] = 'Verified local server routes'
         a['last_run'] = datetime.datetime.utcnow().isoformat() + 'Z'
         break
 else:
     data.setdefault('agents', []).append({
         'name': 'Server Watchdog',
-        'role': 'keep the local workspace server alive',
+        'role': 'verify local server routes',
         'schedule': '10m',
         'status': 'online',
-        'detail': 'Checked workspace server and restarted if needed',
+        'detail': 'Verified local server routes',
         'last_run': datetime.datetime.utcnow().isoformat() + 'Z'
     })
 p.write_text(json.dumps(data, indent=2) + '\n')
 PY
+
+report "Done — $(date)"
+exit 0
