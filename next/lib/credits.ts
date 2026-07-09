@@ -113,17 +113,18 @@ export interface ProjectRecord {
   updated_at: string;
 }
 
-export async function getCreditBalance(supabase: { from: (table: string) => { select: (cols: string, args?: { count?: string; head?: boolean; columns?: string[]; distinct?: string | boolean; order?: { ascending: boolean }; limit?: number; offset?: number; range?: [number, number] | null; equals?: { [key: string]: string | number | boolean | null; }; like?: { [key: string]: string }; gt?: { [key: string]: string | number | boolean }; gte?: { [key: string]: string | number | boolean }; lt?: { [key: string]: string | number | boolean }; lte?: { [key: string]: string | number | boolean }; not?: { [key: string]: string | number | boolean | null; }; or?: string; in?: { [key: string]: (string | number | boolean | null)[] }; contains?: { [key: string]: string | number | boolean }; containedBy?: { [key: string]: string | number | boolean | null }; rangeGt?: { [key: string]: string | number | boolean }; rangeGte?: { [key: string]: string | number | boolean }; rangeLt?: { [key: string]: string | number | boolean }; rangeLte?: { [key: string]: string | number | boolean }; is?: { [key: string]: string | number | boolean | null }; fullText?: { [key: string]: string }; phrase?: { [key: string]: string }; query?: string; foreignTable?: string; referencedTable?: string; column?: string; keyColumn?: string; foreignKey?: string; referencedColumn?: string; references?: string; onConflict?: { constraint: string; columns?: string[]; upsert?: boolean; ignoreDuplicates?: boolean }; returning?: string; filter?: string; single?: boolean; head?: boolean; count?: 'exact' | 'planned' | 'estimated'; }) => { data: T[] | T | null; error: { message: string } | null; }; }) => Promise<{ data: CreditRecord | null; error: { message: string } | null }> }) {
+export async function getCreditBalance(supabase: any, userId: string) {
   const { data, error } = await supabase
     .from('credits')
     .select('balance')
-    .maybeSingle<CreditRecord>();
+    .eq('user_id', userId)
+    .maybeSingle();
 
   if (error) throw new Error(error.message);
-  return data?.balance ?? 0;
+  return (data as { balance: number } | null)?.balance ?? 0;
 }
 
-export async function deductCredits(supabase: { rpc: (fn: string, args: Record<string, unknown>) => Promise<{ data: boolean | null; error: { message: string } | null }> }, userId: string, amount: number, reason: string, projectId?: string) {
+export async function deductCredits(supabase: any, userId: string, amount: number, reason: string, projectId?: string) {
   const { data, error } = await supabase.rpc('deduct_credits', {
     p_user_id: userId,
     p_amount: amount,
@@ -136,7 +137,7 @@ export async function deductCredits(supabase: { rpc: (fn: string, args: Record<s
   return data ?? false;
 }
 
-export async function addCredits(supabase: { rpc: (fn: string, args: Record<string, unknown>) => Promise<{ error: { message: string } | null }> }, userId: string, amount: number, reason: string, projectId?: string) {
+export async function addCredits(supabase: any, userId: string, amount: number, reason: string, projectId?: string) {
   const { error } = await supabase.rpc('add_credits', {
     p_user_id: userId,
     p_amount: amount,
