@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { createClient } from '@/lib/supabase/client';
 
 export default function WorkspaceChat() {
   const [messages, setMessages] = useState<
@@ -15,8 +14,20 @@ export default function WorkspaceChat() {
   ]);
   const [input, setInput] = useState('');
   const [uploading, setUploading] = useState(false);
-  const supabase = createClient();
+  const [supabase, setSupabase] = useState<ReturnType<typeof import('@/lib/supabase/client').createClient> | null>(null);
   const formRef = useRef<HTMLFormElement>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    async function init() {
+      const { createClient } = await import('@/lib/supabase/client');
+      if (!cancelled) setSupabase(createClient());
+    }
+    init();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   useEffect(() => {
     const last = messages[messages.length - 1];
@@ -27,8 +38,8 @@ export default function WorkspaceChat() {
 
   async function onSubmit(formData: FormData) {
     const text = String(formData.get('message') || '').trim();
-    if (!text && !uploading) return;
-    const userMessage = { id: crypto.randomUUID(), role: 'user' as const, text: text || '(upload)' };
+    if (!text) return;
+    const userMessage = { id: crypto.randomUUID(), role: 'user' as const, text };
     setMessages((prev) => [...prev, userMessage]);
     setInput('');
   }
@@ -38,6 +49,13 @@ export default function WorkspaceChat() {
     if (!file) return;
     setUploading(true);
     try {
+      if (!supabase) {
+        setMessages((prev) => [
+          ...prev,
+          { id: crypto.randomUUID(), role: 'assistant', text: 'Upload not configured.' },
+        ]);
+        return;
+      }
       const path = `uploads/${crypto.randomUUID()}-${file.name}`;
       const { error } = await supabase.storage.from('uploads').upload(path, file);
       if (error) throw error;
