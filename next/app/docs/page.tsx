@@ -1,42 +1,61 @@
-'use client';
-
 import Link from 'next/link';
 
-export default function Docs() {
+export const dynamic = 'force-dynamic';
+
+export default function DocsPage() {
   return (
-    <main style={{ minHeight: '100vh' }}>
-      <nav style={{
-        display: 'flex',
-        gap: '1.5rem',
-        padding: '1rem 2rem',
-        borderBottom: '1px solid #262626',
-        background: 'rgba(15,15,15,0.8)',
-        backdropFilter: 'blur(12px)',
-        position: 'sticky',
-        top: 0,
-        zIndex: 50,
-      }}>
-        <Link href="/" style={{ fontWeight: 700, letterSpacing: '-0.02em' }}>RorkParity</Link>
-        <Link href="/workspace" style={{ opacity: 0.8 }}>Workspace</Link>
-        <Link href="/gallery" style={{ opacity: 0.8 }}>Gallery</Link>
-        <Link href="/docs" style={{ opacity: 0.8 }}>Docs</Link>
-      </nav>
-      <section style={{
-        maxWidth: '900px',
-        margin: '0 auto',
-        padding: '2rem 1.5rem',
-      }}>
-        <h1 style={{ fontSize: '2rem', fontWeight: 700, letterSpacing: '-0.03em' }}>
-          Docs
-        </h1>
-        <p style={{ opacity: 0.8, marginTop: '0.5rem' }}>
-          Rebuild brief, QA checklist, agent runbooks, and integration guides.
-        </p>
-        <ul style={{ marginTop: '1.25rem', display: 'grid', gap: '0.75rem' }}>
-          <li><a href="/docs/rebuild-brief-v2" style={{ color: '#5d9eff' }}>Rebuild Brief v2</a></li>
-          <li><a href="/docs/fullstack-qa-checklist" style={{ color: '#5d9eff' }}>Full-Stack QA Checklist</a></li>
-        </ul>
-      </section>
+    <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h1 className="text-3xl font-bold text-gray-900 mb-6">Documentation</h1>
+      <div className="grid md:grid-cols-2 gap-6">
+        <section className="rounded-lg border bg-white p-6 shadow-sm">
+          <h2 className="text-xl font-semibold mb-2">Getting Started</h2>
+          <p className="text-gray-600 mb-4">
+            Learn how to create your first game project and preview it live.
+          </p>
+          <Link
+            href="/workspace"
+            className="text-blue-600 hover:text-blue-700"
+          >
+            Open workspace →
+          </Link>
+        </section>
+        <section className="rounded-lg border bg-white p-6 shadow-sm">
+          <h2 className="text-xl font-semibold mb-2">Workspace</h2>
+          <p className="text-gray-600 mb-4">
+            Chat-first builder workflow, file uploads, and preview controls.
+          </p>
+          <Link
+            href="/workspace"
+            className="text-blue-600 hover:text-blue-700"
+          >
+            Open workspace →
+          </Link>
+        </section>
+        <section className="rounded-lg border bg-white p-6 shadow-sm">
+          <h2 className="text-xl font-semibold mb-2">Templates</h2>
+          <p className="text-gray-600 mb-4">
+            Brawler, 3D world, shooter, idle RPG, and native mobile exports.
+          </p>
+          <Link
+            href="/gallery"
+            className="text-blue-600 hover:text-blue-700"
+          >
+            Browse templates →
+          </Link>
+        </section>
+        <section className="rounded-lg border bg-white p-6 shadow-sm">
+          <h2 className="text-xl font-semibold mb-2">Publishing</h2>
+          <p className="text-gray-600 mb-4">
+            Export to web, iOS, Android, or desktop. App Store flow included.
+          </p>
+          <Link
+            href="/pricing"
+            className="text-blue-600 hover:text-blue-700"
+          >
+            View plans →
+          </Link>
+        </section>
+      </div>
     </main>
   );
 }

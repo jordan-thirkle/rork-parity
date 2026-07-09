@@ -14,7 +14,8 @@
       "role": "health checks, restart, validation",
       "schedule": "30m",
       "status": "online",
-      "detail": "Running and healthy"
+      "detail": "Maintenance path only; no auto-commit",
+      "last_run": "2026-07-08T23:24:43.258691Z"
     },
     {
       "name": "SEO",

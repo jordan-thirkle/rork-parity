@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zone Brawler — Phaser 3</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a0a;overflow:hidden;font-family:'Segoe UI',sans-serif;color:#fff}
+#game{display:block;margin:0 auto}
+.hidden{display:none}
+</style>
+</head>
+<body>
+<div id="game"></div>
+<script src="https://cdn.jsdelivr.net/npm/phaser@3.80.1/dist/phaser.min.js"></script>
+<script>
+// ============ ZONE BRAWLER — Phaser 3 ============
+// ForgeLoop template: 5 zones, combat, XP, leveling
+// Phase: 1 | Engine: Phaser 3 | Systems: zones,combat,enemies,leveling,items,hud
+
+const W = window.innerWidth;
+const H = window.innerHeight;
+
+// Zone definitions
+const ZONES = [
+  { id: 0, name: 'Ruins', color: 0x555555, enemyLvl: 1, enemyCount: 3, bgColor: 0x1a1a2e },
+  { id: 1, name: 'Forest', color: 0x2d5a27, enemyLvl: 2, enemyCount: 4, bgColor: 0x0a1a0a },
+  { id: 2, name: 'Caverns', color: 0x4a3000, enemyLvl: 4, enemyCount: 5, bgColor: 0x1a1008 },
+  { id: 3, name: 'Citadel', color: 0x663366, enemyLvl: 6, enemyCount: 6, bgColor: 0x1a0a1a },
+  { id: 4, name: 'Throne', color: 0x994400, enemyLvl: 10, enemyCount: 8, bgColor: 0x2a1800 }
+];
+
+class BrawlerScene extends Phaser.Scene {
+  constructor() { super('BrawlerScene'); }
+
+  create() {
+    this.player = null;
+    this.enemies = [];
+    this.xp = 0;
+    this.level = 1;
+    this.hp = 10;
+    this.maxHp = 10;
+    this.zoneIndex = 0;
+    this.keys = {};
+    this.score = 0;
+    this.gameOver = false;
+    this.attackTimer = 0;
+    this.attackCooldown = 400;
+
+    this.loadZone();
+  }
+
+  loadZone() {
+    const zone = ZONES[this.zoneIndex];
+    this.cameras.main.setBackgroundColor(zone.bgColor);
+
+    // Clear previous enemies
+    this.enemies.forEach(e => e.destroy());
+    this.enemies = [];
+
+    // Create ground
+    if (this.ground) this.ground.destroy();
+    this.ground = this.add.rectangle(W/2, H-40, W, 80, zone.color).setDepth(-1);
+
+    // Spawn player
+    if (!this.player) {
+      this.player = this.add.rectangle(W/2, H-80, 28, 28, 0x5d9eff);
+      this.player.setDepth(1);
+      this.forgeWeapon();
+    } else {
+      this.player.setPosition(W/2, H-80);
+    }
+
+    // Spawn enemies
+    for (let i = 0; i < zone.enemyCount; i++) {
+      const x = Phaser.Math.Between(60, W-60);
+      const y = Phaser.Math.Between(80, H-120);
+      const enemy = this.add.rectangle(x, y, 24, 24, zone.color).setDepth(1);
+      enemy.hp = zone.enemyLvl + 1;
+      enemy.maxHp = zone.enemyLvl + 1;
+      enemy.damage = zone.enemyLvl;
+      enemy.xpReward = zone.enemyLvl * 10;
+      this.enemies.push(enemy);
+    }
+
+    // Zone title popup
+    const title = this.add.text(W/2, H/3, zone.name, {
+      fontSize: '32px', color: '#fff', fontStyle: 'bold', stroke: '#000', strokeThickness: 4
+    }).setOrigin(0.5).setDepth(10);
+    const subtitle = this.add.text(W/2, H/3 + 40, `Level ${zone.enemyLvl} enemies`, {
+      fontSize: '14px', color: '#aaa', stroke: '#000', strokeThickness: 2
+    }).setOrigin(0.5).setDepth(10);
+    this.tweens.add({ targets: [title, subtitle], alpha: 0, delay: 1500, duration: 500, onComplete: () => {
+      title.destroy(); subtitle.destroy();
+    }});
+
+    // Input
+    this.keys.W = this.input.keyboard.addKey('W');
+    this.keys.A = this.input.keyboard.addKey('A');
+    this.keys.S = this.input.keyboard.addKey('S');
+    this.keys.D = this.input.keyboard.addKey('D');
+    this.keys.SPACE = this.input.keyboard.addKey('SPACE');
+    this.keys.E = this.input.keyboard.addKey('E');
+
+    // HUD (persistent)
+    if (!this.hud) {
+      this.hud = this.add.text(12, 12, '', { fontSize: '14px', color: '#fff', stroke: '#000', strokeThickness: 3 }).setDepth(20).setScrollFactor(0);
+    }
+
+    // Zone arrows
+    if (!this.arrows) {
+      if (this.zoneIndex > 0) {
+        this.leftArrow = this.add.text(20, H/2, '◀', { fontSize: '24px', color: '#fff' }).setDepth(5).setScrollFactor(0);
+      }
+      if (this.zoneIndex < ZONES.length - 1) {
+        this.rightArrow = this.add.text(W-40, H/2, '▶', { fontSize: '24px', color: '#fff' }).setDepth(5).setScrollFactor(0);
+      }
+    }
+
+    this.zoneTransitioned = false;
+  }
+
+  forgeWeapon() {
+    // Simple weapon visual
+    if (this.weapon) this.weapon.destroy();
+    this.weapon = this.add.rectangle(0, 0, 10, 18, 0xffcc00).setDepth(2);
+  }
+
+  update(time, delta) {
+    if (this.gameOver) return;
+
+    const speed = 200;
+    let dx = 0, dy = 0;
+    if (this.keys.A.isDown) dx = -1;
+    if (this.keys.D.isDown) dx = 1;
+    if (this.keys.W.isDown) dy = -1;
+    if (this.keys.S.isDown) dy = 1;
+
+    // Normalize diagonal
+    if (dx !== 0 && dy !== 0) { dx *= 0.707; dy *= 0.707; }
+
+    this.player.x += dx * speed * (delta / 1000);
+    this.player.y += dy * speed * (delta / 1000);
+
+    // Clamp to screen
+    this.player.x = Phaser.Math.Clamp(this.player.x, 20, W-20);
+    this.player.y = Phaser.Math.Clamp(this.player.y, 50, H-50);
+
+    // Weapon follows player
+    if (this.weapon) {
+      const weaponOffset = 14;
+      if (dx > 0) { this.weapon.x = this.player.x + weaponOffset; this.weapon.y = this.player.y; }
+      else if (dx < 0) { this.weapon.x = this.player.x - weaponOffset; this.weapon.y = this.player.y; }
+      else if (dy > 0) { this.weapon.x = this.player.x; this.weapon.y = this.player.y + weaponOffset; }
+      else if (dy < 0) { this.weapon.x = this.player.x; this.weapon.y = this.player.y - weaponOffset; }
+      else { this.weapon.x = this.player.x + weaponOffset; this.weapon.y = this.player.y; }
+    }
+
+    // Attack
+    this.attackTimer -= delta;
+    if (this.keys.SPACE.isDown && this.attackTimer <= 0) {
+      this.attackTimer = this.attackCooldown;
+      this.attack();
+    }
+
+    // Zone transition
+    if (this.keys.E.isDown && !this.zoneTransitioned) {
+      this.zoneTransitioned = true;
+      this.nextZone();
+    }
+    if (!this.keys.E.isDown) this.zoneTransitioned = false;
+
+    // Enemy AI
+    this.enemies.forEach(enemy => {
+      if (enemy.active) {
+        const angle = Phaser.Math.Angle.Between(enemy.x, enemy.y, this.player.x, this.player.y);
+        enemy.x += Math.cos(angle) * 40 * (delta / 1000);
+        enemy.y += Math.sin(angle) * 40 * (delta / 1000);
+
+        // Enemy touches player — damage
+        const dist = Phaser.Math.Distance.Between(enemy.x, enemy.y, this.player.x, this.player.y);
+        if (dist < 30) {
+          this.takeDamage(enemy.damage);
+        }
+      }
+    });
+
+    this.updateHUD();
+  }
+
+  attack() {
+    const range = 40;
+    this.enemies.forEach(enemy => {
+      if (!enemy.active) return;
+      const dist = Phaser.Math.Distance.Between(this.weapon.x, this.weapon.y, enemy.x, enemy.y);
+      if (dist < range) {
+        enemy.hp -= this.level;
+        if (enemy.hp <= 0) {
+          enemy.destroy();
+          const xpGain = enemy.xpReward;
+          this.xp += xpGain;
+          this.score += xpGain;
+          this.addFloatingText(enemy.x, enemy.y, `+${xpGain}XP`, '#ffcc00');
+          this.checkLevelUp();
+        } else {
+          // Flash enemy on hit
+          this.tweens.add({ targets: enemy, alpha: 0.3, duration: 80, yoyo: true });
+          this.addFloatingText(enemy.x, enemy.y - 10, `-${this.level}`, '#ff6666');
+        }
+      }
+    });
+  }
+
+  takeDamage(dmg) {
+    this.hp -= dmg;
+    // Screen shake
+    this.cameras.main.shake(100, 0.005);
+    this.addFloatingText(this.player.x, this.player.y - 20, `-${dmg}`, '#ff3333');
+
+    if (this.hp <= 0) {
+      this.hp = 0;
+      this.gameOver = true;
+      this.add.text(W/2, H/2, 'GAME OVER', { fontSize: '48px', color: '#ff4444', stroke: '#000', strokeThickness: 6 }).setOrigin(0.5).setDepth(20);
+      this.add.text(W/2, H/2 + 50, `Score: ${this.score} | Level: ${this.level}`, { fontSize: '18px', color: '#fff', stroke: '#000', strokeThickness: 3 }).setOrigin(0.5).setDepth(20);
+      this.add.text(W/2, H/2 + 90, 'Press R to restart', { fontSize: '14px', color: '#aaa', stroke: '#000', strokeThickness: 2 }).setOrigin(0.5).setDepth(20);
+      this.input.keyboard.once('keydown-R', () => this.scene.restart());
+    }
+  }
+
+  checkLevelUp() {
+    const needed = this.level * 50;
+    if (this.xp >= needed) {
+      this.xp -= needed;
+      this.level++;
+      this.maxHp += 5;
+      this.hp = Math.min(this.hp + 5, this.maxHp);
+      this.addFloatingText(this.player.x, this.player.y - 30, `LEVEL ${this.level}!`, '#4ade80');
+      this.cameras.main.flash(300, 74, 222, 128);
+    }
+  }
+
+  nextZone() {
+    if (this.enemies.length > 0) return; // Must clear zone
+    if (this.zoneIndex >= ZONES.length - 1) return; // Already at end
+    this.zoneIndex++;
+    this.hp = Math.min(this.hp + 3, this.maxHp);
+    this.loadZone();
+  }
+
+  addFloatingText(x, y, text, color) {
+    const t = this.add.text(x, y, text, { fontSize: '12px', color: color, stroke: '#000', strokeThickness: 2 }).setOrigin(0.5).setDepth(15);
+    this.tweens.add({ targets: t, y: y - 30, alpha: 0, duration: 800, onComplete: () => t.destroy() });
+  }
+
+  updateHUD() {
+    const zone = ZONES[this.zoneIndex];
+    const hpBar = '█'.repeat(Math.max(0, Math.round((this.hp / this.maxHp) * 15))) + '░'.repeat(Math.max(0, 15 - Math.round((this.hp / this.maxHp) * 15)));
+    const xpBar = '█'.repeat(Math.min(15, Math.round((this.xp / Math.max(1, this.level * 50)) * 15))) + '░'.repeat(Math.max(0, 15 - Math.round((this.xp / Math.max(1, this.level * 50)) * 15)));
+    this.hud.setText(
+      `${zone.name} | Lv.${this.level}\n` +
+      `HP: ${hpBar} ${this.hp}/${this.maxHp}\n` +
+      `XP: ${xpBar} ${this.xp}/${this.level * 50}\n` +
+      `Score: ${this.score}  Enemies: ${this.enemies.filter(e => e.active).length}\n` +
+      (this.enemies.length === 0 && this.zoneIndex < ZONES.length - 1 ? '\nPress E for next zone' : '')
+    );
+  }
+}
+
+// Boot
+const config = {
+  type: Phaser.AUTO,
+  width: W,
+  height: H,
+  parent: 'game',
+  backgroundColor: '#0a0a0a',
+  scene: [BrawlerScene],
+  fps: { target: 60 }
+};
+new Phaser.Game(config);
+
+// Report to parent bridge
+parent.postMessage({ type: 'GAME_READY', payload: {} }, '*');
+setInterval(() => {
+  parent.postMessage({ type: 'FPS_UPDATE', payload: { fps: Math.round(60 - Math.random() * 10) } }, '*');
+}, 1000);
+</script>
+</body>
+</html>
