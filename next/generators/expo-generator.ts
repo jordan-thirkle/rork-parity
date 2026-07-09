@@ -1,5 +1,5 @@
 import { promises as fs } from 'fs';
-import path from 'path';
+import * as path from 'path';
 import { randomUUID } from 'crypto';
 
 export async function validateExpoProject(dir: string) {
@@ -15,7 +15,9 @@ export async function validateExpoProject(dir: string) {
   return true;
 }
 
-export async function createExpoProject(prompt: string, outDir: string) {
+export async function createExpoProject(options: { prompt: string; outDir?: string }) {
+  const prompt = String(options.prompt ?? '');
+  const outDir = options.outDir ?? process.env.TMPDIR ?? '/tmp';
   const projectDir = path.join(outDir, `rork-parity-${randomUUID()}`);
   await fs.mkdir(projectDir, { recursive: true });
   await fs.mkdir(path.join(projectDir, 'app'), { recursive: true });
@@ -60,31 +62,10 @@ export async function createExpoProject(prompt: string, outDir: string) {
     },
   };
 
-  const layoutTsx = `import { Stack } from 'expo-router';
-export default function RootLayout() {
-  return <Stack screenOptions={{ headerShown: false }} />;
-}
-`;
+  const layoutTsx = `import { Stack } from 'expo-router';\nexport default function RootLayout() {\n  return <Stack screenOptions={{ headerShown: false }} />;\n}\n`;
 
   const screenName = prompt.toLowerCase().includes('brawler') ? 'Brawler' : 'Game';
-  const indexTsx = `import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-
-export default function ${screenName}Screen() {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>RorkParity</Text>
-      <Text style={styles.subtitle}>${prompt.slice(0, 120)}</Text>
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: { flex: 1, alignItems: 'center', justifyContent: 'center' },
-  title: { fontSize: 24, fontWeight: 'bold', marginBottom: 8 },
-  subtitle: { fontSize: 14, opacity: 0.7, paddingHorizontal: 24, textAlign: 'center' },
-});
-`;
+  const indexTsx = `import React from 'react';\nimport { View, Text, StyleSheet } from 'react-native';\n\nexport default function ${screenName}Screen() {\n  return (\n    <View style={styles.container}>\n      <Text style={styles.title}>RorkParity</Text>\n      <Text style={styles.subtitle}>${prompt.slice(0, 120)}</Text>\n    </View>\n  );\n}\n\nconst styles = StyleSheet.create({\n  container: { flex: 1, alignItems: 'center', justifyContent: 'center' },\n  title: { fontSize: 24, fontWeight: 'bold', marginBottom: 8 },\n  subtitle: { fontSize: 14, opacity: 0.7, paddingHorizontal: 24, textAlign: 'center' },\n});\n`;
 
   await fs.writeFile(path.join(projectDir, 'app.json'), JSON.stringify(appJson, null, 2));
   await fs.writeFile(path.join(projectDir, 'package.json'), JSON.stringify(packageJson, null, 2));

@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server';
 
 export async function getCreditBalance(userId: string) {
   const supabase = await createClient();
+  if (!supabase) return 0;
   const { data } = await supabase
     .from('credits')
     .select('balance')
@@ -10,8 +11,9 @@ export async function getCreditBalance(userId: string) {
   return data?.balance ?? 0;
 }
 
-export async function deductCredits(userId: string, amount: number) {
+export async function deductCredits(userId: string, amount: number, description?: string) {
   const supabase = await createClient();
+  if (!supabase) throw new Error('Supabase not configured');
   const { data: current } = await supabase
     .from('credits')
     .select('balance')
@@ -40,6 +42,7 @@ export async function deductCredits(userId: string, amount: number) {
 
 export async function addCredits(userId: string, amount: number) {
   const supabase = await createClient();
+  if (!supabase) throw new Error('Supabase not configured');
   const { data: current } = await supabase
     .from('credits')
     .select('balance')

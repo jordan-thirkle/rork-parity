@@ -1,41 +1,39 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { deductCredits, getCreditBalance } from '@/lib/credits';
 import { createExpoProject } from '@/generators/expo-generator';
-import { updateSession } from '@/lib/supabase/server';
+import { createClient } from '@/lib/supabase/server';
 
 export async function POST(request: NextRequest) {
-  const session = await updateSession();
-  if (!session) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  const supabase = await createClient();
+  if (!supabase) {
+    return NextResponse.json({ error: 'Supabase not configured' }, { status: 500 });
   }
 
-  const userId = session.user.id;
   const body = await request.json().catch(() => ({}));
-  const prompt = typeof body.prompt === 'string' ? body.prompt.trim() : '';
+  const prompt = String(body.prompt || '').trim();
+  const userId = String(body.userId || '').trim();
+  if (!prompt || !userId) {
+    return NextResponse.json({ error: 'Missing prompt or userId' }, { status: 400 });
+  }
 
-  if (!prompt) {
-    return NextResponse.json({ error: 'Missing prompt' }, { status: 400 });
+  const balance = await getCreditBalance(userId);
+  if (!balance) {
+    return NextResponse.json({ error: 'Credit balance unavailable' }, { status: 403 });
+  }
+  const cost = 1;
+  if (balance.credits < cost) {
+    return NextResponse.json({ error: 'Insufficient credits' }, { status: 402 });
+  }
+
+  const ok = await deductCredits(userId, cost, `generate: ${prompt.slice(0, 40)}`);
+  if (!ok) {
+    return NextResponse.json({ error: 'Failed to deduct credits' }, { status: 500 });
   }
 
   try {
-    const balance = await getCreditBalance(userId);
-    if (balance < 1) {
-      return NextResponse.json({ error: 'Insufficient credits' }, { status: 402 });
-    }
-
-    const newBalance = await deductCredits(userId, 1);
-    const result = await createExpoProject(prompt, '/tmp/rork-parity');
-
-    return NextResponse.json({
-      ok: true,
-      projectDir: result.projectDir,
-      valid: result.valid,
-      remainingCredits: newBalance,
-    });
-  } catch (error) {
-    return NextResponse.json(
-      { error: error instanceof Error ? error.message : 'Generation failed' },
-      { status: 500 }
-    );
+    const projectPath = await createExpoProject({ prompt });
+    return NextResponse.json({ projectPath, creditsRemaining: balance.credits - cost });
+  } catch (err) {
+    return NextResponse.json({ error: 'Generation failed' }, { status: 500 });
   }
 }

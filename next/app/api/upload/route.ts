@@ -1,7 +1,11 @@
+import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 
 export async function GET() {
   const supabase = await createClient();
+  if (!supabase) {
+    return NextResponse.json({ files: [], error: 'Supabase not configured' });
+  }
   const { data: files, error } = await supabase.storage.from('uploads').list('uploads', {
     limit: 100,
     offset: 0,
