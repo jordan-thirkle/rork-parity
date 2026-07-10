@@ -1,39 +1,39 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { deductCredits, getCreditBalance } from '@/lib/credits';
-import { createExpoProject } from '@/generators/expo-generator';
-import { createClient } from '@/lib/supabase/server';
+import { getUser, decrementCredits } from '@/lib/db/queries';
+import { generateGame } from '@/generators/game-generator';
+
+export const runtime = 'nodejs';
 
 export async function POST(request: NextRequest) {
-  const supabase = await createClient();
-  if (!supabase) {
-    return NextResponse.json({ error: 'Supabase not configured' }, { status: 500 });
+  // Read session cookie directly (cred-based auth) — no Supabase client needed.
+  const user = await getUser();
+  if (!user) {
+    return NextResponse.json({ error: 'unauthenticated' }, { status: 401 });
   }
 
   const body = await request.json().catch(() => ({}));
   const prompt = String(body.prompt || '').trim();
-  const userId = String(body.userId || '').trim();
-  if (!prompt || !userId) {
-    return NextResponse.json({ error: 'Missing prompt or userId' }, { status: 400 });
+  if (!prompt) {
+    return NextResponse.json({ error: 'Missing prompt' }, { status: 400 });
   }
 
-  const balance = await getCreditBalance(userId);
-  if (!balance) {
-    return NextResponse.json({ error: 'Credit balance unavailable' }, { status: 403 });
-  }
-  const cost = 1;
-  if (balance.credits < cost) {
-    return NextResponse.json({ error: 'Insufficient credits' }, { status: 402 });
+  const current = user.credits ?? 0;
+  if (current <= 0) {
+    return NextResponse.json({ error: 'out_of_credits' }, { status: 402 });
   }
 
-  const ok = await deductCredits(userId, cost, `generate: ${prompt.slice(0, 40)}`);
-  if (!ok) {
-    return NextResponse.json({ error: 'Failed to deduct credits' }, { status: 500 });
+  let remaining: number;
+  try {
+    remaining = await decrementCredits(user.id, 1);
+  } catch (err) {
+    return NextResponse.json({ error: 'out_of_credits' }, { status: 402 });
   }
 
   try {
-    const projectPath = await createExpoProject({ prompt });
-    return NextResponse.json({ projectPath, creditsRemaining: balance.credits - cost });
+    const html = generateGame(prompt);
+    return NextResponse.json({ html, creditsRemaining: remaining });
   } catch (err) {
-    return NextResponse.json({ error: 'Generation failed' }, { status: 500 });
+    const message = err instanceof Error ? err.message : 'Generation failed';
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

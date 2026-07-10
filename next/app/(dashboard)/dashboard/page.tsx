@@ -1,6 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   Card,
@@ -29,7 +30,7 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 function SubscriptionSkeleton() {
   return (
-    <Card className="mb-8 h-[140px]">
+    <Card className="mb-8 h-[140px] border-white/[0.08] bg-black/40 rounded-2xl">
       <CardHeader>
         <CardTitle>Team Subscription</CardTitle>
       </CardHeader>
@@ -41,7 +42,7 @@ function ManageSubscription() {
   const { data: teamData } = useSWR<TeamDataWithMembers>('/api/team', fetcher);
 
   return (
-    <Card className="mb-8">
+    <Card className="mb-8 border-white/[0.08] bg-black/40 rounded-2xl">
       <CardHeader>
         <CardTitle>Team Subscription</CardTitle>
       </CardHeader>
@@ -60,11 +61,18 @@ function ManageSubscription() {
                   : 'No active subscription'}
               </p>
             </div>
-            <form action={customerPortalAction}>
-              <Button type="submit" variant="outline">
-                Manage Subscription
-              </Button>
-            </form>
+            <div className="flex items-center gap-2">
+              <Link href="/pricing">
+                <Button type="button" variant="default">
+                  Get credits
+                </Button>
+              </Link>
+              <form action={customerPortalAction}>
+                <Button type="submit" variant="outline">
+                  Manage Subscription
+                </Button>
+              </form>
+            </div>
           </div>
         </div>
       </CardContent>
@@ -74,17 +82,17 @@ function ManageSubscription() {
 
 function TeamMembersSkeleton() {
   return (
-    <Card className="mb-8 h-[140px]">
+    <Card className="mb-8 h-[140px] border-white/[0.08] bg-black/40 rounded-2xl">
       <CardHeader>
         <CardTitle>Team Members</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="animate-pulse space-y-4 mt-1">
           <div className="flex items-center space-x-4">
-            <div className="size-8 rounded-full bg-gray-200"></div>
+            <div className="size-8 rounded-full bg-white/10"></div>
             <div className="space-y-2">
-              <div className="h-4 w-32 bg-gray-200 rounded"></div>
-              <div className="h-3 w-14 bg-gray-200 rounded"></div>
+              <div className="h-4 w-32 bg-white/10 rounded"></div>
+              <div className="h-3 w-14 bg-white/10 rounded"></div>
             </div>
           </div>
         </div>
@@ -106,7 +114,7 @@ function TeamMembers() {
 
   if (!teamData?.teamMembers?.length) {
     return (
-      <Card className="mb-8">
+      <Card className="mb-8 border-white/[0.08] bg-black/40 rounded-2xl">
         <CardHeader>
           <CardTitle>Team Members</CardTitle>
         </CardHeader>
@@ -118,7 +126,7 @@ function TeamMembers() {
   }
 
   return (
-    <Card className="mb-8">
+    <Card className="mb-8 border-white/[0.08] bg-black/40 rounded-2xl">
       <CardHeader>
         <CardTitle>Team Members</CardTitle>
       </CardHeader>
@@ -179,7 +187,7 @@ function TeamMembers() {
 
 function InviteTeamMemberSkeleton() {
   return (
-    <Card className="h-[260px]">
+    <Card className="h-[260px] border-white/[0.08] bg-black/40 rounded-2xl">
       <CardHeader>
         <CardTitle>Invite Team Member</CardTitle>
       </CardHeader>
@@ -196,7 +204,7 @@ function InviteTeamMember() {
   >(inviteTeamMember, {});
 
   return (
-    <Card>
+    <Card className="border-white/[0.08] bg-black/40 rounded-2xl">
       <CardHeader>
         <CardTitle>Invite Team Member</CardTitle>
       </CardHeader>
@@ -241,7 +249,7 @@ function InviteTeamMember() {
           )}
           <Button
             type="submit"
-            className="bg-orange-500 hover:bg-orange-600 text-white"
+            className="bg-primary text-primary-foreground hover:bg-primary/90"
             disabled={isInvitePending || !isOwner}
           >
             {isInvitePending ? (
@@ -272,7 +280,7 @@ function InviteTeamMember() {
 export default function SettingsPage() {
   return (
     <section className="flex-1 p-4 lg:p-8">
-      <h1 className="text-lg lg:text-2xl font-medium mb-6">Team Settings</h1>
+      <h1 className="text-xl lg:text-2xl font-medium mb-6">Team Settings</h1>
       <Suspense fallback={<SubscriptionSkeleton />}>
         <ManageSubscription />
       </Suspense>

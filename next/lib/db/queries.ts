@@ -1,4 +1,4 @@
-import { desc, and, eq, isNull } from 'drizzle-orm';
+import { desc, and, eq, isNull, gte, sql } from 'drizzle-orm';
 import { db } from './drizzle';
 import { activityLogs, teamMembers, teams, users } from './schema';
 import { cookies } from 'next/headers';
@@ -34,6 +34,26 @@ export async function getUser() {
   }
 
   return user[0];
+}
+
+export async function decrementCredits(userId: number, amount = 1): Promise<number> {
+  if (!Number.isFinite(userId) || !Number.isInteger(userId)) {
+    throw new Error('Invalid userId');
+  }
+  const result = await db
+    .update(users)
+    .set({
+      credits: sql`${users.credits} - ${amount}`,
+      updatedAt: new Date(),
+    })
+    .where(and(eq(users.id, userId), gte(users.credits, amount)))
+    .returning({ credits: users.credits });
+
+  if (result.length === 0) {
+    throw new Error('Insufficient credits');
+  }
+
+  return result[0].credits;
 }
 
 export async function getTeamByStripeCustomerId(customerId: string) {

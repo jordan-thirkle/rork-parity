@@ -7,11 +7,10 @@ export function Terminal() {
   const [terminalStep, setTerminalStep] = useState(0);
   const [copied, setCopied] = useState(false);
   const terminalSteps = [
-    'git clone https://github.com/nextjs/saas-starter',
+    'git clone https://github.com/byjtt/rorkparity',
     'pnpm install',
     'pnpm db:setup',
     'pnpm db:migrate',
-    'pnpm db:seed',
     'pnpm dev 🎉',
   ];
 
@@ -32,7 +31,7 @@ export function Terminal() {
   };
 
   return (
-    <div className="w-full rounded-lg shadow-lg overflow-hidden bg-gray-900 text-white font-mono text-sm relative">
+    <div className="w-full rounded-lg shadow-lg overflow-hidden bg-black/90 border border-white/[0.08] text-foreground font-mono text-sm relative">
       <div className="p-4">
         <div className="flex justify-between items-center mb-4">
           <div className="flex space-x-2">
@@ -42,7 +41,7 @@ export function Terminal() {
           </div>
           <button
             onClick={copyToClipboard}
-            className="text-gray-400 hover:text-white transition-colors"
+            className="text-muted-foreground hover:text-foreground transition-colors"
             aria-label="Copy to clipboard"
           >
             {copied ? (

@@ -1,19 +1,33 @@
 import './globals.css';
 import type { Metadata, Viewport } from 'next';
-import { Manrope } from 'next/font/google';
-import { getUser, getTeamForUser } from '@/lib/db/queries';
-import { SWRConfig } from 'swr';
+import { SiteHeader } from '@/components/site-header';
+import { SiteFooter } from '@/components/site-footer';
 
 export const metadata: Metadata = {
-  title: 'Next.js SaaS Starter',
-  description: 'Get started quickly with Next.js, Postgres, and Stripe.'
+  title: {
+    default: 'RorkParity — chat-to-game builder for web & mobile',
+    template: '%s — RorkParity',
+  },
+  description: 'RorkParity is an AI chat-to-game builder by ByJTT. Describe a game in plain language and ship a playable web or mobile build — no code required.',
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://rorkparity.byjtt.com'),
+  openGraph: {
+    type: 'website',
+    siteName: 'RorkParity',
+    title: 'RorkParity — chat-to-game builder for web & mobile',
+    description: 'RorkParity is an AI chat-to-game builder by ByJTT. Describe a game in plain language and ship a playable web or mobile build — no code required.',
+    url: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://rorkparity.byjtt.com'),
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'RorkParity — chat-to-game builder for web & mobile',
+    description: 'RorkParity is an AI chat-to-game builder by ByJTT. Describe a game in plain language and ship a playable web or mobile build — no code required.',
+  },
 };
 
 export const viewport: Viewport = {
-  maximumScale: 1
+  maximumScale: 1,
+  themeColor: '#000000',
 };
-
-const manrope = Manrope({ subsets: ['latin'] });
 
 export default function RootLayout({
   children
@@ -23,21 +37,12 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`bg-white dark:bg-gray-950 text-black dark:text-white ${manrope.className}`}
+      className="bg-background text-foreground"
     >
-      <body className="min-h-[100dvh] bg-gray-50">
-        <SWRConfig
-          value={{
-            fallback: {
-              // We do NOT await here
-              // Only components that read this data will suspend
-              '/api/user': getUser(),
-              '/api/team': getTeamForUser()
-            }
-          }}
-        >
-          {children}
-        </SWRConfig>
+      <body className="min-h-[100dvh] bg-background text-foreground antialiased dark">
+        <SiteHeader />
+        {children}
+        <SiteFooter />
       </body>
     </html>
   );
