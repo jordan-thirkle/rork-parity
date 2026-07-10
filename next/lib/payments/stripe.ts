@@ -7,9 +7,16 @@ import {
   updateTeamSubscription
 } from '@/lib/db/queries';
 
-export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2025-08-27.basil'
-});
+function createStripe(): Stripe {
+  const key = process.env.STRIPE_SECRET_KEY;
+  // Use a placeholder key when unset so the module loads during build/preview.
+  // Real API calls only fail at runtime if the key is never configured.
+  return new Stripe(key || 'sk_test_placeholder_not_configured', {
+    apiVersion: '2025-08-27.basil'
+  });
+}
+
+export const stripe = createStripe();
 
 export async function createCheckoutSession({
   team,
