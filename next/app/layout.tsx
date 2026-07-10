@@ -9,13 +9,13 @@ export const metadata: Metadata = {
     template: '%s — RorkParity',
   },
   description: 'RorkParity is an AI chat-to-game builder by ByJTT. Describe a game in plain language and ship a playable web or mobile build — no code required.',
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://rorkparity.byjtt.com'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://prompt2game.byjtt.com'),
   openGraph: {
     type: 'website',
     siteName: 'RorkParity',
     title: 'RorkParity — chat-to-game builder for web & mobile',
     description: 'RorkParity is an AI chat-to-game builder by ByJTT. Describe a game in plain language and ship a playable web or mobile build — no code required.',
-    url: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://rorkparity.byjtt.com'),
+    url: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://prompt2game.byjtt.com'),
   },
   twitter: {
     card: 'summary_large_image',
