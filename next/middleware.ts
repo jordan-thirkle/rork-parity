@@ -1,8 +1,28 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { signToken, verifyToken } from '@/lib/auth/token';
+import { SignJWT, jwtVerify } from 'jose';
 
 const protectedRoutes = '/dashboard';
+
+const key = new TextEncoder().encode(process.env.AUTH_SECRET);
+
+type SessionData = {
+  user: { id: number };
+  expires: string;
+};
+
+async function signToken(payload: SessionData) {
+  return await new SignJWT(payload)
+    .setProtectedHeader({ alg: 'HS256' })
+    .setIssuedAt()
+    .setExpirationTime('1 day from now')
+    .sign(key);
+}
+
+async function verifyToken(input: string) {
+  const { payload } = await jwtVerify(input, key, { algorithms: ['HS256'] });
+  return payload as SessionData;
+}
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -24,12 +44,12 @@ export async function middleware(request: NextRequest) {
         name: 'session',
         value: await signToken({
           ...parsed,
-          expires: expiresInOneDay.toISOString()
+          expires: expiresInOneDay.toISOString(),
         }),
         httpOnly: true,
         secure: true,
         sameSite: 'lax',
-        expires: expiresInOneDay
+        expires: expiresInOneDay,
       });
     } catch (error) {
       console.error('Error updating session:', error);
@@ -44,5 +64,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)']
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
 };
